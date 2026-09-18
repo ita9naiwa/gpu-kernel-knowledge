@@ -1,0 +1,4 @@
+interface:
+  display_name: "GPU Kernel Knowledge"
+  short_description: "Source-backed GPU kernel techniques and failure lessons"
+  default_prompt: "Use $gpu-kernel-knowledge to find applicable techniques and failure lessons for my GPU kernel task."

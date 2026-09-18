@@ -1,0 +1,2394 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-09-18",
+  "scope": "Primary sources for AI-assisted GPU kernel writing, NVIDIA-first with clearly marked AMD portability references. Pins are research snapshots, not release recommendations.",
+  "sources": [
+    {
+      "id": "flashinfer",
+      "title": "FlashInfer",
+      "kind": "repository",
+      "official_url": "https://github.com/flashinfer-ai/flashinfer",
+      "repository": "flashinfer-ai/flashinfer",
+      "revision": {
+        "type": "git_commit",
+        "value": "0e4c173821a0aca29e9eb00c50c3bde8696e6dc6",
+        "commit_date": "2026-09-18T08:22:59Z"
+      },
+      "evidence_status": "source_inspected",
+      "summary": "Serving attention kernels, ragged/paged KV contracts, split-KV scheduling, planning and benchmarking.",
+      "boundaries": [
+        "Backend availability depends on GPU, shape, dtype and package build; planner and kernel APIs must be read together.",
+        "No kernels from this source were executed or performance-validated in this research."
+      ],
+      "tags": [
+        "attention",
+        "decode",
+        "prefill",
+        "kv-cache",
+        "planning"
+      ],
+      "entries": [
+        {
+          "id": "flashinfer-1",
+          "path": "README.md",
+          "url": "https://github.com/flashinfer-ai/flashinfer/blob/0e4c173821a0aca29e9eb00c50c3bde8696e6dc6/README.md",
+          "purpose": "Installation, supported hardware and public semantic contract; recheck before using internal examples.",
+          "inspection": "content"
+        },
+        {
+          "id": "flashinfer-2",
+          "path": "docs/tutorials/kv_layout.rst",
+          "url": "https://github.com/flashinfer-ai/flashinfer/blob/0e4c173821a0aca29e9eb00c50c3bde8696e6dc6/docs/tutorials/kv_layout.rst",
+          "purpose": "NHD/HND, ragged and paged KV metadata, index dtype and last-page invariants.",
+          "inspection": "content"
+        },
+        {
+          "id": "flashinfer-3",
+          "path": "docs/tutorials/recursive_attention.rst",
+          "url": "https://github.com/flashinfer-ai/flashinfer/blob/0e4c173821a0aca29e9eb00c50c3bde8696e6dc6/docs/tutorials/recursive_attention.rst",
+          "purpose": "Attention state merge algebra and split-KV motivation; mathematics does not imply bitwise associativity.",
+          "inspection": "content"
+        },
+        {
+          "id": "flashinfer-4",
+          "path": "include/flashinfer/attention/decode.cuh",
+          "url": "https://github.com/flashinfer-ai/flashinfer/blob/0e4c173821a0aca29e9eb00c50c3bde8696e6dc6/include/flashinfer/attention/decode.cuh",
+          "purpose": "Decode kernel memory mapping, reduction and KV partition implementation.",
+          "inspection": "content"
+        },
+        {
+          "id": "flashinfer-5",
+          "path": "include/flashinfer/attention/prefill.cuh",
+          "url": "https://github.com/flashinfer-ai/flashinfer/blob/0e4c173821a0aca29e9eb00c50c3bde8696e6dc6/include/flashinfer/attention/prefill.cuh",
+          "purpose": "Prefill tiling and fused attention implementation.",
+          "inspection": "content"
+        },
+        {
+          "id": "flashinfer-6",
+          "path": "include/flashinfer/attention/scheduler.cuh",
+          "url": "https://github.com/flashinfer-ai/flashinfer/blob/0e4c173821a0aca29e9eb00c50c3bde8696e6dc6/include/flashinfer/attention/scheduler.cuh",
+          "purpose": "Host planner choices linking occupancy, split-KV work and graph requirements.",
+          "inspection": "content",
+          "symbols": [
+            "DecodePlanInfo",
+            "PrefillPlanInfo",
+            "PrefillPlanSM90Info"
+          ],
+          "symbol_locations": [
+            {
+              "symbol": "DecodePlanInfo",
+              "line": 366
+            },
+            {
+              "symbol": "PrefillPlanInfo",
+              "line": 685
+            },
+            {
+              "symbol": "PrefillPlanSM90Info",
+              "line": 985
+            }
+          ]
+        },
+        {
+          "id": "flashinfer-7",
+          "path": "include/flashinfer/attention/variants.cuh",
+          "url": "https://github.com/flashinfer-ai/flashinfer/blob/0e4c173821a0aca29e9eb00c50c3bde8696e6dc6/include/flashinfer/attention/variants.cuh",
+          "purpose": "Mask, score and output variant hooks; specialize semantics without forking the mainloop.",
+          "inspection": "content",
+          "symbols": [
+            "DefaultAttention"
+          ],
+          "symbol_locations": [
+            {
+              "symbol": "DefaultAttention",
+              "line": 32
+            }
+          ]
+        },
+        {
+          "id": "flashinfer-8",
+          "path": "flashinfer/decode.py",
+          "url": "https://github.com/flashinfer-ai/flashinfer/blob/0e4c173821a0aca29e9eb00c50c3bde8696e6dc6/flashinfer/decode.py",
+          "purpose": "Plan/run API, workspace lifetimes, dispatch and CUDA graph restrictions.",
+          "inspection": "content",
+          "symbols": [
+            "BatchDecodeWithPagedKVCacheWrapper",
+            "plan",
+            "run"
+          ],
+          "symbol_locations": [
+            {
+              "symbol": "BatchDecodeWithPagedKVCacheWrapper",
+              "line": 879
+            },
+            {
+              "symbol": "plan",
+              "line": 1423
+            },
+            {
+              "symbol": "run",
+              "line": 2197
+            }
+          ]
+        },
+        {
+          "id": "flashinfer-9",
+          "path": "flashinfer/prefill.py",
+          "url": "https://github.com/flashinfer-ai/flashinfer/blob/0e4c173821a0aca29e9eb00c50c3bde8696e6dc6/flashinfer/prefill.py",
+          "purpose": "Prefill wrapper validation, backend routing and metadata contracts.",
+          "inspection": "content",
+          "symbols": [
+            "BatchPrefillWithPagedKVCacheWrapper",
+            "BatchPrefillWithRaggedKVCacheWrapper",
+            "plan",
+            "run"
+          ],
+          "symbol_locations": [
+            {
+              "symbol": "BatchPrefillWithPagedKVCacheWrapper",
+              "line": 1937
+            },
+            {
+              "symbol": "BatchPrefillWithRaggedKVCacheWrapper",
+              "line": 3807
+            },
+            {
+              "symbol": "plan",
+              "line": 2568
+            },
+            {
+              "symbol": "run",
+              "line": 3172
+            }
+          ]
+        },
+        {
+          "id": "flashinfer-10",
+          "path": "flashinfer/testing/utils.py",
+          "url": "https://github.com/flashinfer-ai/flashinfer/blob/0e4c173821a0aca29e9eb00c50c3bde8696e6dc6/flashinfer/testing/utils.py",
+          "purpose": "GPU benchmark helpers; inspect timing, warmup and cache policy before reuse.",
+          "inspection": "content",
+          "symbols": [
+            "bench_gpu_time_with_cupti",
+            "bench_gpu_time_with_cuda_event",
+            "calculate_rotation_count"
+          ],
+          "symbol_locations": [
+            {
+              "symbol": "bench_gpu_time_with_cupti",
+              "line": 941
+            },
+            {
+              "symbol": "bench_gpu_time_with_cuda_event",
+              "line": 778
+            },
+            {
+              "symbol": "calculate_rotation_count",
+              "line": 95
+            }
+          ]
+        },
+        {
+          "id": "flashinfer-11",
+          "path": "tests/attention/test_batch_decode_kernels.py",
+          "url": "https://github.com/flashinfer-ai/flashinfer/blob/0e4c173821a0aca29e9eb00c50c3bde8696e6dc6/tests/attention/test_batch_decode_kernels.py",
+          "purpose": "Paged decode correctness across page sizes, GQA/head dimensions and dtype gates; includes CUDA Graph cases. Match wrapper/backend/architecture skip conditions before adopting parameter coverage.",
+          "inspection": "content"
+        },
+        {
+          "id": "flashinfer-12",
+          "path": "tests/attention/test_batch_prefill_kernels.py",
+          "url": "https://github.com/flashinfer-ai/flashinfer/blob/0e4c173821a0aca29e9eb00c50c3bde8696e6dc6/tests/attention/test_batch_prefill_kernels.py",
+          "purpose": "Ragged/paged prefill correctness, causal modes, odd lengths/pages, graph cases and plan reuse/shape failures. Copy relevant negative cases, not only divisible tensor shapes.",
+          "inspection": "content"
+        },
+        {
+          "id": "flashinfer-13",
+          "path": "tests/attention/test_non_contiguous_decode.py",
+          "url": "https://github.com/flashinfer-ai/flashinfer/blob/0e4c173821a0aca29e9eb00c50c3bde8696e6dc6/tests/attention/test_non_contiguous_decode.py",
+          "purpose": "Compare noncontiguous packed views with contiguous decode results; concrete stride-contract regression coverage.",
+          "inspection": "content"
+        },
+        {
+          "id": "flashinfer-14",
+          "path": "tests/attention/test_decode_prefill_lse.py",
+          "url": "https://github.com/flashinfer-ai/flashinfer/blob/0e4c173821a0aca29e9eb00c50c3bde8696e6dc6/tests/attention/test_decode_prefill_lse.py",
+          "purpose": "A targeted decode-versus-tensor-core-prefill regression checks both output and LSE. This does not establish every API's logarithm convention.",
+          "inspection": "content"
+        },
+        {
+          "id": "flashinfer-15",
+          "path": "tests/attention/test_bidirectional_ranges_attention.py",
+          "url": "https://github.com/flashinfer-ai/flashinfer/blob/0e4c173821a0aca29e9eb00c50c3bde8696e6dc6/tests/attention/test_bidirectional_ranges_attention.py",
+          "purpose": "Custom range-mask dense oracle and negative API cases: conflicting masks, invalid shape/dtype/device, padded query lanes, range boundaries and graph replay.",
+          "inspection": "content"
+        },
+        {
+          "id": "flashinfer-16",
+          "path": "benchmarks/bench_batch_decode.py",
+          "url": "https://github.com/flashinfer-ai/flashinfer/blob/0e4c173821a0aca29e9eb00c50c3bde8696e6dc6/benchmarks/bench_batch_decode.py",
+          "purpose": "Paged decode sweep, plan outside timed wrapper.run; batch 1–512, KV length 512–16384, fixed Q32/KV4/head128/page16, BF16 or FP8 KV. Uses bench_gpu_time defaults; printed bandwidth estimates input bytes rather than measured DRAM traffic.",
+          "inspection": "content"
+        },
+        {
+          "id": "flashinfer-17",
+          "path": "include/flashinfer/attention/state.cuh",
+          "url": "https://github.com/flashinfer-ai/flashinfer/blob/0e4c173821a0aca29e9eb00c50c3bde8696e6dc6/include/flashinfer/attention/state.cuh",
+          "purpose": "Attention state initialization/merge/normalization and base-2 LSE contract; pair with recursive tutorial and cascade implementation.",
+          "inspection": "content"
+        },
+        {
+          "id": "flashinfer-18",
+          "path": "include/flashinfer/attention/cascade.cuh",
+          "url": "https://github.com/flashinfer-ai/flashinfer/blob/0e4c173821a0aca29e9eb00c50c3bde8696e6dc6/include/flashinfer/attention/cascade.cuh",
+          "purpose": "Concrete attention-state merging across segments including empty states, vectorized merge and variable-length merge kernels; numerical identity requires representation-consistent states.",
+          "inspection": "content"
+        },
+        {
+          "id": "flashinfer-19",
+          "path": "flashinfer/sampling.py",
+          "url": "https://github.com/flashinfer-ai/flashinfer/blob/0e4c173821a0aca29e9eb00c50c3bde8696e6dc6/flashinfer/sampling.py",
+          "purpose": "Sampling public contract, RNG seed/offset scalar-versus-tensor validation, top-k/top-p ordering and distribution operations; deterministic output contract is distinct from distributional correctness.",
+          "inspection": "content"
+        },
+        {
+          "id": "flashinfer-20",
+          "path": "tests/utils/test_sampling.py",
+          "url": "https://github.com/flashinfer-ai/flashinfer/blob/0e4c173821a0aca29e9eb00c50c3bde8696e6dc6/tests/utils/test_sampling.py",
+          "purpose": "Sampling tests check support masks, zero-probability exclusion, observed frequency similarity and seed/offset behavior; stochastic oracle needs statistical plus structural assertions.",
+          "inspection": "content"
+        }
+      ],
+      "license": {
+        "spdx": "Apache-2.0",
+        "url": "https://github.com/flashinfer-ai/flashinfer/blob/0e4c173821a0aca29e9eb00c50c3bde8696e6dc6/LICENSE",
+        "scope": "Repository top-level license inspected; individual/vendored files can carry additional terms."
+      }
+    },
+    {
+      "id": "flashattention",
+      "title": "FlashAttention",
+      "kind": "repository",
+      "official_url": "https://github.com/Dao-AILab/flash-attention",
+      "repository": "Dao-AILab/flash-attention",
+      "revision": {
+        "type": "git_commit",
+        "value": "1bda8f9290cd48d030f1516f0e680cd464ef3554",
+        "commit_date": "2026-09-17T03:07:58Z"
+      },
+      "evidence_status": "source_inspected",
+      "summary": "IO-aware attention, Hopper asynchronous mainloops, Blackwell CuTeDSL, numerical tests.",
+      "boundaries": [
+        "FA2, Hopper FA3 and CuTeDSL FA4 are separate implementation families; do not transfer architecture assumptions or public signatures blindly.",
+        "No kernels from this source were executed or performance-validated in this research."
+      ],
+      "tags": [
+        "attention",
+        "online-softmax",
+        "hopper",
+        "blackwell",
+        "backward"
+      ],
+      "entries": [
+        {
+          "id": "flashattention-1",
+          "path": "README.md",
+          "url": "https://github.com/Dao-AILab/flash-attention/blob/1bda8f9290cd48d030f1516f0e680cd464ef3554/README.md",
+          "purpose": "Installation, supported hardware and public semantic contract; recheck before using internal examples.",
+          "inspection": "content"
+        },
+        {
+          "id": "flashattention-2",
+          "path": "csrc/flash_attn/src/flash_fwd_kernel.h",
+          "url": "https://github.com/Dao-AILab/flash-attention/blob/1bda8f9290cd48d030f1516f0e680cd464ef3554/csrc/flash_attn/src/flash_fwd_kernel.h",
+          "purpose": "FA2 fused forward loop and tile-level online softmax.",
+          "inspection": "content"
+        },
+        {
+          "id": "flashattention-3",
+          "path": "hopper/mainloop_fwd_sm90_tma_gmma_ws.hpp",
+          "url": "https://github.com/Dao-AILab/flash-attention/blob/1bda8f9290cd48d030f1516f0e680cd464ef3554/hopper/mainloop_fwd_sm90_tma_gmma_ws.hpp",
+          "purpose": "Hopper producer/consumer pipeline, register/shared-memory tradeoffs and async MMA.",
+          "inspection": "content",
+          "symbols": [
+            "CollectiveMainloopFwdSm90"
+          ],
+          "symbol_locations": [
+            {
+              "symbol": "CollectiveMainloopFwdSm90",
+              "line": 34
+            }
+          ]
+        },
+        {
+          "id": "flashattention-4",
+          "path": "hopper/flash_fwd_kernel_sm90.h",
+          "url": "https://github.com/Dao-AILab/flash-attention/blob/1bda8f9290cd48d030f1516f0e680cd464ef3554/hopper/flash_fwd_kernel_sm90.h",
+          "purpose": "SM90 kernel composition around mainloop, scheduler and epilogue.",
+          "inspection": "content",
+          "symbols": [
+            "FlashAttnFwdSm90"
+          ],
+          "symbol_locations": [
+            {
+              "symbol": "FlashAttnFwdSm90",
+              "line": 28
+            }
+          ]
+        },
+        {
+          "id": "flashattention-5",
+          "path": "hopper/tile_scheduler.hpp",
+          "url": "https://github.com/Dao-AILab/flash-attention/blob/1bda8f9290cd48d030f1516f0e680cd464ef3554/hopper/tile_scheduler.hpp",
+          "purpose": "Tile scheduling policies for uneven sequence lengths and hardware utilization.",
+          "inspection": "content",
+          "symbols": [
+            "StaticPersistentTileScheduler",
+            "DynamicPersistentTileScheduler",
+            "VarlenDynamicPersistentTileScheduler"
+          ],
+          "symbol_locations": [
+            {
+              "symbol": "StaticPersistentTileScheduler",
+              "line": 141
+            },
+            {
+              "symbol": "DynamicPersistentTileScheduler",
+              "line": 220
+            },
+            {
+              "symbol": "VarlenDynamicPersistentTileScheduler",
+              "line": 493
+            }
+          ]
+        },
+        {
+          "id": "flashattention-6",
+          "path": "flash_attn/cute/README.md",
+          "url": "https://github.com/Dao-AILab/flash-attention/blob/1bda8f9290cd48d030f1516f0e680cd464ef3554/flash_attn/cute/README.md",
+          "purpose": "Current FA4 CuTeDSL entry point, install extras and test command.",
+          "inspection": "content"
+        },
+        {
+          "id": "flashattention-7",
+          "path": "flash_attn/cute/flash_fwd_sm100.py",
+          "url": "https://github.com/Dao-AILab/flash-attention/blob/1bda8f9290cd48d030f1516f0e680cd464ef3554/flash_attn/cute/flash_fwd_sm100.py",
+          "purpose": "Blackwell-specific attention mainloop; inspect TMA, TMEM, barriers and tile ownership together.",
+          "inspection": "content",
+          "symbols": [
+            "FlashAttentionForwardSm100",
+            "softmax_loop",
+            "correction_loop"
+          ],
+          "symbol_locations": [
+            {
+              "symbol": "FlashAttentionForwardSm100",
+              "line": 141
+            },
+            {
+              "symbol": "softmax_loop",
+              "line": 2029
+            },
+            {
+              "symbol": "correction_loop",
+              "line": 2558
+            }
+          ]
+        },
+        {
+          "id": "flashattention-8",
+          "path": "flash_attn/cute/interface.py",
+          "url": "https://github.com/Dao-AILab/flash-attention/blob/1bda8f9290cd48d030f1516f0e680cd464ef3554/flash_attn/cute/interface.py",
+          "purpose": "Public validation and architecture dispatch before entering CuTeDSL kernels.",
+          "inspection": "content",
+          "symbols": [
+            "_validate_head_dims",
+            "_get_fwd_config",
+            "_resolve_causal_local_window"
+          ],
+          "symbol_locations": [
+            {
+              "symbol": "_validate_head_dims",
+              "line": 115
+            },
+            {
+              "symbol": "_get_fwd_config",
+              "line": 305
+            },
+            {
+              "symbol": "_resolve_causal_local_window",
+              "line": 405
+            }
+          ]
+        },
+        {
+          "id": "flashattention-9",
+          "path": "tests/test_flash_attn.py",
+          "url": "https://github.com/Dao-AILab/flash-attention/blob/1bda8f9290cd48d030f1516f0e680cd464ef3554/tests/test_flash_attn.py",
+          "purpose": "Reference comparisons across dtype, masks, shapes and gradients.",
+          "inspection": "content",
+          "symbols": [
+            "attention_ref",
+            "test_flash_attn_varlen_output",
+            "test_flash_attn_causal"
+          ],
+          "symbol_locations": [
+            {
+              "symbol": "attention_ref",
+              "line": 217
+            },
+            {
+              "symbol": "test_flash_attn_varlen_output",
+              "line": 1172
+            },
+            {
+              "symbol": "test_flash_attn_causal",
+              "line": 1482
+            }
+          ]
+        },
+        {
+          "id": "flashattention-10",
+          "path": "hopper/test_flash_attn.py",
+          "url": "https://github.com/Dao-AILab/flash-attention/blob/1bda8f9290cd48d030f1516f0e680cd464ef3554/hopper/test_flash_attn.py",
+          "purpose": "FA3 Hopper correctness matrix: MHA/MQA/GQA, masking and supported precision; compare error against reference and baseline rather than treating a single global tolerance as universal.",
+          "inspection": "content"
+        },
+        {
+          "id": "flashattention-11",
+          "path": "tests/cute/test_flash_attn.py",
+          "url": "https://github.com/Dao-AILab/flash-attention/blob/1bda8f9290cd48d030f1516f0e680cd464ef3554/tests/cute/test_flash_attn.py",
+          "purpose": "FA4 correctness and architecture-specific negative cases, including SM120 split-KV rejection, cache layouts, canonicalization and padded dimensions. Read matching test backend and skip gates.",
+          "inspection": "content"
+        },
+        {
+          "id": "flashattention-12",
+          "path": "tests/cute/test_flash_attn_race_condition.py",
+          "url": "https://github.com/Dao-AILab/flash-attention/blob/1bda8f9290cd48d030f1516f0e680cd464ef3554/tests/cute/test_flash_attn_race_condition.py",
+          "purpose": "Repeated FA4 launches compare outputs/gradients and reference error to expose nondeterministic races; stress sampling is not a proof of race freedom.",
+          "inspection": "content"
+        },
+        {
+          "id": "flashattention-13",
+          "path": "benchmarks/bench_sm90.py",
+          "url": "https://github.com/Dao-AILab/flash-attention/blob/1bda8f9290cd48d030f1516f0e680cd464ef3554/benchmarks/bench_sm90.py",
+          "purpose": "CuTe SM90 BF16 forward/backward tile/config sweeps with CUDA-event timing. Forward reports max_diff without enforcing a tolerance; backward has no gradient oracle here, so pair with tests.",
+          "inspection": "content"
+        },
+        {
+          "id": "flashattention-14",
+          "path": "flash_attn/cute/softmax.py",
+          "url": "https://github.com/Dao-AILab/flash-attention/blob/1bda8f9290cd48d030f1516f0e680cd464ef3554/flash_attn/cute/softmax.py",
+          "purpose": "FA4 SoftmaxSm100 delayed rescaling, row-max policy and mixed exponential implementation; inspect numerical overflow guard and dtype/architecture context before porting.",
+          "inspection": "content"
+        },
+        {
+          "id": "flashattention-15",
+          "path": "flash_attn/cute/prepare_scheduler.py",
+          "url": "https://github.com/Dao-AILab/flash-attention/blob/1bda8f9290cd48d030f1516f0e680cd464ef3554/flash_attn/cute/prepare_scheduler.py",
+          "purpose": "FA4 scheduler metadata preparation and causal workload accounting; constructor explicitly rejects sort=True at this pin, so author-paper LPT sorting must not be claimed enabled in this path.",
+          "inspection": "content"
+        },
+        {
+          "id": "flashattention-16",
+          "path": "flash_attn/cute/tile_scheduler.py",
+          "url": "https://github.com/Dao-AILab/flash-attention/blob/1bda8f9290cd48d030f1516f0e680cd464ef3554/flash_attn/cute/tile_scheduler.py",
+          "purpose": "FA4 static/dynamic/CLC persistent scheduler families, work-tile coordinates and producer/consumer ownership; use actual selected class, not scheduler-family names as performance claims.",
+          "inspection": "content"
+        },
+        {
+          "id": "flashattention-17",
+          "path": "AI/DEBUG_METHODOLOGY.md",
+          "url": "https://github.com/Dao-AILab/flash-attention/blob/1bda8f9290cd48d030f1516f0e680cd464ef3554/AI/DEBUG_METHODOLOGY.md",
+          "purpose": "Upstream author-reported debugging protocol derived from a failed investigation: falsifiable theories, trap-time evidence and generated-code verification. Method guidance, not a reproduced experiment.",
+          "inspection": "content"
+        },
+        {
+          "id": "flashattention-18",
+          "path": "AI/VARLEN_PREPROCESS_TILE_BUG.md",
+          "url": "https://github.com/Dao-AILab/flash-attention/blob/1bda8f9290cd48d030f1516f0e680cd464ef3554/AI/VARLEN_PREPROCESS_TILE_BUG.md",
+          "purpose": "Upstream historical bug report: differing tile sizes produced valid-address but wrong varlen padded offsets, exposed by reused poisoned memory and hidden by zeros. Not reproduced locally.",
+          "inspection": "content"
+        },
+        {
+          "id": "flashattention-19",
+          "path": "AI/SM90_R2P_MASKING_SASS.md",
+          "url": "https://github.com/Dao-AILab/flash-attention/blob/1bda8f9290cd48d030f1516f0e680cd464ef3554/AI/SM90_R2P_MASKING_SASS.md",
+          "purpose": "Upstream SASS investigation of R2P masking tradeoffs on SM90; instruction-count changes and workload-specific performance are author-reported historical evidence, not local measurement.",
+          "inspection": "content"
+        },
+        {
+          "id": "flashattention-20",
+          "path": "flash_attn/cute/compute_block_sparsity.py",
+          "url": "https://github.com/Dao-AILab/flash-attention/blob/1bda8f9290cd48d030f1516f0e680cd464ef3554/flash_attn/cute/compute_block_sparsity.py",
+          "purpose": "Mask-derived sparse metadata generation separates partially masked, fully valid and fully masked tiles; varlen q requires cumulative M-block metadata. Read complete mask evaluation and boundary handling before skipping work.",
+          "inspection": "content"
+        },
+        {
+          "id": "flashattention-21",
+          "path": "flash_attn/cute/block_sparsity.py",
+          "url": "https://github.com/Dao-AILab/flash-attention/blob/1bda8f9290cd48d030f1516f0e680cd464ef3554/flash_attn/cute/block_sparsity.py",
+          "purpose": "Sparse metadata shapes/dtypes/devices, block-size normalization and backward traversal/deterministic ordering contracts; sparse mask is structured metadata, not an arbitrary index array.",
+          "inspection": "content"
+        },
+        {
+          "id": "flashattention-22",
+          "path": "flash_attn/cute/block_sparse_utils.py",
+          "url": "https://github.com/Dao-AILab/flash-attention/blob/1bda8f9290cd48d030f1516f0e680cd464ef3554/flash_attn/cute/block_sparse_utils.py",
+          "purpose": "Sparse tile traversal and producer-load scheduling across partial/full lists; pipeline carryover and tile/2CTA assumptions constrain legal traversal transformations.",
+          "inspection": "content"
+        },
+        {
+          "id": "flashattention-23",
+          "path": "flash_attn/cute/flash_bwd_preprocess.py",
+          "url": "https://github.com/Dao-AILab/flash-attention/blob/1bda8f9290cd48d030f1516f0e680cd464ef3554/flash_attn/cute/flash_bwd_preprocess.py",
+          "purpose": "Backward preprocessing computes dpsum/LSE representations and initializes accumulation storage; uses tile=self.tile_m for varlen padded offsets and explicit FP32 accumulation tensor contracts.",
+          "inspection": "content"
+        },
+        {
+          "id": "flashattention-24",
+          "path": "flash_attn/cute/flash_bwd_sm100.py",
+          "url": "https://github.com/Dao-AILab/flash-attention/blob/1bda8f9290cd48d030f1516f0e680cd464ef3554/flash_attn/cute/flash_bwd_sm100.py",
+          "purpose": "Blackwell backward resource allocation, shared/TMEM reuse, GQA FP32 gradient accumulation and semaphore ownership. Constructor rejects persistent scheduling and constrains head/CTA variants; forward design cannot be copied wholesale.",
+          "inspection": "content"
+        },
+        {
+          "id": "flashattention-25",
+          "path": "tests/cute/test_block_sparsity.py",
+          "url": "https://github.com/Dao-AILab/flash-attention/blob/1bda8f9290cd48d030f1516f0e680cd464ef3554/tests/cute/test_block_sparsity.py",
+          "purpose": "Sparse-metadata oracle tests distinguish valid boundary-tile full/partial classification differences from wrong interior block classifications; covers fixed and variable lengths.",
+          "inspection": "content"
+        }
+      ],
+      "license": {
+        "spdx": "BSD-3-Clause",
+        "url": "https://github.com/Dao-AILab/flash-attention/blob/1bda8f9290cd48d030f1516f0e680cd464ef3554/LICENSE",
+        "scope": "Repository top-level license inspected; individual/vendored files can carry additional terms."
+      }
+    },
+    {
+      "id": "vllm",
+      "title": "vLLM",
+      "kind": "repository",
+      "official_url": "https://github.com/vllm-project/vllm",
+      "repository": "vllm-project/vllm",
+      "revision": {
+        "type": "git_commit",
+        "value": "8da75d61904cd0b2c5c322746ea15251773ec51f",
+        "commit_date": "2026-09-18T08:39:27Z"
+      },
+      "evidence_status": "source_inspected",
+      "summary": "Production backend selection, graph dispatch, caller contracts and kernel benchmark methodology.",
+      "boundaries": [
+        "Serving integration evidence, not proof a particular kernel wins; historical paged-attention document explicitly does not describe today's code.",
+        "No kernels from this source were executed or performance-validated in this research."
+      ],
+      "tags": [
+        "serving",
+        "dispatch",
+        "cuda-graphs"
+      ],
+      "entries": [
+        {
+          "id": "vllm-1",
+          "path": "docs/design/attention_backends.md",
+          "url": "https://github.com/vllm-project/vllm/blob/8da75d61904cd0b2c5c322746ea15251773ec51f/docs/design/attention_backends.md",
+          "purpose": "Capability matrix and explicit backend routing.",
+          "inspection": "content"
+        },
+        {
+          "id": "vllm-2",
+          "path": "docs/design/cuda_graphs.md",
+          "url": "https://github.com/vllm-project/vllm/blob/8da75d61904cd0b2c5c322746ea15251773ec51f/docs/design/cuda_graphs.md",
+          "purpose": "Batch-aware capture/replay modes, compatibility and memory tradeoffs.",
+          "inspection": "content"
+        },
+        {
+          "id": "vllm-3",
+          "path": "docs/design/paged_attention.md",
+          "url": "https://github.com/vllm-project/vllm/blob/8da75d61904cd0b2c5c322746ea15251773ec51f/docs/design/paged_attention.md",
+          "purpose": "Historical explanation only; introductory cache-layout concepts, not current backend truth.",
+          "inspection": "content"
+        },
+        {
+          "id": "vllm-4",
+          "path": "vllm/v1/attention/backends/flashinfer.py",
+          "url": "https://github.com/vllm-project/vllm/blob/8da75d61904cd0b2c5c322746ea15251773ec51f/vllm/v1/attention/backends/flashinfer.py",
+          "purpose": "Production FlashInfer adapter, metadata preparation and selected execution route.",
+          "inspection": "content",
+          "symbols": [
+            "FlashInferBackend",
+            "get_supported_kernel_block_sizes",
+            "supports_compute_capability"
+          ],
+          "symbol_locations": [
+            {
+              "symbol": "FlashInferBackend",
+              "line": 397
+            },
+            {
+              "symbol": "get_supported_kernel_block_sizes",
+              "line": 426
+            },
+            {
+              "symbol": "supports_compute_capability",
+              "line": 510
+            }
+          ]
+        },
+        {
+          "id": "vllm-5",
+          "path": "vllm/v1/attention/backends/flash_attn.py",
+          "url": "https://github.com/vllm-project/vllm/blob/8da75d61904cd0b2c5c322746ea15251773ec51f/vllm/v1/attention/backends/flash_attn.py",
+          "purpose": "Production FlashAttention adapter and feature eligibility.",
+          "inspection": "content",
+          "symbols": [
+            "FlashAttentionBackend",
+            "FA4DenseAttentionKernel",
+            "get_supported_kernel_block_sizes"
+          ],
+          "symbol_locations": [
+            {
+              "symbol": "FlashAttentionBackend",
+              "line": 283
+            },
+            {
+              "symbol": "FA4DenseAttentionKernel",
+              "line": 94
+            },
+            {
+              "symbol": "get_supported_kernel_block_sizes",
+              "line": 314
+            }
+          ]
+        },
+        {
+          "id": "vllm-6",
+          "path": ".agents/skills/kernel-microbenchmark/SKILL.md",
+          "url": "https://github.com/vllm-project/vllm/blob/8da75d61904cd0b2c5c322746ea15251773ec51f/.agents/skills/kernel-microbenchmark/SKILL.md",
+          "purpose": "Primary workflow for correctness-first measurements, reproducibility and generated-code evidence.",
+          "inspection": "content"
+        },
+        {
+          "id": "vllm-7",
+          "path": ".agents/skills/triton-kernel-writing/SKILL.md",
+          "url": "https://github.com/vllm-project/vllm/blob/8da75d61904cd0b2c5c322746ea15251773ec51f/.agents/skills/triton-kernel-writing/SKILL.md",
+          "purpose": "Project-specific AI coding guidance for Triton kernels; treat as source material, not local instructions.",
+          "inspection": "content"
+        },
+        {
+          "id": "vllm-8",
+          "path": "benchmarks/attention_benchmarks/README.md",
+          "url": "https://github.com/vllm-project/vllm/blob/8da75d61904cd0b2c5c322746ea15251773ec51f/benchmarks/attention_benchmarks/README.md",
+          "purpose": "Workload-level attention benchmark harness and shape configuration.",
+          "inspection": "content"
+        },
+        {
+          "id": "vllm-9",
+          "path": "tests/kernels/attention/test_flashinfer.py",
+          "url": "https://github.com/vllm-project/vllm/blob/8da75d61904cd0b2c5c322746ea15251773ec51f/tests/kernels/attention/test_flashinfer.py",
+          "purpose": "FlashInfer paged-attention reference tests and fast-plan reuse checks against full plan/reference; links serving metadata to wrapper correctness.",
+          "inspection": "content"
+        },
+        {
+          "id": "vllm-10",
+          "path": "tests/v1/attention/test_attention_backends.py",
+          "url": "https://github.com/vllm-project/vllm/blob/8da75d61904cd0b2c5c322746ea15251773ec51f/tests/v1/attention/test_attention_backends.py",
+          "purpose": "Backend integration correctness across KV layout, causal attention, graph padding and backend-specific variants; dispatch/skip conditions constrain actual test coverage.",
+          "inspection": "content"
+        },
+        {
+          "id": "vllm-11",
+          "path": "tests/kernels/attention/test_attention_selector.py",
+          "url": "https://github.com/vllm-project/vllm/blob/8da75d61904cd0b2c5c322746ea15251773ec51f/tests/kernels/attention/test_attention_selector.py",
+          "purpose": "Actual attention selector tests: dtype, KV format/scale support, DCP/noncausal capability and invalid/unsupported backend cases.",
+          "inspection": "content"
+        },
+        {
+          "id": "vllm-12",
+          "path": "tests/v1/attention/test_cuda_backend_probe_errors.py",
+          "url": "https://github.com/vllm-project/vllm/blob/8da75d61904cd0b2c5c322746ea15251773ec51f/tests/v1/attention/test_cuda_backend_probe_errors.py",
+          "purpose": "CPU-level capability-probe behavior: expected environmental failures are recorded and fallback can continue; unexpected errors propagate and chosen-backend failures preserve causes.",
+          "inspection": "content"
+        },
+        {
+          "id": "vllm-13",
+          "path": "benchmarks/attention_benchmarks/configs/standard_decode.yaml",
+          "url": "https://github.com/vllm-project/vllm/blob/8da75d61904cd0b2c5c322746ea15251773ec51f/benchmarks/attention_benchmarks/configs/standard_decode.yaml",
+          "purpose": "Concrete decode workload matrix: Q length1, per-GPU head counts after TP, MHA/GQA/MQA, head64/128, page16, batch/sequence grid. Configuration alone does not prove benchmark fairness or correctness.",
+          "inspection": "content"
+        },
+        {
+          "id": "vllm-14",
+          "path": "vllm/model_executor/layers/fused_moe/fused_moe.py",
+          "url": "https://github.com/vllm-project/vllm/blob/8da75d61904cd0b2c5c322746ea15251773ec51f/vllm/model_executor/layers/fused_moe/fused_moe.py",
+          "purpose": "Triton MoE fused expert kernel, dispatch and quantization gates; trace padding/sorted-token masks, routing-weight placement and FP32 accumulation through both expert GEMMs.",
+          "inspection": "content"
+        },
+        {
+          "id": "vllm-15",
+          "path": "vllm/model_executor/layers/fused_moe/moe_align_block_size.py",
+          "url": "https://github.com/vllm-project/vllm/blob/8da75d61904cd0b2c5c322746ea15251773ec51f/vllm/model_executor/layers/fused_moe/moe_align_block_size.py",
+          "purpose": "Expert token sorting and per-expert block padding; global versus local expert map, invalid-expert sentinel and ignore_invalid_experts change routing semantics.",
+          "inspection": "content"
+        },
+        {
+          "id": "vllm-16",
+          "path": "vllm/model_executor/layers/fused_moe/topk_weight_and_reduce.py",
+          "url": "https://github.com/vllm-project/vllm/blob/8da75d61904cd0b2c5c322746ea15251773ec51f/vllm/model_executor/layers/fused_moe/topk_weight_and_reduce.py",
+          "purpose": "MoE weight/reduction contract across delegated, no-op, contiguous and batched outputs; apply_router_weight_on_input prevents double weighting and alias checks avoid redundant copy.",
+          "inspection": "content"
+        }
+      ],
+      "license": {
+        "spdx": "Apache-2.0",
+        "url": "https://github.com/vllm-project/vllm/blob/8da75d61904cd0b2c5c322746ea15251773ec51f/LICENSE",
+        "scope": "Repository top-level license inspected; individual/vendored files can carry additional terms."
+      }
+    },
+    {
+      "id": "sglang",
+      "title": "SGLang",
+      "kind": "repository",
+      "official_url": "https://github.com/sgl-project/sglang",
+      "repository": "sgl-project/sglang",
+      "revision": {
+        "type": "git_commit",
+        "value": "2dee23a876a02d3221b252c7978453ed08bed147",
+        "commit_date": "2026-09-18T08:40:32Z"
+      },
+      "evidence_status": "source_inspected",
+      "summary": "Production kernel wrappers, explicit capability-based dispatch, reference parity and graph-safe execution.",
+      "boundaries": [
+        "Unified sglang.kernels namespace is current at this pin; older sglang.jit_kernel and sgl-kernel paths may have moved.",
+        "No kernels from this source were executed or performance-validated in this research."
+      ],
+      "tags": [
+        "serving",
+        "dispatch",
+        "reference-parity",
+        "cuda-graphs"
+      ],
+      "entries": [
+        {
+          "id": "sglang-1",
+          "path": "python/sglang/kernels/README.md",
+          "url": "https://github.com/sgl-project/sglang/blob/2dee23a876a02d3221b252c7978453ed08bed147/python/sglang/kernels/README.md",
+          "purpose": "Current kernel namespace, reference/native fallback, capability contracts and parity harness.",
+          "inspection": "content"
+        },
+        {
+          "id": "sglang-2",
+          "path": "python/sglang/kernels/fused_op.py",
+          "url": "https://github.com/sgl-project/sglang/blob/2dee23a876a02d3221b252c7978453ed08bed147/python/sglang/kernels/fused_op.py",
+          "purpose": "Shared dispatch implementation; inspect actual eligibility and cache behavior.",
+          "inspection": "content",
+          "symbols": [
+            "BaseFusedOp",
+            "backend_eligible",
+            "_forward_backend_dynamic"
+          ],
+          "symbol_locations": [
+            {
+              "symbol": "BaseFusedOp",
+              "line": 334
+            },
+            {
+              "symbol": "backend_eligible",
+              "line": 473
+            },
+            {
+              "symbol": "_forward_backend_dynamic",
+              "line": 569
+            }
+          ]
+        },
+        {
+          "id": "sglang-3",
+          "path": "docs/docs/developer_guide/development_jit_kernel_guide.mdx",
+          "url": "https://github.com/sgl-project/sglang/blob/2dee23a876a02d3221b252c7978453ed08bed147/docs/docs/developer_guide/development_jit_kernel_guide.mdx",
+          "purpose": "JIT kernel integration conventions and tests.",
+          "inspection": "content"
+        },
+        {
+          "id": "sglang-4",
+          "path": "python/sglang/srt/model_executor/runner/decode_cuda_graph_runner.py",
+          "url": "https://github.com/sgl-project/sglang/blob/2dee23a876a02d3221b252c7978453ed08bed147/python/sglang/srt/model_executor/runner/decode_cuda_graph_runner.py",
+          "purpose": "Decode graph buffers, capture and replay lifetime boundary.",
+          "inspection": "content",
+          "symbols": [
+            "DecodeCudaGraphRunner",
+            "_make_graph_key"
+          ],
+          "symbol_locations": [
+            {
+              "symbol": "DecodeCudaGraphRunner",
+              "line": 214
+            },
+            {
+              "symbol": "_make_graph_key",
+              "line": 539
+            }
+          ]
+        },
+        {
+          "id": "sglang-5",
+          "path": "python/sglang/srt/layers/attention/flashinfer_backend.py",
+          "url": "https://github.com/sgl-project/sglang/blob/2dee23a876a02d3221b252c7978453ed08bed147/python/sglang/srt/layers/attention/flashinfer_backend.py",
+          "purpose": "Serving metadata to FlashInfer planner/run calls; verify scales and layouts here.",
+          "inspection": "content",
+          "symbols": [
+            "FlashInferAttnBackend",
+            "fast_prefill_plan",
+            "init_cuda_graph_state"
+          ],
+          "symbol_locations": [
+            {
+              "symbol": "FlashInferAttnBackend",
+              "line": 291
+            },
+            {
+              "symbol": "fast_prefill_plan",
+              "line": 177
+            },
+            {
+              "symbol": "init_cuda_graph_state",
+              "line": 1033
+            }
+          ]
+        },
+        {
+          "id": "sglang-6",
+          "path": "test/registered/kernels/ops/layernorm/test_fused_op_gpu_parity.py",
+          "url": "https://github.com/sgl-project/sglang/blob/2dee23a876a02d3221b252c7978453ed08bed147/test/registered/kernels/ops/layernorm/test_fused_op_gpu_parity.py",
+          "purpose": "Cross-backend correctness harness against native reference.",
+          "inspection": "content",
+          "symbols": [
+            "test_rmsnorm",
+            "test_fused_add_rmsnorm"
+          ],
+          "symbol_locations": [
+            {
+              "symbol": "test_rmsnorm",
+              "line": 39
+            },
+            {
+              "symbol": "test_fused_add_rmsnorm",
+              "line": 54
+            }
+          ]
+        },
+        {
+          "id": "sglang-7",
+          "path": "test/registered/kernels/test_fused_op_dispatch.py",
+          "url": "https://github.com/sgl-project/sglang/blob/2dee23a876a02d3221b252c7978453ed08bed147/test/registered/kernels/test_fused_op_dispatch.py",
+          "purpose": "Fused-op dispatch unit tests: strict explicit selection, global fallback, capability gates, undeclared implementations, per-call runtime conditions and compilation behavior.",
+          "inspection": "content"
+        },
+        {
+          "id": "sglang-8",
+          "path": "test/registered/attention/unittests/dense/test_flashinfer.py",
+          "url": "https://github.com/sgl-project/sglang/blob/2dee23a876a02d3221b252c7978453ed08bed147/test/registered/attention/unittests/dense/test_flashinfer.py",
+          "purpose": "FlashInfer integration cases built on dense-reference kit: page-boundary lengths, GQA/MQA, graph decode and ragged/speculative paths; fixed head64 and hardware/dependency gates limit scope.",
+          "inspection": "content"
+        },
+        {
+          "id": "sglang-9",
+          "path": "python/sglang/test/kits/attention_unittest/attention_methods/dense_attention.py",
+          "url": "https://github.com/sgl-project/sglang/blob/2dee23a876a02d3221b252c7978453ed08bed147/python/sglang/test/kits/attention_unittest/attention_methods/dense_attention.py",
+          "purpose": "Actual dense oracle and paged-cache fixture helpers behind integration tests: shuffled page layout, reference projection weights and assert_close. Read tolerances and fixture config with test names.",
+          "inspection": "content"
+        },
+        {
+          "id": "sglang-10",
+          "path": "test/manual/kernels/bench_fused_op_dispatch.py",
+          "url": "https://github.com/sgl-project/sglang/blob/2dee23a876a02d3221b252c7978453ed08bed147/test/manual/kernels/bench_fused_op_dispatch.py",
+          "purpose": "CPU no-op dispatch overhead only (warmup plus perf_counter call loop); useful for wrapper selection cost, not evidence of GPU kernel throughput.",
+          "inspection": "content"
+        },
+        {
+          "id": "sglang-11",
+          "path": "test/registered/unit/model_executor/runner/test_decode_cuda_graph_shared_read_fence.py",
+          "url": "https://github.com/sgl-project/sglang/blob/2dee23a876a02d3221b252c7978453ed08bed147/test/registered/unit/model_executor/runner/test_decode_cuda_graph_shared_read_fence.py",
+          "purpose": "Mocked runner contract checks for shared-read completion fences. Demonstrates required calls/order, not GPU concurrency or replay correctness.",
+          "inspection": "content"
+        },
+        {
+          "id": "sglang-12",
+          "path": "python/sglang/kernels/ops/diffusion/README.md",
+          "url": "https://github.com/sgl-project/sglang/blob/2dee23a876a02d3221b252c7978453ed08bed147/python/sglang/kernels/ops/diffusion/README.md",
+          "purpose": "Diffusion operator map distinguishes exact rounding-boundary preservation, approximate fusion, runtime quality gates and target-model assumptions. Treat quality/performance claims as upstream reports.",
+          "inspection": "content"
+        },
+        {
+          "id": "sglang-13",
+          "path": "python/sglang/kernels/ops/diffusion/activation/silu_mul_bitexact.py",
+          "url": "https://github.com/sgl-project/sglang/blob/2dee23a876a02d3221b252c7978453ed08bed147/python/sglang/kernels/ops/diffusion/activation/silu_mul_bitexact.py",
+          "purpose": "SwiGLU-style SiLU/multiply fusion retains separate BF16 rounding after SiLU; packed and unpacked capability paths differ.",
+          "inspection": "content"
+        },
+        {
+          "id": "sglang-14",
+          "path": "python/sglang/kernels/ops/diffusion/common/numerics.py",
+          "url": "https://github.com/sgl-project/sglang/blob/2dee23a876a02d3221b252c7978453ed08bed147/python/sglang/kernels/ops/diffusion/common/numerics.py",
+          "purpose": "NVIDIA inline-PTX numerical primitives for BF16 RNE emulation, noncontracted FP32 multiply and selected reciprocal-square-root semantics; not portable Triton arithmetic defaults.",
+          "inspection": "content"
+        },
+        {
+          "id": "sglang-15",
+          "path": "python/sglang/kernels/ops/diffusion/norm/rmsnorm_scale_shift_bitexact.py",
+          "url": "https://github.com/sgl-project/sglang/blob/2dee23a876a02d3221b252c7978453ed08bed147/python/sglang/kernels/ops/diffusion/norm/rmsnorm_scale_shift_bitexact.py",
+          "purpose": "Faithful BF16 RMSNorm/modulation fusion reproduces intermediate rounding and reduction structure; capability predicate restricts NVIDIA CUDA contiguous 3D tensors, exact hidden2048/4096 and row-broadcast scale/shift.",
+          "inspection": "content"
+        },
+        {
+          "id": "sglang-16",
+          "path": "python/sglang/kernels/ops/diffusion/norm/scale_residual_norm_scale_shift_triton.py",
+          "url": "https://github.com/sgl-project/sglang/blob/2dee23a876a02d3221b252c7978453ed08bed147/python/sglang/kernels/ops/diffusion/norm/scale_residual_norm_scale_shift_triton.py",
+          "purpose": "XPU-only residual/norm/modulation Triton fallback with FP16/BF16, batch1 and broadcast/hidden-size gates. Despite filename, this is not a CUDA-path eligibility source.",
+          "inspection": "content"
+        },
+        {
+          "id": "sglang-17",
+          "path": "python/sglang/kernels/ops/diffusion/rope/qknorm_rope_jit.py",
+          "url": "https://github.com/sgl-project/sglang/blob/2dee23a876a02d3221b252c7978453ed08bed147/python/sglang/kernels/ops/diffusion/rope/qknorm_rope_jit.py",
+          "purpose": "In-place/out-of-place QKNorm+RoPE JIT dispatch; head64/128/256, rotary-lane constraints, cache-width and dtype gates. Optional round_norm_before_rope preserves an intermediate rounding boundary.",
+          "inspection": "content"
+        },
+        {
+          "id": "sglang-18",
+          "path": "python/sglang/kernels/ops/diffusion/rope/rope_rotate_half_bitexact.py",
+          "url": "https://github.com/sgl-project/sglang/blob/2dee23a876a02d3221b252c7978453ed08bed147/python/sglang/kernels/ops/diffusion/rope/rope_rotate_half_bitexact.py",
+          "purpose": "RoPE fusion explicitly rounds each BF16 product before add to preserve eager operator boundaries; inspect contiguous layout and cache semantics before adoption.",
+          "inspection": "content"
+        },
+        {
+          "id": "sglang-19",
+          "path": "python/sglang/kernels/ops/layernorm/norm.py",
+          "url": "https://github.com/sgl-project/sglang/blob/2dee23a876a02d3221b252c7978453ed08bed147/python/sglang/kernels/ops/layernorm/norm.py",
+          "purpose": "Layernorm public JIT wrappers, supported hidden-size classification, dtype/head dispatch and mutating fused-add RMSNorm contract.",
+          "inspection": "content"
+        },
+        {
+          "id": "sglang-20",
+          "path": "test/registered/kernels/ops/layernorm/test_fused_add_rmsnorm.py",
+          "url": "https://github.com/sgl-project/sglang/blob/2dee23a876a02d3221b252c7978453ed08bed147/test/registered/kernels/ops/layernorm/test_fused_add_rmsnorm.py",
+          "purpose": "Fused residual RMSNorm parity against FlashInfer and native FP32-reference paths; distinct tolerances reflect different rounding order. Verify both mutated input/output and residual semantics.",
+          "inspection": "content"
+        }
+      ],
+      "license": {
+        "spdx": "Apache-2.0",
+        "url": "https://github.com/sgl-project/sglang/blob/2dee23a876a02d3221b252c7978453ed08bed147/LICENSE",
+        "scope": "Repository top-level license inspected; individual/vendored files can carry additional terms."
+      }
+    },
+    {
+      "id": "cutlass",
+      "title": "CUTLASS / CuTe",
+      "kind": "repository",
+      "official_url": "https://github.com/NVIDIA/cutlass",
+      "repository": "NVIDIA/cutlass",
+      "revision": {
+        "type": "git_commit",
+        "value": "f614dc40e17fb3ddb1b7b474318b48a8d5d21a2c",
+        "commit_date": "2026-09-17T01:21:48Z"
+      },
+      "evidence_status": "source_inspected",
+      "summary": "Tensor layouts, tiled GEMM, asynchronous copy/MMA pipelines, architecture-specific examples.",
+      "boundaries": [
+        "SM90 WGMMA and SM100 tcgen05/TMEM paths are different; compiler/toolkit and target-specific requirements apply.",
+        "No kernels from this source were executed or performance-validated in this research."
+      ],
+      "tags": [
+        "gemm",
+        "cute",
+        "layouts",
+        "pipeline",
+        "tensor-cores"
+      ],
+      "entries": [
+        {
+          "id": "cutlass-1",
+          "path": "media/docs/cpp/efficient_gemm.md",
+          "url": "https://github.com/NVIDIA/cutlass/blob/f614dc40e17fb3ddb1b7b474318b48a8d5d21a2c/media/docs/cpp/efficient_gemm.md",
+          "purpose": "Tiling hierarchy, pipelining, split-K, persistence and warp specialization tradeoffs.",
+          "inspection": "content"
+        },
+        {
+          "id": "cutlass-2",
+          "path": "media/docs/cpp/cute/01_layout.md",
+          "url": "https://github.com/NVIDIA/cutlass/blob/f614dc40e17fb3ddb1b7b474318b48a8d5d21a2c/media/docs/cpp/cute/01_layout.md",
+          "purpose": "Layout algebra and thread/data mapping vocabulary.",
+          "inspection": "content"
+        },
+        {
+          "id": "cutlass-3",
+          "path": "examples/cute/tutorial/hopper/wgmma_tma_sm90.cu",
+          "url": "https://github.com/NVIDIA/cutlass/blob/f614dc40e17fb3ddb1b7b474318b48a8d5d21a2c/examples/cute/tutorial/hopper/wgmma_tma_sm90.cu",
+          "purpose": "Hopper WGMMA+TMA instructional GEMM mainloop and event timing. Its main copies output to host but does not compare a numerical reference; architecture mismatch returns success with a waived message.",
+          "inspection": "content"
+        },
+        {
+          "id": "cutlass-4",
+          "path": "examples/cute/tutorial/blackwell/02_mma_tma_sm100.cu",
+          "url": "https://github.com/NVIDIA/cutlass/blob/f614dc40e17fb3ddb1b7b474318b48a8d5d21a2c/examples/cute/tutorial/blackwell/02_mma_tma_sm100.cu",
+          "purpose": "Blackwell SM100 tensor-memory/TMA introductory GEMM with host reference comparison in main; preserve its shape, descriptor and launch assumptions.",
+          "inspection": "content"
+        },
+        {
+          "id": "cutlass-5",
+          "path": "examples/python/CuTeDSL/cute/blackwell/tutorial/tutorial_gemm/README.md",
+          "url": "https://github.com/NVIDIA/cutlass/blob/f614dc40e17fb3ddb1b7b474318b48a8d5d21a2c/examples/python/CuTeDSL/cute/blackwell/tutorial/tutorial_gemm/README.md",
+          "purpose": "Map of progressive Blackwell GEMM tutorials.",
+          "inspection": "content"
+        },
+        {
+          "id": "cutlass-6",
+          "path": "examples/python/CuTeDSL/cute/blackwell/tutorial/tutorial_gemm/fp16_gemm_0.py",
+          "url": "https://github.com/NVIDIA/cutlass/blob/f614dc40e17fb3ddb1b7b474318b48a8d5d21a2c/examples/python/CuTeDSL/cute/blackwell/tutorial/tutorial_gemm/fp16_gemm_0.py",
+          "purpose": "CuTeDSL baseline Blackwell GEMM with torch.einsum reference/assert_close in run; a pedagogical baseline for pipeline changes.",
+          "inspection": "content",
+          "symbols": [
+            "host_function",
+            "kernel",
+            "run_dense_gemm"
+          ],
+          "symbol_locations": [
+            {
+              "symbol": "host_function",
+              "line": 296
+            },
+            {
+              "symbol": "kernel",
+              "line": 81
+            },
+            {
+              "symbol": "run_dense_gemm",
+              "line": 369
+            }
+          ]
+        },
+        {
+          "id": "cutlass-7",
+          "path": "examples/python/CuTeDSL/cute/blackwell/tutorial/tutorial_gemm/fp16_gemm_4.py",
+          "url": "https://github.com/NVIDIA/cutlass/blob/f614dc40e17fb3ddb1b7b474318b48a8d5d21a2c/examples/python/CuTeDSL/cute/blackwell/tutorial/tutorial_gemm/fp16_gemm_4.py",
+          "purpose": "Advanced CuTeDSL Blackwell tutorial with pipelining and torch reference/assert_close; compare resource ownership with baseline before tuning.",
+          "inspection": "content",
+          "symbols": [
+            "cluster_specific_kernel",
+            "compute_grid",
+            "host_function"
+          ],
+          "symbol_locations": [
+            {
+              "symbol": "cluster_specific_kernel",
+              "line": 125
+            },
+            {
+              "symbol": "compute_grid",
+              "line": 722
+            },
+            {
+              "symbol": "host_function",
+              "line": 794
+            }
+          ]
+        },
+        {
+          "id": "cutlass-8",
+          "path": "include/cutlass/pipeline/sm90_pipeline.hpp",
+          "url": "https://github.com/NVIDIA/cutlass/blob/f614dc40e17fb3ddb1b7b474318b48a8d5d21a2c/include/cutlass/pipeline/sm90_pipeline.hpp",
+          "purpose": "Barrier phase/state abstractions underpinning Hopper producer/consumer pipelines.",
+          "inspection": "content",
+          "symbols": [
+            "PipelineState",
+            "PipelineTmaAsync",
+            "PipelineTmaStore"
+          ],
+          "symbol_locations": [
+            {
+              "symbol": "PipelineState",
+              "line": 171
+            },
+            {
+              "symbol": "PipelineTmaAsync",
+              "line": 271
+            },
+            {
+              "symbol": "PipelineTmaStore",
+              "line": 655
+            }
+          ]
+        },
+        {
+          "id": "cutlass-9",
+          "path": "test/unit/cute/core/swizzle_layout.cpp",
+          "url": "https://github.com/NVIDIA/cutlass/blob/f614dc40e17fb3ddb1b7b474318b48a8d5d21a2c/test/unit/cute/core/swizzle_layout.cpp",
+          "purpose": "Host unit tests compare swizzled/sliced layout mappings; validates address algebra, not GPU coalescing or measured bank-conflict performance.",
+          "inspection": "content"
+        },
+        {
+          "id": "cutlass-10",
+          "path": "test/unit/pipeline/pipeline_tma_async_warp_specialized.cu",
+          "url": "https://github.com/NVIDIA/cutlass/blob/f614dc40e17fb3ddb1b7b474318b48a8d5d21a2c/test/unit/pipeline/pipeline_tma_async_warp_specialized.cu",
+          "purpose": "SM90 pipeline synchronization stress across stages/clusters; simulates TMA commits and GMMA consumers. This is lifecycle/deadlock coverage, not numerical GEMM verification.",
+          "inspection": "content"
+        },
+        {
+          "id": "cutlass-11",
+          "path": "test/unit/pipeline/pipeline_tma_async_warp_specialized_persistent.cu",
+          "url": "https://github.com/NVIDIA/cutlass/blob/f614dc40e17fb3ddb1b7b474318b48a8d5d21a2c/test/unit/pipeline/pipeline_tma_async_warp_specialized_persistent.cu",
+          "purpose": "Persistent pipeline phase/reuse stress across cluster/stage configurations; inspect simulated operations and complement with real GEMM oracle tests.",
+          "inspection": "content"
+        },
+        {
+          "id": "cutlass-12",
+          "path": "test/unit/pipeline/testbed.h",
+          "url": "https://github.com/NVIDIA/cutlass/blob/f614dc40e17fb3ddb1b7b474318b48a8d5d21a2c/test/unit/pipeline/testbed.h",
+          "purpose": "Pipeline harness repeats randomized iteration counts and launch error checks; verification() returning true is not a numerical result comparison.",
+          "inspection": "content"
+        },
+        {
+          "id": "cutlass-13",
+          "path": "media/docs/cpp/pipeline.md",
+          "url": "https://github.com/NVIDIA/cutlass/blob/f614dc40e17fb3ddb1b7b474318b48a8d5d21a2c/media/docs/cpp/pipeline.md",
+          "purpose": "CUTLASS producer/consumer pipeline abstraction, state/phase lifecycle and architecture-specific synchronization operations.",
+          "inspection": "content"
+        }
+      ],
+      "license": {
+        "spdx": "BSD-3-Clause",
+        "url": "https://github.com/NVIDIA/cutlass/blob/f614dc40e17fb3ddb1b7b474318b48a8d5d21a2c/LICENSE.txt",
+        "scope": "Repository top-level license inspected; individual/vendored files can carry additional terms."
+      }
+    },
+    {
+      "id": "triton",
+      "title": "Triton / Gluon",
+      "kind": "repository",
+      "official_url": "https://github.com/triton-lang/triton",
+      "repository": "triton-lang/triton",
+      "revision": {
+        "type": "git_commit",
+        "value": "92d654e2094db0d390db1f4e2992aa47f48e2556",
+        "commit_date": "2026-09-18T08:25:10Z"
+      },
+      "evidence_status": "source_inspected",
+      "summary": "Progressive runnable kernels, autotuning, persistent matmul and explicit layouts/synchronization.",
+      "boundaries": [
+        "Tutorial constraints are part of their correctness contract; Gluon experimental APIs and architecture support are revision-sensitive.",
+        "No kernels from this source were executed or performance-validated in this research."
+      ],
+      "tags": [
+        "dsl",
+        "gluon",
+        "reduction",
+        "autotune",
+        "pipeline"
+      ],
+      "entries": [
+        {
+          "id": "triton-1",
+          "path": "python/tutorials/02-fused-softmax.py",
+          "url": "https://github.com/triton-lang/triton/blob/92d654e2094db0d390db1f4e2992aa47f48e2556/python/tutorials/02-fused-softmax.py",
+          "purpose": "IO-saving fusion, power-of-two masks and resource limits.",
+          "inspection": "content",
+          "symbols": [
+            "softmax_kernel",
+            "softmax"
+          ],
+          "symbol_locations": [
+            {
+              "symbol": "softmax_kernel",
+              "line": 85
+            },
+            {
+              "symbol": "softmax",
+              "line": 124
+            }
+          ]
+        },
+        {
+          "id": "triton-2",
+          "path": "python/tutorials/03-matrix-multiplication.py",
+          "url": "https://github.com/triton-lang/triton/blob/92d654e2094db0d390db1f4e2992aa47f48e2556/python/tutorials/03-matrix-multiplication.py",
+          "purpose": "Blocked GEMM, grouped program ordering and autotuning. Embedded torch.allclose checks print pass/fail rather than raising; convert to hard gates before automated acceptance.",
+          "inspection": "content",
+          "symbols": [
+            "get_cuda_autotune_config",
+            "matmul_kernel",
+            "matmul"
+          ],
+          "symbol_locations": [
+            {
+              "symbol": "get_cuda_autotune_config",
+              "line": 164
+            },
+            {
+              "symbol": "matmul_kernel",
+              "line": 233
+            },
+            {
+              "symbol": "matmul",
+              "line": 334
+            }
+          ]
+        },
+        {
+          "id": "triton-3",
+          "path": "python/tutorials/05-layer-norm.py",
+          "url": "https://github.com/triton-lang/triton/blob/92d654e2094db0d390db1f4e2992aa47f48e2556/python/tutorials/05-layer-norm.py",
+          "purpose": "Reduction, fused elementwise work and backward synchronization.",
+          "inspection": "content",
+          "symbols": [
+            "_layer_norm_fwd_fused",
+            "_layer_norm_bwd_dx_fused",
+            "test_layer_norm"
+          ],
+          "symbol_locations": [
+            {
+              "symbol": "_layer_norm_fwd_fused",
+              "line": 49
+            },
+            {
+              "symbol": "_layer_norm_bwd_dx_fused",
+              "line": 133
+            },
+            {
+              "symbol": "test_layer_norm",
+              "line": 300
+            }
+          ]
+        },
+        {
+          "id": "triton-4",
+          "path": "python/tutorials/06-fused-attention.py",
+          "url": "https://github.com/triton-lang/triton/blob/92d654e2094db0d390db1f4e2992aa47f48e2556/python/tutorials/06-fused-attention.py",
+          "purpose": "Online attention recurrence with correctness and performance checks.",
+          "inspection": "content",
+          "symbols": [
+            "_attn_fwd_inner",
+            "prune_invalid_configs",
+            "_attention"
+          ],
+          "symbol_locations": [
+            {
+              "symbol": "_attn_fwd_inner",
+              "line": 48
+            },
+            {
+              "symbol": "prune_invalid_configs",
+              "line": 156
+            },
+            {
+              "symbol": "_attention",
+              "line": 505
+            }
+          ]
+        },
+        {
+          "id": "triton-5",
+          "path": "python/tutorials/09-persistent-matmul.py",
+          "url": "https://github.com/triton-lang/triton/blob/92d654e2094db0d390db1f4e2992aa47f48e2556/python/tutorials/09-persistent-matmul.py",
+          "purpose": "Persistent/TMA matmul variants with Proton benchmarking. Embedded run_test prints correctness icons with atol=1.0 and does not assert; passing process status alone is insufficient validation.",
+          "inspection": "content",
+          "symbols": [
+            "matmul_kernel_persistent",
+            "matmul_tma",
+            "matmul_persistent"
+          ],
+          "symbol_locations": [
+            {
+              "symbol": "matmul_kernel_persistent",
+              "line": 294
+            },
+            {
+              "symbol": "matmul_tma",
+              "line": 248
+            },
+            {
+              "symbol": "matmul_persistent",
+              "line": 352
+            }
+          ]
+        },
+        {
+          "id": "triton-6",
+          "path": "python/tutorials/10-block-scaled-matmul.py",
+          "url": "https://github.com/triton-lang/triton/blob/92d654e2094db0d390db1f4e2992aa47f48e2556/python/tutorials/10-block-scaled-matmul.py",
+          "purpose": "Scale-factor layout for low-precision tensor-core GEMM.",
+          "inspection": "content",
+          "symbols": [
+            "block_scaled_matmul_kernel",
+            "initialize_block_scaled",
+            "validate_block_scaled"
+          ],
+          "symbol_locations": [
+            {
+              "symbol": "block_scaled_matmul_kernel",
+              "line": 178
+            },
+            {
+              "symbol": "initialize_block_scaled",
+              "line": 338
+            },
+            {
+              "symbol": "validate_block_scaled",
+              "line": 460
+            }
+          ]
+        },
+        {
+          "id": "triton-7",
+          "path": "python/tutorials/gluon/03-async-copy.py",
+          "url": "https://github.com/triton-lang/triton/blob/92d654e2094db0d390db1f4e2992aa47f48e2556/python/tutorials/gluon/03-async-copy.py",
+          "purpose": "Async copy ownership, waits and double buffering.",
+          "inspection": "content",
+          "symbols": [
+            "issue_loads",
+            "perform_add",
+            "elementwise_add_pipelined_kernel"
+          ],
+          "symbol_locations": [
+            {
+              "symbol": "issue_loads",
+              "line": 258
+            },
+            {
+              "symbol": "perform_add",
+              "line": 273
+            },
+            {
+              "symbol": "elementwise_add_pipelined_kernel",
+              "line": 285
+            }
+          ]
+        },
+        {
+          "id": "triton-8",
+          "path": "python/tutorials/gluon/04-tma.py",
+          "url": "https://github.com/triton-lang/triton/blob/92d654e2094db0d390db1f4e2992aa47f48e2556/python/tutorials/gluon/04-tma.py",
+          "purpose": "TMA descriptors, barriers and shared-memory layouts.",
+          "inspection": "content",
+          "symbols": [
+            "tma_message_passing_kernel",
+            "issue_loads",
+            "perform_add"
+          ],
+          "symbol_locations": [
+            {
+              "symbol": "tma_message_passing_kernel",
+              "line": 133
+            },
+            {
+              "symbol": "issue_loads",
+              "line": 267
+            },
+            {
+              "symbol": "perform_add",
+              "line": 279
+            }
+          ]
+        },
+        {
+          "id": "triton-9",
+          "path": "python/tutorials/gluon/08-warp-specialization.py",
+          "url": "https://github.com/triton-lang/triton/blob/92d654e2094db0d390db1f4e2992aa47f48e2556/python/tutorials/gluon/08-warp-specialization.py",
+          "purpose": "Explicit producer/consumer warp partitions, register budgets and async proxy fences.",
+          "inspection": "content",
+          "symbols": [
+            "load_partition",
+            "compute_partition",
+            "matmul_mma_partition"
+          ],
+          "symbol_locations": [
+            {
+              "symbol": "load_partition",
+              "line": 124
+            },
+            {
+              "symbol": "compute_partition",
+              "line": 194
+            },
+            {
+              "symbol": "matmul_mma_partition",
+              "line": 452
+            }
+          ]
+        }
+      ],
+      "license": {
+        "spdx": "MIT",
+        "url": "https://github.com/triton-lang/triton/blob/92d654e2094db0d390db1f4e2992aa47f48e2556/LICENSE",
+        "scope": "Repository top-level license inspected; individual/vendored files can carry additional terms."
+      }
+    },
+    {
+      "id": "cuda-programming-guide",
+      "title": "CUDA Programming Guide",
+      "kind": "official_documentation",
+      "official_url": "https://docs.nvidia.com/cuda/cuda-programming-guide/",
+      "revision": {
+        "type": "rolling_document",
+        "value": "2026-09-10 rolling edition"
+      },
+      "evidence_status": "documentation_inspected",
+      "summary": "Programming model and normative feature contracts.",
+      "boundaries": [
+        "Feature semantics and availability must match the installed toolkit and target GPU.",
+        "Rolling URL can change; recheck before relying on toolkit-specific claims."
+      ],
+      "tags": [
+        "semantics",
+        "synchronization",
+        "cuda-graphs"
+      ],
+      "entries": [
+        {
+          "id": "cuda-programming-guide-async-barriers",
+          "url": "https://docs.nvidia.com/cuda/cuda-programming-guide/04-special-topics/async-barriers.html",
+          "purpose": "Barrier arrival, completion and phase contracts.",
+          "inspection": "content"
+        },
+        {
+          "id": "cuda-programming-guide-async-copies",
+          "url": "https://docs.nvidia.com/cuda/cuda-programming-guide/04-special-topics/async-copies.html",
+          "purpose": "Async copy/TMA restrictions, alignment and synchronization.",
+          "inspection": "content"
+        },
+        {
+          "id": "cuda-programming-guide-cuda-graphs",
+          "url": "https://docs.nvidia.com/cuda/cuda-programming-guide/04-special-topics/cuda-graphs.html",
+          "purpose": "Capture/replay restrictions and resource lifetime.",
+          "inspection": "content"
+        }
+      ]
+    },
+    {
+      "id": "cuda-best-practices",
+      "title": "CUDA C++ Best Practices Guide",
+      "kind": "official_documentation",
+      "official_url": "https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/",
+      "revision": {
+        "type": "rolling_document",
+        "value": "13.4 observed at rolling URL"
+      },
+      "evidence_status": "documentation_inspected",
+      "summary": "Optimization order, data movement, coalescing and measurement.",
+      "boundaries": [
+        "Guidelines are architecture-qualified; occupancy or peak throughput alone does not prove optimality.",
+        "Rolling URL can change; recheck before relying on toolkit-specific claims."
+      ],
+      "tags": [
+        "memory",
+        "coalescing",
+        "profiling"
+      ],
+      "entries": [
+        {
+          "id": "cuda-best-practices-coalescing",
+          "url": "https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/#coalesced-access-to-global-memory",
+          "purpose": "Warp memory transactions and alignment.",
+          "inspection": "content"
+        },
+        {
+          "id": "cuda-best-practices-bandwidth",
+          "url": "https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/#bandwidth",
+          "purpose": "Effective versus actual bandwidth and traffic accounting.",
+          "inspection": "content"
+        },
+        {
+          "id": "cuda-best-practices-occupancy",
+          "url": "https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/#occupancy",
+          "purpose": "Register/shared-memory residency constraints.",
+          "inspection": "content"
+        }
+      ]
+    },
+    {
+      "id": "nsight-compute",
+      "title": "Nsight Compute Profiling Guide",
+      "kind": "official_documentation",
+      "official_url": "https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html",
+      "revision": {
+        "type": "rolling_document",
+        "value": "rolling documentation checked 2026-09-18"
+      },
+      "evidence_status": "documentation_inspected",
+      "summary": "Kernel counters, replay, cache control and roofline interpretation.",
+      "boundaries": [
+        "Profiling perturbs execution; profiled latency is not automatically application latency.",
+        "Rolling URL can change; recheck before relying on toolkit-specific claims."
+      ],
+      "tags": [
+        "profiling",
+        "roofline",
+        "cache-policy"
+      ],
+      "entries": [
+        {
+          "id": "nsight-compute-cache-control",
+          "url": "https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html#cache-control",
+          "purpose": "Default replay cache flushing and matching cache policy.",
+          "inspection": "content"
+        },
+        {
+          "id": "nsight-compute-roofline",
+          "url": "https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html#roofline-charts",
+          "purpose": "Compute/memory ceilings, traffic units and tensor-core section selection.",
+          "inspection": "content"
+        }
+      ]
+    },
+    {
+      "id": "hopper-tuning",
+      "title": "NVIDIA Hopper Tuning Guide",
+      "kind": "official_documentation",
+      "official_url": "https://docs.nvidia.com/cuda/hopper-tuning-guide/",
+      "revision": {
+        "type": "rolling_document",
+        "value": "13.4 observed at rolling URL"
+      },
+      "evidence_status": "documentation_inspected",
+      "summary": "Hopper architectural constraints for TMA, thread-block clusters and tensor cores.",
+      "boundaries": [
+        "Hopper information does not establish SM100/SM120 performance or instruction support.",
+        "Rolling URL can change; recheck before relying on toolkit-specific claims."
+      ],
+      "tags": [
+        "sm90",
+        "architecture"
+      ],
+      "entries": [
+        {
+          "id": "hopper-tuning-guide",
+          "url": "https://docs.nvidia.com/cuda/hopper-tuning-guide/",
+          "purpose": "Hopper architectural constraints for TMA, thread-block clusters and tensor cores.",
+          "inspection": "content"
+        }
+      ]
+    },
+    {
+      "id": "blackwell-tuning",
+      "title": "NVIDIA Blackwell Tuning Guide",
+      "kind": "official_documentation",
+      "official_url": "https://docs.nvidia.com/cuda/blackwell-tuning-guide/",
+      "revision": {
+        "type": "rolling_document",
+        "value": "13.4 observed at rolling URL"
+      },
+      "evidence_status": "documentation_inspected",
+      "summary": "Blackwell-specific execution and architecture guidance.",
+      "boundaries": [
+        "Identify exact compute capability and SKU; Blackwell family names are insufficient dispatch keys.",
+        "Rolling URL can change; recheck before relying on toolkit-specific claims."
+      ],
+      "tags": [
+        "blackwell",
+        "architecture"
+      ],
+      "entries": [
+        {
+          "id": "blackwell-tuning-guide",
+          "url": "https://docs.nvidia.com/cuda/blackwell-tuning-guide/",
+          "purpose": "Blackwell-specific execution and architecture guidance.",
+          "inspection": "content"
+        }
+      ]
+    },
+    {
+      "id": "compute-sanitizer",
+      "title": "Compute Sanitizer User Guide",
+      "kind": "official_documentation",
+      "official_url": "https://docs.nvidia.com/compute-sanitizer/ComputeSanitizer/index.html",
+      "revision": {
+        "type": "rolling_document",
+        "value": "rolling documentation checked 2026-09-18"
+      },
+      "evidence_status": "documentation_inspected",
+      "summary": "Memcheck, racecheck, initcheck and synccheck diagnostics.",
+      "boundaries": [
+        "Each tool checks a defined error class; a clean run is not a proof of all concurrency correctness.",
+        "Rolling URL can change; recheck before relying on toolkit-specific claims."
+      ],
+      "tags": [
+        "correctness",
+        "memory",
+        "race",
+        "synchronization"
+      ],
+      "entries": [
+        {
+          "id": "compute-sanitizer-guide",
+          "url": "https://docs.nvidia.com/compute-sanitizer/ComputeSanitizer/index.html",
+          "purpose": "Memcheck, racecheck, initcheck and synccheck diagnostics.",
+          "inspection": "content"
+        }
+      ]
+    },
+    {
+      "id": "nsight-systems",
+      "title": "Nsight Systems User Guide",
+      "kind": "official_documentation",
+      "official_url": "https://docs.nvidia.com/nsight-systems/UserGuide/index.html",
+      "revision": {
+        "type": "rolling_document",
+        "value": "rolling documentation checked 2026-09-18"
+      },
+      "evidence_status": "documentation_inspected",
+      "summary": "Application timeline, host launch gaps, synchronization and overlap.",
+      "boundaries": [
+        "Timeline diagnosis complements kernel counters; limit trace scope to control overhead.",
+        "Rolling URL can change; recheck before relying on toolkit-specific claims."
+      ],
+      "tags": [
+        "profiling",
+        "timeline",
+        "launch-overhead"
+      ],
+      "entries": [
+        {
+          "id": "nsight-systems-guide",
+          "url": "https://docs.nvidia.com/nsight-systems/UserGuide/index.html",
+          "purpose": "Application timeline, host launch gaps, synchronization and overlap.",
+          "inspection": "content"
+        }
+      ]
+    },
+    {
+      "id": "ptx-isa",
+      "title": "PTX ISA",
+      "kind": "official_documentation",
+      "official_url": "https://docs.nvidia.com/cuda/parallel-thread-execution/",
+      "revision": {
+        "type": "rolling_document",
+        "value": "9.4 observed at rolling URL"
+      },
+      "evidence_status": "documentation_inspected",
+      "summary": "Instruction semantics, memory ordering, proxy fences and architecture prerequisites.",
+      "boundaries": [
+        "PTX is virtual ISA; generated SASS and target toolchain determine actual execution.",
+        "Rolling URL can change; recheck before relying on toolkit-specific claims."
+      ],
+      "tags": [
+        "instructions",
+        "memory-model",
+        "architecture"
+      ],
+      "entries": [
+        {
+          "id": "ptx-isa-guide",
+          "url": "https://docs.nvidia.com/cuda/parallel-thread-execution/",
+          "purpose": "Instruction semantics, memory ordering, proxy fences and architecture prerequisites.",
+          "inspection": "content"
+        }
+      ]
+    },
+    {
+      "id": "flashinfer-bench",
+      "title": "FlashInfer-Bench",
+      "kind": "repository",
+      "official_url": "https://github.com/flashinfer-ai/flashinfer-bench",
+      "repository": "flashinfer-ai/flashinfer-bench",
+      "revision": {
+        "type": "git_commit",
+        "value": "40e6ca7844b514eb4b1c7edba6d6a7377df57870",
+        "commit_date": "2026-05-01T00:34:11Z"
+      },
+      "evidence_status": "source_inspected",
+      "summary": "Machine-readable operator definitions, concrete workloads and correctness-gated benchmark evaluation for AI-written kernels.",
+      "boundaries": [
+        "Definitions separate reference semantics from concrete workload inputs; evaluator tolerances are configuration, not universal acceptance thresholds.",
+        "No benchmark or dataset evaluation was run here."
+      ],
+      "tags": [
+        "agent-workflow",
+        "benchmark",
+        "workload"
+      ],
+      "license": {
+        "spdx": "Apache-2.0",
+        "url": "https://github.com/flashinfer-ai/flashinfer-bench/blob/40e6ca7844b514eb4b1c7edba6d6a7377df57870/LICENCE",
+        "scope": "Top-level license inspected; inspect dataset and individual file terms separately."
+      },
+      "entries": [
+        {
+          "id": "flashinfer-bench-1",
+          "path": "README.md",
+          "url": "https://github.com/flashinfer-ai/flashinfer-bench/blob/40e6ca7844b514eb4b1c7edba6d6a7377df57870/README.md",
+          "purpose": "Project and official trace dataset entry point.",
+          "inspection": "content"
+        },
+        {
+          "id": "flashinfer-bench-2",
+          "path": "docs/flashinfer-trace/definition.mdx",
+          "url": "https://github.com/flashinfer-ai/flashinfer-bench/blob/40e6ca7844b514eb4b1c7edba6d6a7377df57870/docs/flashinfer-trace/definition.mdx",
+          "purpose": "Formal operator contract and PyTorch reference schema.",
+          "inspection": "content"
+        },
+        {
+          "id": "flashinfer-bench-3",
+          "path": "docs/flashinfer-trace/workload.mdx",
+          "url": "https://github.com/flashinfer-ai/flashinfer-bench/blob/40e6ca7844b514eb4b1c7edba6d6a7377df57870/docs/flashinfer-trace/workload.mdx",
+          "purpose": "Concrete variable axes and input provenance.",
+          "inspection": "content"
+        },
+        {
+          "id": "flashinfer-bench-4",
+          "path": "docs/tutorials/run-benchmark.mdx",
+          "url": "https://github.com/flashinfer-ai/flashinfer-bench/blob/40e6ca7844b514eb4b1c7edba6d6a7377df57870/docs/tutorials/run-benchmark.mdx",
+          "purpose": "Per-definition evaluation parameters and correctness/performance workflow.",
+          "inspection": "content"
+        }
+      ]
+    },
+    {
+      "id": "colfax-gemm",
+      "title": "Colfax CUTLASS GEMM tutorials",
+      "kind": "primary_author_tutorial",
+      "official_url": "https://research.colfax-intl.com/cutlass-tutorial-design-of-a-gemm-kernel/",
+      "revision": {
+        "type": "rolling_document",
+        "value": "Author page checked 2026-09-18"
+      },
+      "evidence_status": "documentation_inspected",
+      "summary": "Primary author explanations of WGMMA, pipeline state and persistent/Stream-K scheduling.",
+      "boundaries": [
+        "Tutorial examples use particular CUTLASS/Hopper versions; use pinned current code for actual APIs."
+      ],
+      "tags": [
+        "advanced",
+        "algorithm-design"
+      ],
+      "entries": [
+        {
+          "id": "colfax-gemm-wgmma",
+          "url": "https://research.colfax-intl.com/cutlass-tutorial-wgmma-hopper/",
+          "purpose": "Thread/data ownership for Hopper WGMMA.",
+          "inspection": "content"
+        },
+        {
+          "id": "colfax-gemm-pipeline",
+          "url": "https://research.colfax-intl.com/cutlass-tutorial-design-of-a-gemm-kernel/",
+          "purpose": "Producer/consumer staging and pipeline/barrier state.",
+          "inspection": "content"
+        },
+        {
+          "id": "colfax-gemm-stream-k",
+          "url": "https://research.colfax-intl.com/cutlass-tutorial-persistent-kernels-and-stream-k/",
+          "purpose": "Wave quantization, persistence and split work tradeoffs.",
+          "inspection": "content"
+        }
+      ]
+    },
+    {
+      "id": "flashattention3-author",
+      "title": "FlashAttention-3 author explanation",
+      "kind": "primary_author_tutorial",
+      "official_url": "https://tridao.me/blog/2024/flash3/",
+      "revision": {
+        "type": "rolling_document",
+        "value": "Author page checked 2026-09-18"
+      },
+      "evidence_status": "documentation_inspected",
+      "summary": "Why Hopper attention overlaps data movement, matmul and softmax rather than merely maximizing matmul throughput.",
+      "boundaries": [
+        "Published H100 results are workload-specific historical evidence, not target-GPU guarantees."
+      ],
+      "tags": [
+        "advanced",
+        "algorithm-design"
+      ],
+      "entries": [
+        {
+          "id": "flashattention3-author-blog",
+          "url": "https://tridao.me/blog/2024/flash3/",
+          "purpose": "Scheduling rationale, register cost and low-precision outlier handling.",
+          "inspection": "content"
+        },
+        {
+          "id": "flashattention3-author-paper",
+          "url": "https://arxiv.org/abs/2407.08608v2",
+          "purpose": "Versioned paper abstract and link to algorithms/evaluation.",
+          "inspection": "content"
+        }
+      ]
+    },
+    {
+      "id": "flashattention4-author",
+      "title": "FlashAttention-4 author explanation",
+      "kind": "primary_author_tutorial",
+      "official_url": "https://tridao.me/blog/2026/flash4/",
+      "revision": {
+        "type": "rolling_document",
+        "value": "Author page checked 2026-09-18"
+      },
+      "evidence_status": "documentation_inspected",
+      "summary": "Blackwell asymmetric resource scaling motivates softmax/correction pipelines and shared-memory-aware backward.",
+      "boundaries": [
+        "SM100/B200 results and approximations require their accuracy and workload conditions; not a generic fast-math license."
+      ],
+      "tags": [
+        "advanced",
+        "algorithm-design"
+      ],
+      "entries": [
+        {
+          "id": "flashattention4-author-blog",
+          "url": "https://tridao.me/blog/2026/flash4/",
+          "purpose": "Feeds-and-speeds analysis, TMEM and explicit pipeline tradeoffs.",
+          "inspection": "content"
+        }
+      ]
+    },
+    {
+      "id": "deepgemm",
+      "title": "DeepGEMM",
+      "kind": "repository",
+      "official_url": "https://github.com/deepseek-ai/DeepGEMM",
+      "repository": "deepseek-ai/DeepGEMM",
+      "revision": {
+        "type": "git_commit",
+        "value": "78b69000794d0937b47ae3387eff7663410264d1",
+        "commit_date": "2026-09-14T05:46:03Z"
+      },
+      "evidence_status": "source_inspected",
+      "summary": "Scale-aware FP8/FP4 GEMM, grouped MoE and runtime specialization.",
+      "boundaries": [
+        "SM90/SM100-specific; scale format, layout and conversion cost are part of the contract.",
+        "Secondary/advanced source: no local GPU validation."
+      ],
+      "tags": [
+        "secondary",
+        "advanced"
+      ],
+      "license": {
+        "spdx": "MIT",
+        "url": "https://github.com/deepseek-ai/DeepGEMM/blob/78b69000794d0937b47ae3387eff7663410264d1/LICENSE",
+        "scope": "Top-level license inspected; individual/vendored files can carry additional terms."
+      },
+      "entries": [
+        {
+          "id": "deepgemm-1",
+          "path": "README.md",
+          "url": "https://github.com/deepseek-ai/DeepGEMM/blob/78b69000794d0937b47ae3387eff7663410264d1/README.md",
+          "purpose": "Architecture requirements, distinct scale formats and excluded preprocessing.",
+          "inspection": "content"
+        },
+        {
+          "id": "deepgemm-2",
+          "path": "csrc/jit_kernels/impls/sm100_fp8_fp4_gemm_1d1d.hpp",
+          "url": "https://github.com/deepseek-ai/DeepGEMM/blob/78b69000794d0937b47ae3387eff7663410264d1/csrc/jit_kernels/impls/sm100_fp8_fp4_gemm_1d1d.hpp",
+          "purpose": "Host descriptor construction, heuristic configuration and compiled specialization.",
+          "inspection": "content",
+          "symbols": [
+            "SM100FP8FP4Gemm1D1DRuntime",
+            "get_sf_block_config"
+          ],
+          "symbol_locations": [
+            {
+              "symbol": "SM100FP8FP4Gemm1D1DRuntime",
+              "line": 16
+            }
+          ]
+        },
+        {
+          "id": "deepgemm-3",
+          "path": "tests/test_fp8_fp4.py",
+          "url": "https://github.com/deepseek-ai/DeepGEMM/blob/78b69000794d0937b47ae3387eff7663410264d1/tests/test_fp8_fp4.py",
+          "purpose": "FP8/FP4 GEMM correctness and timing over grouped/contiguous/masked forms; quantization-specific error threshold, alias/equivalent-scale and valid-token-mask checks. Timing uses filtered Kineto events, so preserve filter and preprocessing boundary.",
+          "inspection": "content"
+        },
+        {
+          "id": "deepgemm-4",
+          "path": "tests/test_layout.py",
+          "url": "https://github.com/deepseek-ai/DeepGEMM/blob/78b69000794d0937b47ae3387eff7663410264d1/tests/test_layout.py",
+          "purpose": "Exact scale-layout, stride, TMA alignment, UE8M0 packing and padding checks plus conversion timing; layout conversions are part of low-precision data contracts.",
+          "inspection": "content"
+        },
+        {
+          "id": "deepgemm-5",
+          "path": "tests/test_sanitizer.py",
+          "url": "https://github.com/deepseek-ai/DeepGEMM/blob/78b69000794d0937b47ae3387eff7663410264d1/tests/test_sanitizer.py",
+          "purpose": "Sanitizer test orchestrator defaults to memcheck and synccheck, blocking launches and JIT no-spill checks. Its tool set and exclusions are explicit; not a claim that all races are checked.",
+          "inspection": "content"
+        },
+        {
+          "id": "deepgemm-6",
+          "path": "csrc/apis/layout.hpp",
+          "url": "https://github.com/deepseek-ai/DeepGEMM/blob/78b69000794d0937b47ae3387eff7663410264d1/csrc/apis/layout.hpp",
+          "purpose": "Scale-transform dispatch: architecture, dtype, granularity and prepacked K-grouped UE8M0 eligibility are distinct API constraints.",
+          "inspection": "content"
+        },
+        {
+          "id": "deepgemm-7",
+          "path": "csrc/jit_kernels/impls/smxx_layout.hpp",
+          "url": "https://github.com/deepseek-ai/DeepGEMM/blob/78b69000794d0937b47ae3387eff7663410264d1/csrc/jit_kernels/impls/smxx_layout.hpp",
+          "purpose": "Per-group packed-row padding, synchronized CPU lengths versus device psum metadata, upper-bound allocation and prepacked validation limits.",
+          "inspection": "content"
+        }
+      ]
+    },
+    {
+      "id": "thunderkittens",
+      "title": "ThunderKittens",
+      "kind": "repository",
+      "official_url": "https://github.com/HazyResearch/ThunderKittens",
+      "repository": "HazyResearch/ThunderKittens",
+      "revision": {
+        "type": "git_commit",
+        "value": "67845f5fa48d05343dbbc1ba1403f11061f08d2d",
+        "commit_date": "2026-09-12T19:29:52Z"
+      },
+      "evidence_status": "source_inspected",
+      "summary": "Stepwise tile-kernel design with explicit TMA/TMEM and asynchronous ownership.",
+      "boundaries": [
+        "Educational B200 GEMM assumes square tile-divisible shapes; published levels are not general performance predictions.",
+        "Secondary/advanced source: no local GPU validation."
+      ],
+      "tags": [
+        "secondary",
+        "advanced"
+      ],
+      "license": {
+        "spdx": "MIT",
+        "url": "https://github.com/HazyResearch/ThunderKittens/blob/67845f5fa48d05343dbbc1ba1403f11061f08d2d/LICENSE",
+        "scope": "Top-level license inspected; individual/vendored files can carry additional terms."
+      },
+      "entries": [
+        {
+          "id": "thunderkittens-1",
+          "path": "kernels/gemm/educational_b200/README.md",
+          "url": "https://github.com/HazyResearch/ThunderKittens/blob/67845f5fa48d05343dbbc1ba1403f11061f08d2d/kernels/gemm/educational_b200/README.md",
+          "purpose": "Nine-level progression from scalar code to pipelined 2-CTA GEMM.",
+          "inspection": "content"
+        },
+        {
+          "id": "thunderkittens-2",
+          "path": "kernels/gemm/educational_b200/level_07.cu",
+          "url": "https://github.com/HazyResearch/ThunderKittens/blob/67845f5fa48d05343dbbc1ba1403f11061f08d2d/kernels/gemm/educational_b200/level_07.cu",
+          "purpose": "Producer/consumer semaphore phases, TMA completion and MMA buffer reuse.",
+          "inspection": "content"
+        }
+      ]
+    },
+    {
+      "id": "tilelang",
+      "title": "TileLang",
+      "kind": "repository",
+      "official_url": "https://github.com/tile-ai/tilelang",
+      "repository": "tile-ai/tilelang",
+      "revision": {
+        "type": "git_commit",
+        "value": "efe9654bf4e1b58d2a08d88363fbf82b3fe43add",
+        "commit_date": "2026-09-18T06:56:02Z"
+      },
+      "evidence_status": "source_inspected",
+      "summary": "Compiler-managed tiled programs with explicit stage knobs and generated CUDA inspection.",
+      "boundaries": [
+        "Validate generated code and target constraints; tutorial auto-tune configuration is illustrative.",
+        "Secondary/advanced source: no local GPU validation."
+      ],
+      "tags": [
+        "secondary",
+        "advanced"
+      ],
+      "license": {
+        "spdx": "MIT",
+        "url": "https://github.com/tile-ai/tilelang/blob/efe9654bf4e1b58d2a08d88363fbf82b3fe43add/LICENSE",
+        "scope": "Top-level MIT text includes historical collaboration notice; inspect exact file and dependencies before reuse."
+      },
+      "entries": [
+        {
+          "id": "tilelang-1",
+          "path": "docs/tutorials/auto_tuning.md",
+          "url": "https://github.com/tile-ai/tilelang/blob/efe9654bf4e1b58d2a08d88363fbf82b3fe43add/docs/tutorials/auto_tuning.md",
+          "purpose": "Reserved tuning parameters, correctness-checked candidate compilation and measurement.",
+          "inspection": "content"
+        },
+        {
+          "id": "tilelang-2",
+          "path": "examples/gemm/example_gemm.py",
+          "url": "https://github.com/tile-ai/tilelang/blob/efe9654bf4e1b58d2a08d88363fbf82b3fe43add/examples/gemm/example_gemm.py",
+          "purpose": "Small pipelined GEMM with reference check, source inspection and CUPTI timing.",
+          "inspection": "content"
+        }
+      ]
+    },
+    {
+      "id": "quack",
+      "title": "Quack",
+      "kind": "repository",
+      "official_url": "https://github.com/Dao-AILab/quack",
+      "repository": "Dao-AILab/quack",
+      "revision": {
+        "type": "git_commit",
+        "value": "35266c3298f0e9bf6d5f46c30aace2eaeae517e3",
+        "commit_date": "2026-09-13T04:42:02Z"
+      },
+      "evidence_status": "source_inspected",
+      "summary": "CuTe reductions with register-pressure-aware reloads and architecture/shape-specific launch choices.",
+      "boundaries": [
+        "Thresholds are local heuristics; cluster/TMA support and per-row resource use must be rechecked.",
+        "Secondary/advanced source: no local GPU validation."
+      ],
+      "tags": [
+        "secondary",
+        "advanced"
+      ],
+      "license": {
+        "spdx": "Apache-2.0",
+        "url": "https://github.com/Dao-AILab/quack/blob/35266c3298f0e9bf6d5f46c30aace2eaeae517e3/LICENSE",
+        "scope": "Top-level license inspected; individual/vendored files can carry additional terms."
+      },
+      "entries": [
+        {
+          "id": "quack-1",
+          "path": "quack/rmsnorm.py",
+          "url": "https://github.com/Dao-AILab/quack/blob/35266c3298f0e9bf6d5f46c30aace2eaeae517e3/quack/rmsnorm.py",
+          "purpose": "Row reduction, stride normalization, vectorization and cluster launch contracts.",
+          "inspection": "content",
+          "symbols": [
+            "RMSNorm"
+          ],
+          "symbol_locations": [
+            {
+              "symbol": "RMSNorm",
+              "line": 66
+            }
+          ]
+        },
+        {
+          "id": "quack-2",
+          "path": "quack/rmsnorm_config.py",
+          "url": "https://github.com/Dao-AILab/quack/blob/35266c3298f0e9bf6d5f46c30aace2eaeae517e3/quack/rmsnorm_config.py",
+          "purpose": "Register versus shared/global reload tradeoffs, thread count and cluster tuning.",
+          "inspection": "content",
+          "symbols": [
+            "RmsNormFwdConfig",
+            "RmsNormBwdConfig",
+            "_for_blackwell_bwd"
+          ],
+          "symbol_locations": [
+            {
+              "symbol": "RmsNormFwdConfig",
+              "line": 17
+            },
+            {
+              "symbol": "RmsNormBwdConfig",
+              "line": 95
+            },
+            {
+              "symbol": "_for_blackwell_bwd",
+              "line": 168
+            }
+          ]
+        },
+        {
+          "id": "quack-3",
+          "path": "tests/test_rmsnorm.py",
+          "url": "https://github.com/Dao-AILab/quack/blob/35266c3298f0e9bf6d5f46c30aace2eaeae517e3/tests/test_rmsnorm.py",
+          "purpose": "Quack forward/backward correctness, residual/weight-offset variants, noncontiguous gradients and compile rank changes; SM12x and very-large-FP32 backward memory gates constrain coverage.",
+          "inspection": "content"
+        },
+        {
+          "id": "quack-4",
+          "path": "benchmarks/benchmark_rmsnorm.py",
+          "url": "https://github.com/Dao-AILab/quack/blob/35266c3298f0e9bf6d5f46c30aace2eaeae517e3/benchmarks/benchmark_rmsnorm.py",
+          "purpose": "Quack RMSNorm forward/backward benchmark; backward uses retain_graph=True and disables Inductor donated-buffer optimization, which changes the comparison configuration.",
+          "inspection": "content"
+        }
+      ]
+    },
+    {
+      "id": "liger-kernel",
+      "title": "Liger-Kernel",
+      "kind": "repository",
+      "official_url": "https://github.com/linkedin/Liger-Kernel",
+      "repository": "linkedin/Liger-Kernel",
+      "revision": {
+        "type": "git_commit",
+        "value": "19d92e7309653c714ddd12e40cf5858f390f4a3c",
+        "commit_date": "2026-09-17T01:25:14Z"
+      },
+      "evidence_status": "source_inspected",
+      "summary": "Training fusion and chunking to bound intermediate logits while preserving backward semantics.",
+      "boundaries": [
+        "Include gradients, AMP casting, loss reduction and all supported options; memory reduction does not guarantee latency improvement.",
+        "Secondary/advanced source: no local GPU validation."
+      ],
+      "tags": [
+        "secondary",
+        "advanced"
+      ],
+      "license": {
+        "spdx": "BSD-2-Clause",
+        "url": "https://github.com/linkedin/Liger-Kernel/blob/19d92e7309653c714ddd12e40cf5858f390f4a3c/LICENSE",
+        "scope": "Top-level license inspected; individual/vendored files can carry additional terms."
+      },
+      "entries": [
+        {
+          "id": "liger-kernel-1",
+          "path": "src/liger_kernel/ops/fused_linear_cross_entropy.py",
+          "url": "https://github.com/linkedin/Liger-Kernel/blob/19d92e7309653c714ddd12e40cf5858f390f4a3c/src/liger_kernel/ops/fused_linear_cross_entropy.py",
+          "purpose": "Chunk-memory budgeting, dtype/AMP gates and gradient accumulation in fused linear cross-entropy.",
+          "inspection": "content",
+          "symbols": [
+            "_can_use_mm_out",
+            "fused_linear_cross_entropy_forward"
+          ],
+          "symbol_locations": [
+            {
+              "symbol": "_can_use_mm_out",
+              "line": 32
+            },
+            {
+              "symbol": "fused_linear_cross_entropy_forward",
+              "line": 51
+            }
+          ]
+        },
+        {
+          "id": "liger-kernel-2",
+          "path": "test/ops/test_fused_linear_cross_entropy.py",
+          "url": "https://github.com/linkedin/Liger-Kernel/blob/19d92e7309653c714ddd12e40cf5858f390f4a3c/test/ops/test_fused_linear_cross_entropy.py",
+          "purpose": "Liger fused linear cross entropy output/gradient and memory-path tests; observes actual aten dispatch, chunk reuse, precision mode and unsupported backend skips.",
+          "inspection": "content"
+        },
+        {
+          "id": "liger-kernel-3",
+          "path": "benchmark/scripts/benchmark_fused_linear_cross_entropy.py",
+          "url": "https://github.com/linkedin/Liger-Kernel/blob/19d92e7309653c714ddd12e40cf5858f390f4a3c/benchmark/scripts/benchmark_fused_linear_cross_entropy.py",
+          "purpose": "Liger benchmark setup sweeps token/model shape and separates forward/backward/full speed from full memory metrics; FP32-accumulation is a distinct provider and backend changes supported modes.",
+          "inspection": "content"
+        }
+      ]
+    },
+    {
+      "id": "aiter",
+      "title": "AMD AITER",
+      "kind": "repository",
+      "official_url": "https://github.com/ROCm/aiter",
+      "repository": "ROCm/aiter",
+      "revision": {
+        "type": "git_commit",
+        "value": "1834cd14b33ff7fd366c8ba6e6486e41df027b70",
+        "commit_date": "2026-09-18T07:38:47Z"
+      },
+      "evidence_status": "source_inspected",
+      "summary": "Portability counterexample: ROCm-specific reduction scheduling and architecture-keyed launch policies.",
+      "boundaries": [
+        "AMD-only advanced reference; NVIDIA warp, cluster and instruction assumptions must not be transplanted.",
+        "Secondary/advanced source: no local GPU validation."
+      ],
+      "tags": [
+        "secondary",
+        "advanced",
+        "amd",
+        "portability"
+      ],
+      "license": {
+        "spdx": "MIT",
+        "url": "https://github.com/ROCm/aiter/blob/1834cd14b33ff7fd366c8ba6e6486e41df027b70/LICENSE",
+        "scope": "Top-level license inspected; individual/vendored files can carry additional terms."
+      },
+      "entries": [
+        {
+          "id": "aiter-1",
+          "path": "aiter/ops/triton/normalization/rmsnorm.py",
+          "url": "https://github.com/ROCm/aiter/blob/1834cd14b33ff7fd366c8ba6e6486e41df027b70/aiter/ops/triton/normalization/rmsnorm.py",
+          "purpose": "Shape/architecture dispatch, persistent grid sizing and row-parallel alternatives.",
+          "inspection": "content",
+          "symbols": [
+            "block_size",
+            "num_programs_fwd",
+            "_should_use_large_m_small_n"
+          ],
+          "symbol_locations": [
+            {
+              "symbol": "block_size",
+              "line": 31
+            },
+            {
+              "symbol": "num_programs_fwd",
+              "line": 55
+            },
+            {
+              "symbol": "_should_use_large_m_small_n",
+              "line": 238
+            }
+          ]
+        },
+        {
+          "id": "aiter-2",
+          "path": "aiter/ops/triton/_triton_kernels/normalization/rmsnorm.py",
+          "url": "https://github.com/ROCm/aiter/blob/1834cd14b33ff7fd366c8ba6e6486e41df027b70/aiter/ops/triton/_triton_kernels/normalization/rmsnorm.py",
+          "purpose": "Blocked versus whole-row reduction, masks, precision and reread tradeoffs.",
+          "inspection": "content",
+          "symbols": [
+            "_rms_norm_kernel",
+            "_quant_rms_norm_kernel"
+          ],
+          "symbol_locations": [
+            {
+              "symbol": "_rms_norm_kernel",
+              "line": 56
+            },
+            {
+              "symbol": "_quant_rms_norm_kernel",
+              "line": 189
+            }
+          ]
+        },
+        {
+          "id": "aiter-3",
+          "path": "op_tests/triton_tests/normalization/test_rmsnorm.py",
+          "url": "https://github.com/ROCm/aiter/blob/1834cd14b33ff7fd366c8ba6e6486e41df027b70/op_tests/triton_tests/normalization/test_rmsnorm.py",
+          "purpose": "AMD RMSNorm/fused residual/quantized variants compare outputs, residuals, gradients and scale values; integer quantized output tolerance differs from unquantized floating-point tolerance.",
+          "inspection": "content"
+        },
+        {
+          "id": "aiter-4",
+          "path": "op_tests/op_benchmarks/triton/bench_rmsnorm.py",
+          "url": "https://github.com/ROCm/aiter/blob/1834cd14b33ff7fd366c8ba6e6486e41df027b70/op_tests/op_benchmarks/triton/bench_rmsnorm.py",
+          "purpose": "AMD reduction workload/model shape sweep and do_bench timing; fused MXFP4 requires even hidden dimension. ROCm performance guidance is architecture-specific.",
+          "inspection": "content"
+        }
+      ]
+    },
+    {
+      "id": "pytorch-inductor",
+      "title": "PyTorch Inductor",
+      "kind": "repository",
+      "official_url": "https://github.com/pytorch/pytorch",
+      "repository": "pytorch/pytorch",
+      "revision": {
+        "type": "git_commit",
+        "value": "8d6ffa599ea13aed3fd31ef130710eb3a4122fb0",
+        "commit_date": "2026-09-18T07:41:59Z"
+      },
+      "evidence_status": "source_inspected",
+      "summary": "Compiler-generated kernel inspection, autotuning and runtime shape/guard diagnostics.",
+      "boundaries": [
+        "Internal compiler APIs are version-sensitive; use the deployed PyTorch version when reproducing a generated kernel.",
+        "Read-only source inspection, not compiler or GPU execution."
+      ],
+      "tags": [
+        "secondary",
+        "compiler",
+        "benchmark"
+      ],
+      "license": {
+        "spdx": "BSD-3-Clause",
+        "url": "https://github.com/pytorch/pytorch/blob/8d6ffa599ea13aed3fd31ef130710eb3a4122fb0/LICENSE",
+        "scope": "Top-level BSD-style license inspected; vendored and inherited components have separate notices."
+      },
+      "entries": [
+        {
+          "id": "pytorch-inductor-1",
+          "path": "docs/source/user_guide/torch_compiler/torch.compiler_inductor_profiling.md",
+          "url": "https://github.com/pytorch/pytorch/blob/8d6ffa599ea13aed3fd31ef130710eb3a4122fb0/docs/source/user_guide/torch_compiler/torch.compiler_inductor_profiling.md",
+          "purpose": "Isolate generated Triton modules, inspect expensive kernels and compare autotuning.",
+          "inspection": "content"
+        },
+        {
+          "id": "pytorch-inductor-2",
+          "path": "docs/source/user_guide/torch_compiler/torch.compiler_troubleshooting.md",
+          "url": "https://github.com/pytorch/pytorch/blob/8d6ffa599ea13aed3fd31ef130710eb3a4122fb0/docs/source/user_guide/torch_compiler/torch.compiler_troubleshooting.md",
+          "purpose": "Distinguish graph breaks, guards, recompilation and dynamic shapes.",
+          "inspection": "content"
+        },
+        {
+          "id": "pytorch-inductor-3",
+          "path": "torch/_inductor/runtime/triton_heuristics.py",
+          "url": "https://github.com/pytorch/pytorch/blob/8d6ffa599ea13aed3fd31ef130710eb3a4122fb0/torch/_inductor/runtime/triton_heuristics.py",
+          "purpose": "Runtime config filtering, register spilling, reduction-block tuning and cached autotune decisions.",
+          "inspection": "content",
+          "symbols": [
+            "check_autotune_cache",
+            "BenchmarkFailureReason"
+          ],
+          "symbol_locations": [
+            {
+              "symbol": "check_autotune_cache",
+              "line": 397
+            },
+            {
+              "symbol": "BenchmarkFailureReason",
+              "line": 108
+            }
+          ]
+        },
+        {
+          "id": "pytorch-inductor-4",
+          "path": "torch/_inductor/select_algorithm.py",
+          "url": "https://github.com/pytorch/pytorch/blob/8d6ffa599ea13aed3fd31ef130710eb3a4122fb0/torch/_inductor/select_algorithm.py",
+          "purpose": "Algorithm candidate selection and benchmark/caching machinery; read only the target operator path.",
+          "inspection": "content"
+        }
+      ]
+    },
+    {
+      "id": "pytorch-rmsnorm-2.10",
+      "title": "PyTorch 2.10 native RMSNorm release baseline",
+      "kind": "repository",
+      "official_url": "https://github.com/pytorch/pytorch",
+      "repository": "pytorch/pytorch",
+      "revision": {
+        "type": "git_commit",
+        "value": "449b1768410104d3ed79d3bcfe4ba1d65c7f22c0",
+        "commit_date": "2026-01-16T00:29:35Z"
+      },
+      "evidence_status": "source_inspected",
+      "summary": "Version-specific installed-library baseline for RMSNorm; kept separate from the newer Inductor research snapshot.",
+      "boundaries": [
+        "Matches v2.10.0 release tag; compare installed torch.version.git_version before claiming exact binary provenance.",
+        "FP32 accumulation/multiplication before final cast does not guarantee bitwise equality across reduction paths.",
+        "Native aligned path and composite fallback have different timing boundaries."
+      ],
+      "tags": [
+        "rmsnorm",
+        "baseline",
+        "torch2.10",
+        "precision",
+        "dispatch"
+      ],
+      "license": {
+        "spdx": "BSD-3-Clause",
+        "url": "https://github.com/pytorch/pytorch/blob/449b1768410104d3ed79d3bcfe4ba1d65c7f22c0/LICENSE",
+        "scope": "Pinned top-level BSD-style license inspected; inherited/vendored components have separate notices."
+      },
+      "entries": [
+        {
+          "id": "pytorch-rmsnorm-2.10-1",
+          "path": "torch/nn/functional.py",
+          "url": "https://github.com/pytorch/pytorch/blob/449b1768410104d3ed79d3bcfe4ba1d65c7f22c0/torch/nn/functional.py",
+          "purpose": "Public F.rms_norm delegates to torch.rms_norm; release-version wrapper for the installed native comparison.",
+          "inspection": "content"
+        },
+        {
+          "id": "pytorch-rmsnorm-2.10-2",
+          "path": "aten/src/ATen/native/layer_norm.cpp",
+          "url": "https://github.com/pytorch/pytorch/blob/449b1768410104d3ed79d3bcfe4ba1d65c7f22c0/aten/src/ATen/native/layer_norm.cpp",
+          "purpose": "RMSNorm composite fallback and native routing; mixed input/weight dtype falls back, FP32 opmath multiply precedes final dtype cast.",
+          "inspection": "content"
+        },
+        {
+          "id": "pytorch-rmsnorm-2.10-3",
+          "path": "aten/src/ATen/native/cuda/layer_norm_kernel.cu",
+          "url": "https://github.com/pytorch/pytorch/blob/449b1768410104d3ed79d3bcfe4ba1d65c7f22c0/aten/src/ATen/native/cuda/layer_norm_kernel.cu",
+          "purpose": "PyTorch2.10 CUDA RMSNorm vectorized and two-kernel paths: accumulator-precision input/weight multiplication, alignment gates, explicit epsilon/default behavior and output allocation.",
+          "inspection": "content"
+        },
+        {
+          "id": "pytorch-rmsnorm-2.10-4",
+          "path": "aten/src/ATen/AccumulateType.h",
+          "url": "https://github.com/pytorch/pytorch/blob/449b1768410104d3ed79d3bcfe4ba1d65c7f22c0/aten/src/ATen/AccumulateType.h",
+          "purpose": "Release-version CUDA accumulator mapping: BF16, Half and float all accumulate in float.",
+          "inspection": "content"
+        }
+      ]
+    }
+  ]
+}
