@@ -10,6 +10,12 @@ If **[one change]**, then **[metric]** improves for **[workload]** because **[me
 
 Baseline revision, candidate revision, diff, upstream evidence:
 
+Measured bottleneck and why this candidate has priority:
+
+KB rule ID / reference read, workload applicability, and decision it changed:
+
+Countercondition and cheapest check that would reject the hypothesis:
+
 Freeze reference and harness identities too. Preserve the first failing case and
 raw error output. A harness correction starts a new comparison; retain the old
 record and explain why its conclusion is invalid or narrower.

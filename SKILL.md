@@ -5,7 +5,9 @@ description: Apply source-backed GPU kernel techniques and failure lessons when 
 
 # GPU kernel knowledge
 
-Use this skill's references to recover implementation details and their limits.
+Actively consult this knowledge base when selecting, implementing, and evaluating
+kernel changes. Use its references to recover implementation details and their
+limits, not only to add citations after choosing a solution.
 Resolve the links below relative to this SKILL.md, not the target project's working directory.
 
 ## Optimization priorities
@@ -60,6 +62,11 @@ profile → targeted search → cheap screening → matched validation loop.
 
 ## Retrieve for the task
 
+For implementation and optimization tasks, targeted retrieval is part of the
+work, not an optional final research step. After identifying the measured
+bottleneck and before implementing a candidate, complete the steps below.
+For reviews or research, start from the specific decision under investigation.
+
 1. Recover the workload contract from the target code: GPU, installed versions,
    shapes/strides, dtypes, numerical gate, caller, and timing objective. The
    [task record](templates/task.md) is available if these facts need recording.
@@ -73,6 +80,25 @@ profile → targeted search → cheap screening → matched validation loop.
 4. For a performance or correctness claim, consult the
    [validation map](sources/validation-map.md) and relevant measurement guidance.
    Keep source facts, hypotheses, and actual measurements separate.
+
+In the working notes or [experiment record](templates/experiment.md), capture
+the rule ID or reference path actually read, why it applies to this workload,
+and the resulting choice or rejected alternative. A few lines suffice: connect
+the evidence to a mechanism, countercondition, and cheapest discriminating
+check. Listing references without using them to make a decision is insufficient.
+
+Revisit the relevant guidance when correctness fails, timing contradicts the
+hypothesis, the workload or execution mode changes, or a gain moves the
+bottleneck. Start with the failure or measurement routes below; do not reread
+unchanged material for every tuning value. Keep useful rejected hypotheses in
+the attempt record so the next iteration does not repeat them blindly.
+
+If no entry fits, record the gap and search the relevant primary source; do not
+force an unrelated rule onto the task. If profiling is unavailable, state the
+unknown and choose a bounded diagnostic before ranking speculative changes.
+In the final report, briefly identify the guidance that affected the decision
+and the measured outcome or unrun check. Retrieval never overrides the
+independent-work and attribution restrictions above.
 
 Seven sources are also pinned as optional `upstream/` submodules; see the
 [submodule map](README.md#upstream-submodules). If a needed checkout is absent,
