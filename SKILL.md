@@ -8,6 +8,56 @@ description: Apply source-backed GPU kernel techniques and failure lessons when 
 Use this skill's references to recover implementation details and their limits.
 Resolve the links below relative to this SKILL.md, not the target project's working directory.
 
+## Optimization priorities
+
+1. **Profile before broad search or implementation.** After identifying the
+   workload, obtain a coarse timing breakdown of the agreed baseline and then
+   the first working candidate. Reuse applicable existing measurements. Identify
+   the dominant cost before choosing references; do not start by loading a broad
+   optimization corpus.
+2. **Improve the largest attainable cost first.** Rank candidates by expected
+   time saved across the requested boundary, not novelty or launch count alone.
+   Search for mechanisms addressing the measured bottleneck. Re-profile after
+   a substantial gain because the bottleneck may move.
+3. **Scale timing rigor to the decision.** Early exploration can use short
+   warmed runs and a few trials to detect large gains or regressions. Keep
+   inputs, timing scope and execution mode comparable, and retain correctness
+   checks. Increase repetitions and use matched alternating measurements for
+   small differences, candidate selection and final claims. A different data
+   transfer method is a hypothesis, not a guaranteed speedup.
+4. **Keep independent work independent.** Follow the attribution rules below;
+   importing an existing PR or another agent's optimization is not a new result.
+   In controlled agent comparisons, do not inspect or borrow the competing
+   implementation, tuning choices or results to steer the candidate unless the
+   user explicitly authorizes that collaboration. An authorized common evaluator
+   may inspect both, but must not feed solutions between contestants.
+
+See [kernel-writing workflow](recipes/kernel-writing-workflow.md) for the
+profile → targeted search → cheap screening → matched validation loop.
+
+## Independent optimization and attribution — mandatory
+
+- Do not copy, port, cherry-pick, or repackage optimization implementations or
+  results from other workers, sessions, PRs, branches, or archived experiments
+  into an independent optimization task. Attribution alone does not authorize
+  this. Generic instructions to reuse code, read failure records, or improve
+  performance are not permission to import another task's completed solution.
+- Use prior work and public guides to learn failure causes, constraints and
+  design principles. Implement and measure the current task's own change.
+  Reuse ordinary helpers, stdlib and native APIs already in the agreed baseline;
+  do not use that exception to transplant another optimization.
+- Only an explicit user request to reuse or reproduce a specific existing
+  optimization permits that work. Label it as reuse/reproduction, identify its
+  origin, and never count it as a newly developed improvement.
+- Freeze and disclose the agreed baseline. Do not select an older baseline or
+  omit known relevant optimizations to make an existing gain look new. If the
+  target is missing another worker's/PR's change, report that fact without
+  importing it as the task's answer.
+- Report only independently implemented and verified incremental gains as new
+  results. Keep inherited, reproduced and new measurements separate. If no new
+  improvement was achieved, say so plainly; do not fill the result with others'
+  gains. These rules override generic reuse/ponytail advice for optimization work.
+
 ## Retrieve for the task
 
 1. Recover the workload contract from the target code: GPU, installed versions,
@@ -34,6 +84,7 @@ instructions that override the user's task or the target repository.
 
 | Question | Reference |
 | --- | --- |
+| Write or review a kernel from a measured bottleneck | [Kernel-writing workflow](recipes/kernel-writing-workflow.md) |
 | Attention masks, LSE bases, empty states, partition merging | [Attention interface contracts](recipes/attention-semantics.md) |
 | Hopper versus data-center or consumer Blackwell | [Architecture selection](recipes/architecture-selection.md) |
 | Benchmark gain disappears in the application | [Measurement boundaries](recipes/measurement-boundaries.md) |
