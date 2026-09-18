@@ -5,6 +5,10 @@ sanitizer, codegen, compile cache, hypothesis, negative result.
 Evidence: public upstream author postmortems.
 An upstream narrative is not a locally reproduced failure.
 
+For complementary decision guidance without private incident details, read
+[lessons distilled from failed attempts](lessons-from-failed-attempts.md).
+That synthesis is a different evidence category from the public cases below.
+
 ## Case: valid addresses can still be the wrong addresses
 
 The pinned [FlashAttention varlen preprocess postmortem](https://github.com/Dao-AILab/flash-attention/blob/1bda8f9290cd48d030f1516f0e680cd464ef3554/AI/VARLEN_PREPROCESS_TILE_BUG.md)

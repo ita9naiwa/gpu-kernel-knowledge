@@ -36,3 +36,6 @@ These are snapshot-specific facts, not defaults to impose on another implementat
 Rule IDs are stable retrieval handles. Numeric tuning thresholds and backend support described in a source trace belong to that pinned snapshot; reverify them before changing another checkout. The linked upstream files and test routes are the starting point for implementation, not permission to transplant a whole kernel without its caller contract.
 
 For public negative results and debugging postmortems, read [failure evidence](../recipes/failure-driven-debugging.md).
+For generalized guidance distilled from nonpublic attempts, read
+[failure lessons](../recipes/lessons-from-failed-attempts.md); original records
+and benchmark data are not part of that public synthesis.

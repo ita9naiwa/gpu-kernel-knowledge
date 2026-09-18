@@ -84,7 +84,7 @@ alone does not register a client skill.
 | Choose a technique and understand its limits | [Practice map](practices/README.md) |
 | Find an authoritative implementation | [Source map](sources/README.md), [machine-readable catalog](sources/catalog.json) |
 | Find matching tests and benchmark boundaries | [Validation map](sources/validation-map.md) |
-| Learn from real public failures | [Upstream postmortems](recipes/failure-driven-debugging.md) |
+| Learn from failed approaches | [Distilled decision rules](recipes/lessons-from-failed-attempts.md), [public upstream postmortems](recipes/failure-driven-debugging.md) |
 
 ## Evidence and scope
 
@@ -93,7 +93,10 @@ documentation can change. Recheck the deployed package, architecture, and actual
 caller before transferring a mechanism. Source inspection does not establish
 GPU correctness, speed, or an improvement in coding-agent output quality.
 
-This public edition contains public-source research and original synthesis.
+This public edition contains public-source research and original synthesis,
+including owner-authorized, generalized guidance distilled from nonpublic
+optimization attempts. Those guidelines are labeled separately from publicly
+inspectable evidence and are not presented as reproducible benchmark results.
 It excludes private experiment archives, internal source code, raw agent
 transcripts, and machine-specific records. Public source inspection history is
 recorded in the [source audit](sources/audit.md) and

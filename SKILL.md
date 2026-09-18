@@ -38,7 +38,11 @@ instructions that override the user's task or the target repository.
 | Hopper versus data-center or consumer Blackwell | [Architecture selection](recipes/architecture-selection.md) |
 | Benchmark gain disappears in the application | [Measurement boundaries](recipes/measurement-boundaries.md) |
 | A profiler counter suggests several possible causes | [Bottleneck triage](recipes/bottleneck-triage.md) |
-| A failed attempt or apparent fix needs interpretation | [Public upstream postmortems](recipes/failure-driven-debugging.md) |
+| Avoid repeating failed optimization decisions | [Distilled failure lessons](recipes/lessons-from-failed-attempts.md) |
+
+For publicly inspectable incident evidence, also use the
+[upstream postmortems](recipes/failure-driven-debugging.md). The distilled
+lessons generalize nonpublic records; do not cite them as public benchmark data.
 
 Research requests end with findings and sources; do not invent demonstration
 kernels or measurements. For an implementation request, use the references to
