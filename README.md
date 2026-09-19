@@ -3,7 +3,7 @@
 A reference skill for **Codex and Claude Code**: 55 kernel engineering rules
 across 13 topics, grounded in 26 primary sources and 156 file/document references.
 Sources include FlashAttention, FlashInfer, vLLM, SGLang, CUTLASS, Triton,
-DeepGEMM, and NVIDIA documentation.
+PyTorch, DeepGEMM, and NVIDIA documentation.
 
 The useful unit is a technique **with its applicability, counterconditions,
 exact source, and validation boundary**. Public upstream postmortems preserve
@@ -19,6 +19,7 @@ The repository root is a complete skill folder. Choose the client you use.
 ```sh
 mkdir -p "$HOME/.agents/skills"
 git clone https://github.com/ita9naiwa/gpu-kernel-knowledge.git "$HOME/.agents/skills/gpu-kernel-knowledge"
+git -C "$HOME/.agents/skills/gpu-kernel-knowledge" submodule update --init --depth 1 --jobs 4
 ```
 
 Then invoke `$gpu-kernel-knowledge` with your kernel task.
@@ -28,6 +29,7 @@ Then invoke `$gpu-kernel-knowledge` with your kernel task.
 ```sh
 mkdir -p "$HOME/.claude/skills"
 git clone https://github.com/ita9naiwa/gpu-kernel-knowledge.git "$HOME/.claude/skills/gpu-kernel-knowledge"
+git -C "$HOME/.claude/skills/gpu-kernel-knowledge" submodule update --init --depth 1 --jobs 4
 ```
 
 Then invoke `/gpu-kernel-knowledge` with your kernel task.
@@ -35,17 +37,28 @@ Then invoke `/gpu-kernel-knowledge` with your kernel task.
 These use the documented [Codex skill locations](https://learn.chatgpt.com/docs/build-skills)
 and [Claude Code personal skills](https://code.claude.com/docs/en/skills).
 They install locally, not into hosted/cloud sessions. If an existing installation
-occupies the destination, update that checkout with `git pull --ff-only` instead
-of cloning over it. Restart the client if it has not discovered the skill.
+occupies the destination, run these commands in that checkout instead of cloning
+over it:
+
+```sh
+git pull --ff-only
+git submodule sync
+git submodule update --init --depth 1 --jobs 4
+```
+
+The default installation includes all eight direct upstream repositories for
+local source search. Archive/ZIP skill installers do not populate Git submodules;
+use the Git installation above for the full knowledge base. Restart the client
+if it has not discovered the skill.
 
 ## Upstream submodules
 
-Seven repositories are linked at the same commits cited by the source catalog.
-A normal clone downloads the reference skill only. From this repository's root,
-fetch one source when you need it:
+Eight repositories are linked at commits cited by the source catalog. Initialize
+all of them during setup so agents can search implementations locally without
+per-task downloads. From this repository's root:
 
 ```sh
-git submodule update --init --depth 1 -- upstream/quack
+git submodule update --init --depth 1 --jobs 4
 ```
 
 | Submodule path | Repository | Read for |
@@ -57,8 +70,15 @@ git submodule update --init --depth 1 -- upstream/quack
 | `upstream/vllm` | [vLLM](https://github.com/vllm-project/vllm) | Serving callers, backend eligibility, graphs and MoE |
 | `upstream/sglang` | [SGLang](https://github.com/sgl-project/sglang) | Serving integration and conditional diffusion fusions |
 | `upstream/quack` | [Quack](https://github.com/Dao-AILab/quack) | CuTe DSL reductions, normalization, GEMM and matching tests |
+| `upstream/pytorch` | [PyTorch](https://github.com/pytorch/pytorch) | ATen CPU/CUDA operators, autograd, Inductor, checkpointing and CUDA Graph Trees |
 
-To fetch all seven, run `git submodule update --init --depth 1`.
+PyTorch uses the `pytorch-inductor` research pin. The separate
+`pytorch-rmsnorm-2.10` catalog entry retains its release pin; it is not the
+checked-out revision. Match installed `torch.version.git_version` before using
+this checkout to explain deployment behavior.
+
+An explicitly source-restricted or offline task can use a partial checkout;
+record missing sources rather than claiming they were read.
 Their own nested submodules are not needed for source reading. Building/running
 an upstream project may require its additional dependencies and instructions.
 This uses ordinary [Git submodules](https://git-scm.com/docs/git-submodule):
@@ -70,6 +90,7 @@ You can also attach this knowledge base to another project:
 
 ```sh
 git submodule add https://github.com/ita9naiwa/gpu-kernel-knowledge.git docs/gpu-kernel-knowledge
+git -C docs/gpu-kernel-knowledge submodule update --init --depth 1 --jobs 4
 ```
 
 Point your coding agent at that checkout's `SKILL.md`, or use the personal skill

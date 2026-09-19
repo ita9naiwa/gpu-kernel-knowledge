@@ -1,27 +1,39 @@
 [submodule "flashinfer"]
 	path = upstream/flashinfer
+	shallow = true
 	url = https://github.com/flashinfer-ai/flashinfer.git
 
 [submodule "flashattention"]
 	path = upstream/flashattention
+	shallow = true
 	url = https://github.com/Dao-AILab/flash-attention.git
 
 [submodule "vllm"]
 	path = upstream/vllm
+	shallow = true
 	url = https://github.com/vllm-project/vllm.git
 
 [submodule "sglang"]
 	path = upstream/sglang
+	shallow = true
 	url = https://github.com/sgl-project/sglang.git
 
 [submodule "cutlass"]
 	path = upstream/cutlass
+	shallow = true
 	url = https://github.com/NVIDIA/cutlass.git
 
 [submodule "triton"]
 	path = upstream/triton
+	shallow = true
 	url = https://github.com/triton-lang/triton.git
 
 [submodule "quack"]
 	path = upstream/quack
+	shallow = true
 	url = https://github.com/Dao-AILab/quack.git
+
+[submodule "pytorch"]
+	path = upstream/pytorch
+	shallow = true
+	url = https://github.com/pytorch/pytorch.git

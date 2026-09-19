@@ -8,6 +8,7 @@ Start from the workload, select one implementation family, then read its wrapper
 | Dense fused attention, training or backward | `flashattention` | FA2, Hopper FA3 and current CuTeDSL FA4 show different hardware tradeoffs; tests expose semantics. |
 | Serving integration and backend eligibility | `vllm`, `sglang` | Actual callers establish supported shape/dtype/layout combinations and graph lifetimes. |
 | GEMM, tensor-core pipelines or layouts | `cutlass`, `triton` | Progressive examples connect thread/data mapping to asynchronous pipeline implementation. |
+| Native operator semantics, autograd, compiler or graph behavior | `pytorch-inductor`, `pytorch-rmsnorm-2.10` | Inspect ATen and runtime code at the deployed revision; the local PyTorch checkout uses the Inductor research pin. |
 | A performance or correctness diagnosis | `nsight-systems`, `nsight-compute`, `compute-sanitizer` | Separate application gaps, kernel bottlenecks and correctness defects. |
 
 ## Navigate for a decision
@@ -69,6 +70,14 @@ For normative synchronization and instruction questions, prefer `cuda-programmin
 ## Read paths
 
 For the installed PyTorch 2.10 comparison case, use the [version-specific native RMSNorm note](pytorch-2.10-rmsnorm.md). It verifies FP32 multiplication before the final cast and identifies dispatch/fallback timing traps.
+
+**PyTorch:** start in `upstream/pytorch`: public `torch/nn/functional.py` or
+`torch/nn/modules/` → `aten/src/ATen/native/` and `native/cuda/` or `native/cpu/`
+→ matching `test/` cases. For compiler/runtime behavior, inspect `torch/_inductor/`,
+`torch/_dynamo/`, `torch/utils/checkpoint.py` and `torch/_inductor/cudagraph_trees.py`.
+These are navigation pointers, not newly audited operator claims. The checkout
+matches `pytorch-inductor`, not the separate 2.10 RMSNorm release entry; inspect
+installed sources or the exact deployment commit for version-specific decisions.
 
 **FlashInfer:** `docs/tutorials/kv_layout.rst` → `flashinfer/decode.py` or `prefill.py` → `include/flashinfer/attention/scheduler.cuh` → corresponding kernel. Read `recursive_attention.rst` for state merging. The caller owns allocation/page tables; a page layout is a semantic contract, not just a tuning detail.
 
