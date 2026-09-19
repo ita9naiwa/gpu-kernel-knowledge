@@ -20,8 +20,8 @@ agent policy. Apply the [independent-work rules](../SKILL.md#independent-optimiz
    Harness corrections start a new comparison.
 3. **Choose and screen a mechanism.** Rank attainable whole-boundary savings,
    set a minimum useful gain and cost cap, then use the [source navigation route](../sources/README.md#navigate-for-a-decision).
-   Where scope permits, inspect the installed library path before replacing a
-   dominant GEMM/attention operation; count wrapper, packing and backward costs.
+   Use the [public implementation reuse route](../sources/README.md#reuse-before-rewriting)
+   before writing a new kernel; count wrapper, packing and backward costs.
    Preserve semantics and fallbacks in a bounded change with a cheap rejection check. Revisit the mechanism
    when evidence contradicts it rather than extending the same sweep blindly.
 4. **Validate and retain.** Apply the timing protocol below and test the real
@@ -146,6 +146,10 @@ timestamp with timezone when available; otherwise use the event order without
 inventing a time. Identify the document path and section/rule ID, plus source
 revision or pinned URL for upstream material. Distinguish a search hit or failed
 retrieval from a section actually read; a linked source is not automatically read.
+
+For implementation reuse, identify the upstream symbol/revision, copied or called
+code, local adaptation and validation result. Record measured development time or
+token usage when available; do not infer savings without a comparison.
 
 Record whether the material was applied, ruled out, confirmed the existing plan,
 or left unresolved, with a short reason tied to workload conditions and the next

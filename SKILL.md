@@ -29,29 +29,22 @@ specific question; they do not require new GPU runs or demonstration kernels.
 
 ## Independent optimization and attribution — mandatory
 
-- Do not copy, port, cherry-pick, or repackage optimization implementations or
-  results from other workers, sessions, PRs, branches, or archived experiments
-  into an independent optimization task. Attribution alone does not authorize
-  this. Generic instructions to reuse code, read failure records, or improve
-  performance are not permission to import another task's completed solution.
-- Use prior work and public guides to learn failure causes, constraints and
-  design principles. Implement and measure the current task's own change.
-  Reuse ordinary helpers, stdlib and native APIs already in the agreed baseline;
-  do not use that exception to transplant another optimization.
-- Only an explicit user request to reuse or reproduce a specific existing
-  optimization permits that work. Label it as reuse/reproduction, identify its
-  origin, and never count it as a newly developed improvement.
-- Freeze and disclose the agreed baseline. Do not select an older baseline or
-  omit known relevant optimizations to make an existing gain look new. If the
-  target is missing another worker's/PR's change, report that fact without
-  importing it as the task's answer.
-- Report only independently implemented and verified incremental gains as new
-  results. Keep inherited, reproduced and new measurements separate. If no new
-  improvement was achieved, say so plainly; do not fill the result with others'
-  gains. These rules override generic reuse/ponytail advice for optimization work.
-- In independent with/without comparisons, do not use competitors’ implementations,
-  tuning choices or results to steer a candidate. A common evaluator may inspect
-  both but must not relay solutions; collaboration requires explicit authorization.
+- **Prefer suitable public implementations over rewriting.** First try an installed
+  API, then a public upstream implementation with minimal adaptation; write a new
+  kernel when no suitable option exists or integration costs outweigh reuse.
+  This includes CUTLASS, Triton, vLLM and similar sources, subject to task scope,
+  license terms and the numerical contract. Public reuse needs no separate
+  permission unless the task explicitly restricts it.
+- **Keep independent contestants separate.** Do not import another task/agent's
+  completed solution or use competitors' code, tuning or results to steer an
+  independent comparison. Attribution or public availability of a competing
+  branch/PR does not remove that restriction. A common evaluator must not relay
+  solutions; explicit collaboration/reproduction authorization can change scope.
+- **Preserve provenance and fair baselines.** Record upstream revision, license,
+  copied/adapted parts and local changes. Freeze the actual baseline; do not omit
+  existing optimizations to inflate gains. Keep inherited, reproduced and newly
+  measured results separate. Verified improvements from integrating public code
+  count as task outcomes, not as invention of that algorithm.
 
 ## Retrieve for the task
 

@@ -37,6 +37,25 @@ permission to share solutions between independent comparison conditions.
 Keep task-specific evidence in task notes; this public repository excludes private
 code/logs and identifying paths under its [maintenance rules](../AGENTS.md).
 
+## Reuse before rewriting
+
+Treat this map as a route to reusable implementations, not only design principles.
+Within the [task's independence rules](../SKILL.md#independent-optimization-and-attribution--mandatory),
+prefer an installed API, then a compatible public implementation with minimal
+adaptation. Compare search, integration, dependencies, validation and maintenance
+cost against writing from scratch; reuse is not automatically cheaper or faster.
+
+For approximate softmax, for example, inspect the approximation/error budget,
+stability over the intended input range, masks, shape/layout/dtype, GPU/compiler
+support and backward contract. A shared operator name is not compatibility, and
+reusing approximate arithmetic does not authorize relaxing the numerical gate.
+Preserve applicable upstream tests and add the target contract's missing cases.
+
+Record revision/symbol, license/required notices, adaptation and validation in the
+existing experiment record. Explain why reuse was rejected if a new implementation
+is needed. Adopted public code can produce a valid speedup without being a newly
+invented algorithm; validate its full integration cost at the requested boundary.
+
 ## Evidence policy
 
 The [source audit](audit.md) records ownership, pinned-tree/path checks, license scope and reproducible refresh steps.

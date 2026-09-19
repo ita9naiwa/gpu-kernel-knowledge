@@ -10,6 +10,10 @@ If **[one change]**, then **[metric]** improves for **[workload]** because **[me
 
 Frozen [task contract](task.md), baseline/candidate revisions and diff:
 
+Implementation origin: installed API / public upstream adaptation / original /
+explicitly authorized task reproduction. Source revision/symbol, license/notices,
+adapted parts and local changes; reason for rewriting if applicable:
+
 Record only deviations from the task's environment, runtime settings, accuracy
 and stopping rules; do not duplicate an unchanged contract.
 
