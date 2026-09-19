@@ -37,25 +37,20 @@ Then invoke `/gpu-kernel-knowledge` with your kernel task.
 These use the documented [Codex skill locations](https://learn.chatgpt.com/docs/build-skills)
 and [Claude Code personal skills](https://code.claude.com/docs/en/skills).
 They install locally, not into hosted/cloud sessions. If an existing installation
-occupies the destination, run these commands in that checkout instead of cloning
-over it:
+occupies the destination, update that checkout with `git pull --ff-only` instead
+of cloning over it, then run the submodule update command below. Preserve local
+changes before updating. Restart the client if it has not discovered the skill.
 
-```sh
-git pull --ff-only
-git submodule sync
-git submodule update --init --depth 1 --jobs 4
-```
-
-The default installation includes all eight direct upstream repositories for
-local source search. Archive/ZIP skill installers do not populate Git submodules;
-use the Git installation above for the full knowledge base. Restart the client
-if it has not discovered the skill.
+Archive/ZIP skill installers do not populate Git submodules. Use the Git
+installation above for the full knowledge base; preserve any local changes when
+replacing an archive installation.
 
 ## Upstream submodules
 
-Eight repositories are linked at commits cited by the source catalog. Initialize
-all of them during setup so agents can search implementations locally without
-per-task downloads. From this repository's root:
+Eight repositories are linked at commits cited by the source catalog. The default
+installation/update prepares all eight so agents can search local implementations
+without waiting for a checkout. A plain Git clone alone does not fetch them.
+From this repository root, run:
 
 ```sh
 git submodule update --init --depth 1 --jobs 4
@@ -70,15 +65,11 @@ git submodule update --init --depth 1 --jobs 4
 | `upstream/vllm` | [vLLM](https://github.com/vllm-project/vllm) | Serving callers, backend eligibility, graphs and MoE |
 | `upstream/sglang` | [SGLang](https://github.com/sgl-project/sglang) | Serving integration and conditional diffusion fusions |
 | `upstream/quack` | [Quack](https://github.com/Dao-AILab/quack) | CuTe DSL reductions, normalization, GEMM and matching tests |
-| `upstream/pytorch` | [PyTorch](https://github.com/pytorch/pytorch) | ATen CPU/CUDA operators, autograd, Inductor, checkpointing and CUDA Graph Trees |
+| `upstream/pytorch` | [PyTorch](https://github.com/pytorch/pytorch) | ATen/CUDA operators, autograd, Inductor, dispatch and matching tests |
 
-PyTorch uses the `pytorch-inductor` research pin. The separate
-`pytorch-rmsnorm-2.10` catalog entry retains its release pin; it is not the
-checked-out revision. Match installed `torch.version.git_version` before using
-this checkout to explain deployment behavior.
-
-An explicitly source-restricted or offline task can use a partial checkout;
-record missing sources rather than claiming they were read.
+PyTorch is pinned to catalog `pytorch-inductor` (`8d6ffa599ea1`). The separate
+2.10 RMSNorm references retain their own historical pin; do not treat this checkout
+as every installed PyTorch version. Prepared sources still require targeted reads.
 Their own nested submodules are not needed for source reading. Building/running
 an upstream project may require its additional dependencies and instructions.
 This uses ordinary [Git submodules](https://git-scm.com/docs/git-submodule):
