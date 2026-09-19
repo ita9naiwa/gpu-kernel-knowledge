@@ -27,3 +27,26 @@ Smallest proposed change and preserved semantics:
 Correctness cases and performance cases to execute:
 
 Acceptance criteria and fallback if they fail:
+
+## Initial testbed and coordination (when needed)
+
+- Resolved facts, material questions still pending, and explicit assumptions:
+- Frozen source/config/fixture/evaluator identities; baseline smoke and coarse profile evidence:
+- Authorized time/GPU budget; minimum useful gain and stopping rule:
+- Coordination/integration owner; shared-source update and final evaluation ownership:
+
+| Hypothesis/mechanism | Owner and private files | Expected whole-boundary impact | Budget/GPU slot | Deliverable and stop condition | State/result |
+| --- | --- | --- | --- | --- | --- |
+| | | | | | |
+
+Record both validated gains and useful scoped rejections. Reserve experiments
+before launch; distinguish intentional replication from duplicated search.
+
+## Numerical contract (freeze before search)
+
+- Mode: ordinary numerical variation (default) / explicitly allowed lossy / bitwise same:
+- Reference, baseline repeat variability, dtype and precision/accumulation constraints:
+- Output/gradient/consumer scope; metrics, thresholds, aggregation and zero-value policies:
+- Material question or explicit assumption; evidence supporting the gate:
+
+Use the [numerical contract guide](../recipes/kernel-writing-workflow.md#set-the-numerical-contract-before-search).

@@ -10,6 +10,11 @@ If **[one change]**, then **[metric]** improves for **[workload]** because **[me
 
 Baseline revision, candidate revision, diff, upstream evidence:
 
+Minimum useful whole-boundary gain, complexity budget and stopping rule:
+
+Observed runtime precision, fusion, backend, compile, checkpoint and Graph settings;
+differences from a precision-matched control:
+
 Measured bottleneck and why this candidate has priority:
 
 KB rule ID / reference read, workload applicability, and decision it changed:
@@ -48,7 +53,7 @@ Define relative L2 as `norm(candidate - reference) / norm(reference)` and record
 | --- | ---: | ---: | ---: | --- |
 | | | | | |
 
-Use consistent units. State the summary statistic and variability statistic. Keep kernel results separate from application results. Include unfavorable representative cases; weight aggregates using the actual workload distribution, if known.
+Report live/peak allocated, reserved and device-used memory with their scopes; do not sum overlapping counters. Use consistent units. State the summary statistic and variability statistic. Keep kernel results separate from application results. Include unfavorable representative cases; weight aggregates using the actual workload distribution, if known.
 
 ## Decision
 
@@ -61,3 +66,5 @@ Accept / reject / keep behind dispatch, with supported workload boundary:
 Reusable failure lesson and conditions under which it should be reconsidered:
 
 Next single experiment, only if needed:
+
+Optional evaluator feedback: verified contribution (gain / material question / scoped rejection), evidence, decision affected, and next-budget rationale. No points for counts alone.

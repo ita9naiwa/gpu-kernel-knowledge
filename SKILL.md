@@ -10,15 +10,33 @@ kernel changes. Use its references to recover implementation details and their
 limits, not only to add citations after choosing a solution.
 Resolve the links below relative to this SKILL.md, not the target project's working directory.
 
+## Start an underspecified optimization request
+
+For requests such as "optimize the prior", inspect existing code, configs and
+measurements first. Ask only unresolved questions that change the target,
+correctness contract, allowed transformations or resource budget; reuse prior
+authorization and state reversible assumptions. Continue independent discovery
+while awaiting answers. Use a small existing harness or minimal adapter to run
+a baseline smoke, output/gradient checks and a coarse profile within the allowed
+budget. Record the initial testbed before broad parallel optimization; do not
+turn clarification into an approval ceremony or a large benchmark project.
+See [startup and coordinated search](recipes/kernel-writing-workflow.md#startup-and-coordinated-search).
+Freeze the [numerical contract](recipes/kernel-writing-workflow.md#set-the-numerical-contract-before-search)
+early: ordinary numerical variation by default, explicitly bounded lossy, or bitwise same.
+
 ## Optimization priorities
 
-1. **Profile before broad search or implementation.** After identifying the
-   workload, obtain a coarse timing breakdown of the agreed baseline and then
+1. **Freeze the actual baseline, then profile before broad search.** Trace the
+   deployed caller and effective precision, fusion, backend, compile, checkpoint
+   and Graph settings; a similarly named module or YAML alone is not proof.
+   Obtain a coarse timing breakdown of that agreed baseline and then
    the first working candidate. Reuse applicable existing measurements. Identify
    the dominant cost before choosing references; do not start by loading a broad
    optimization corpus.
 2. **Improve the largest attainable cost first.** Rank candidates by expected
    time saved across the requested boundary, not novelty or launch count alone.
+   Set a workload-specific minimum useful gain before fine tuning; a component
+   win must justify its whole-boundary cost and maintenance complexity.
    Search for mechanisms addressing the measured bottleneck. Re-profile after
    a substantial gain because the bottleneck may move.
 3. **Scale timing rigor to the decision.** Early exploration can use short
@@ -33,6 +51,11 @@ Resolve the links below relative to this SKILL.md, not the target project's work
    implementation, tuning choices or results to steer the candidate unless the
    user explicitly authorizes that collaboration. An authorized common evaluator
    may inspect both, but must not feed solutions between contestants.
+
+5. **Promote at the requested boundary.** Validate the actual consumer, including
+   its backward/guidance path when relevant. A layer win is provisional until
+   application testing establishes the claimed benefit. Separate latency, live
+   allocation, peak allocation and reserved memory; do not infer one from another.
 
 See [kernel-writing workflow](recipes/kernel-writing-workflow.md) for the
 profile → targeted search → cheap screening → matched validation loop.
