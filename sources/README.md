@@ -10,6 +10,33 @@ Start from the workload, select one implementation family, then read its wrapper
 | GEMM, tensor-core pipelines or layouts | `cutlass`, `triton` | Progressive examples connect thread/data mapping to asynchronous pipeline implementation. |
 | A performance or correctness diagnosis | `nsight-systems`, `nsight-compute`, `compute-sanitizer` | Separate application gaps, kernel bottlenecks and correctness defects. |
 
+## Navigate for a decision
+
+Frame the question that will change the next implementation or test. Use the
+catalog and read paths below before searching an entire checkout:
+
+1. Resolve the deployed version; use `rg --files <relevant-directory>` to locate
+   likely files, then `rg -n '<symbol>' <narrow-path>` for definitions and callers.
+   No match is not proof of absence: check exports, aliases, generated code and
+   runtime registration/dispatch before widening the search.
+2. Follow the actual selected path and its eligibility/fallback conditions,
+   pairing implementation with tests and benchmark scope. The source traces in
+   the [practice map](../practices/README.md) show worked examples; the path need
+   not be a single static call chain.
+3. If docs and code disagree, apply the version checks below; inspect targeted
+   `git log -S`/`git blame` history when needed. Shallow submodules may lack that
+   history: retrieve only the relevant history without moving the pinned checkout.
+4. Stop browsing when the decision, applicable conditions and cheapest validation
+   check are supported. Move to that check; source inspection is not runtime
+   validation. Record unresolved gaps rather than reading the corpus indefinitely.
+
+For cooperative source research, workers can split dispatch constraints from
+implementation/tests and join findings at the selected symbol and revision.
+This is an optional research split, not a requirement to use multiple agents or
+permission to share solutions between independent comparison conditions.
+Keep task-specific evidence in task notes; this public repository excludes private
+code/logs and identifying paths under its [maintenance rules](../AGENTS.md).
+
 ## Evidence policy
 
 The [source audit](audit.md) records ownership, pinned-tree/path checks, license scope and reproducible refresh steps.

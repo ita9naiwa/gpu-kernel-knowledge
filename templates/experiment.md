@@ -8,12 +8,10 @@ Outcome: accepted in scope / wrong answer / correct but slower / no distinguisha
 
 If **[one change]**, then **[metric]** improves for **[workload]** because **[mechanism]**. It may regress **[countercase]**.
 
-Baseline revision, candidate revision, diff, upstream evidence:
+Frozen [task contract](task.md), baseline/candidate revisions and diff:
 
-Minimum useful whole-boundary gain, complexity budget and stopping rule:
-
-Observed runtime precision, fusion, backend, compile, checkpoint and Graph settings;
-differences from a precision-matched control:
+Record only deviations from the task's environment, runtime settings, accuracy
+and stopping rules; do not duplicate an unchanged contract.
 
 Measured bottleneck and why this candidate has priority:
 
@@ -45,7 +43,7 @@ Define timing boundary, warm-up, repetitions, synchronization, stream, allocatio
 | --- | ---: | ---: | --- | --- | --- |
 | | | | | | |
 
-Define relative L2 as `norm(candidate - reference) / norm(reference)` and record the zero-reference policy. Include relevant empty/ragged inputs, tails, large values, masks, strides, and accumulation behavior. Record sanitizer findings and unrun checks explicitly.
+Use the task’s [numerical contract](../recipes/kernel-writing-workflow.md#set-the-numerical-contract-before-search). Include relevant empty/ragged inputs, tails, large values, masks, strides, and accumulation behavior. Record sanitizer findings and unrun checks explicitly.
 
 ## Performance results
 
@@ -67,4 +65,4 @@ Reusable failure lesson and conditions under which it should be reconsidered:
 
 Next single experiment, only if needed:
 
-Optional evaluator feedback: verified contribution (gain / material question / scoped rejection), evidence, decision affected, and next-budget rationale. No points for counts alone.
+Optional [evaluator feedback](../recipes/kernel-writing-workflow.md#evidence-based-feedback-experimental): evidence, decision affected and next-budget rationale.
