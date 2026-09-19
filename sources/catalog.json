@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "checked_at": "2026-09-18",
-  "scope": "Primary sources for AI-assisted GPU kernel writing, NVIDIA-first with clearly marked AMD portability references. Pins are research snapshots, not release recommendations.",
+  "scope": "Primary sources for GPU kernels and single-model training/inference compute, memory and multi-GPU/node communication. Excludes service routing and instance management. Pins are research snapshots, not release recommendations; per-source checked_at dates apply to additions.",
   "sources": [
     {
       "id": "flashinfer",
@@ -2389,6 +2389,643 @@
           "inspection": "content"
         }
       ]
+    },
+    {
+      "id": "fastvideo",
+      "title": "FastVideo",
+      "repository": "hao-ai-lab/FastVideo",
+      "revision": {
+        "type": "git_commit",
+        "value": "430e52154e76b902c3cc17a16b3edc1fad790012",
+        "commit_date": "2026-09-18T12:00:05Z"
+      },
+      "official_url": "https://github.com/hao-ai-lab/FastVideo",
+      "kind": "repository",
+      "summary": "Video diffusion model execution, modular forward/backward training, sequence-parallel groups, FSDP loading and compilation.",
+      "boundaries": [
+        "Single model execution only; excludes serving request routing, fleet/instance management and service deployment.",
+        "Source/tree inspection only; no local execution, benchmarks, speedup or multi-node validation claimed."
+      ],
+      "tags": [
+        "video-diffusion",
+        "forward",
+        "backward",
+        "fsdp",
+        "sequence-parallel",
+        "compile"
+      ],
+      "license": {
+        "spdx": "Apache-2.0",
+        "url": "https://github.com/hao-ai-lab/FastVideo/blob/430e52154e76b902c3cc17a16b3edc1fad790012/LICENSE",
+        "scope": "Repository default; retain file-level attribution and third-party notices. Model weights are not covered by this source-code record."
+      },
+      "entries": [
+        {
+          "id": "fastvideo-trainer",
+          "path": "fastvideo/train/trainer.py",
+          "url": "https://github.com/hao-ai-lab/FastVideo/blob/430e52154e76b902c3cc17a16b3edc1fad790012/fastvideo/train/trainer.py",
+          "purpose": "Training loop: gradient accumulation, method backward calls and optimizer-step callbacks.",
+          "inspection": "content"
+        },
+        {
+          "id": "fastvideo-transformer",
+          "path": "fastvideo/models/wan/transformer.py",
+          "url": "https://github.com/hao-ai-lab/FastVideo/blob/430e52154e76b902c3cc17a16b3edc1fad790012/fastvideo/models/wan/transformer.py",
+          "purpose": "Canonical Wan transformer forward, distributed attention and sequence sharding; the old models/dits/wanvideo.py path is a compatibility wrapper.",
+          "inspection": "content"
+        },
+        {
+          "id": "fastvideo-parallel-state",
+          "path": "fastvideo/distributed/parallel_state.py",
+          "url": "https://github.com/hao-ai-lab/FastVideo/blob/430e52154e76b902c3cc17a16b3edc1fad790012/fastvideo/distributed/parallel_state.py",
+          "purpose": "Process-group topology and model/sequence-parallel collective helpers.",
+          "inspection": "content"
+        },
+        {
+          "id": "fastvideo-fsdp-load",
+          "path": "fastvideo/models/loader/fsdp_load.py",
+          "url": "https://github.com/hao-ai-lab/FastVideo/blob/430e52154e76b902c3cc17a16b3edc1fad790012/fastvideo/models/loader/fsdp_load.py",
+          "purpose": "Model load, FSDP sharding, quantization preparation and regional/full torch.compile entry points.",
+          "inspection": "content"
+        },
+        {
+          "id": "fastvideo-activation-checkpoint",
+          "path": "fastvideo/train/utils/activation_checkpoint.py",
+          "url": "https://github.com/hao-ai-lab/FastVideo/blob/430e52154e76b902c3cc17a16b3edc1fad790012/fastvideo/train/utils/activation_checkpoint.py",
+          "purpose": "Full, selective operation and block-skip activation checkpoint policies.",
+          "inspection": "content"
+        }
+      ],
+      "checked_at": "2026-09-19T02:05:43Z",
+      "evidence_status": "source_inspected"
+    },
+    {
+      "id": "diffusers",
+      "title": "Hugging Face Diffusers",
+      "repository": "huggingface/diffusers",
+      "revision": {
+        "type": "git_commit",
+        "value": "a3e0b8ec235c27a6c17a21976daf7fd32d819d05",
+        "commit_date": "2026-09-18T12:06:16Z"
+      },
+      "official_url": "https://github.com/huggingface/diffusers",
+      "kind": "repository",
+      "summary": "Diffusion transformer forward paths, attention backend dispatch, FSDP training helpers and model-memory offloading.",
+      "boundaries": [
+        "Single model execution only; excludes serving request routing, fleet/instance management and service deployment.",
+        "Source/tree inspection only; no local execution, benchmarks, speedup or multi-node validation claimed."
+      ],
+      "tags": [
+        "diffusion",
+        "forward",
+        "attention",
+        "fsdp",
+        "offload",
+        "memory"
+      ],
+      "license": {
+        "spdx": "Apache-2.0",
+        "url": "https://github.com/huggingface/diffusers/blob/a3e0b8ec235c27a6c17a21976daf7fd32d819d05/LICENSE",
+        "scope": "Repository source default; individual model weights and upstream assets have separate terms."
+      },
+      "entries": [
+        {
+          "id": "diffusers-transformer-flux",
+          "path": "src/diffusers/models/transformers/transformer_flux.py",
+          "url": "https://github.com/huggingface/diffusers/blob/a3e0b8ec235c27a6c17a21976daf7fd32d819d05/src/diffusers/models/transformers/transformer_flux.py",
+          "purpose": "Flux attention processors and transformer block/model forward paths.",
+          "inspection": "content"
+        },
+        {
+          "id": "diffusers-transformer-wan",
+          "path": "src/diffusers/models/transformers/transformer_wan.py",
+          "url": "https://github.com/huggingface/diffusers/blob/a3e0b8ec235c27a6c17a21976daf7fd32d819d05/src/diffusers/models/transformers/transformer_wan.py",
+          "purpose": "Wan attention processors, rotary embeddings and video transformer forward paths.",
+          "inspection": "content"
+        },
+        {
+          "id": "diffusers-attention-dispatch",
+          "path": "src/diffusers/models/attention_dispatch.py",
+          "url": "https://github.com/huggingface/diffusers/blob/a3e0b8ec235c27a6c17a21976daf7fd32d819d05/src/diffusers/models/attention_dispatch.py",
+          "purpose": "Attention backend selection, input checks and context-parallel dispatch configuration.",
+          "inspection": "content"
+        },
+        {
+          "id": "diffusers-training-utils",
+          "path": "src/diffusers/training_utils.py",
+          "url": "https://github.com/huggingface/diffusers/blob/a3e0b8ec235c27a6c17a21976daf7fd32d819d05/src/diffusers/training_utils.py",
+          "purpose": "Training utilities including EMA, loss weighting and FSDP wrapping with CPU offload.",
+          "inspection": "content"
+        },
+        {
+          "id": "diffusers-group-offloading",
+          "path": "src/diffusers/hooks/group_offloading.py",
+          "url": "https://github.com/huggingface/diffusers/blob/a3e0b8ec235c27a6c17a21976daf7fd32d819d05/src/diffusers/hooks/group_offloading.py",
+          "purpose": "Grouped module parameter/buffer offload with streams and optional disk offload.",
+          "inspection": "content"
+        }
+      ],
+      "checked_at": "2026-09-19T02:05:43Z",
+      "evidence_status": "source_inspected"
+    },
+    {
+      "id": "torchtitan",
+      "title": "PyTorch TorchTitan",
+      "repository": "pytorch/torchtitan",
+      "revision": {
+        "type": "git_commit",
+        "value": "6c2dadbb3109998092d1164e990c6377b2b8fb50",
+        "commit_date": "2026-09-19T00:07:52Z"
+      },
+      "official_url": "https://github.com/pytorch/torchtitan",
+      "kind": "repository",
+      "summary": "PyTorch-native model training engine with forward/backward microbatches, optimizer state, composable model parallelism and activation-memory policies.",
+      "boundaries": [
+        "Single model execution only; excludes serving request routing, fleet/instance management and service deployment.",
+        "Source/tree inspection only; no local execution, benchmarks, speedup or multi-node validation claimed."
+      ],
+      "tags": [
+        "training",
+        "forward",
+        "backward",
+        "optimizer",
+        "distributed",
+        "activation-checkpointing"
+      ],
+      "license": {
+        "spdx": "BSD-3-Clause",
+        "url": "https://github.com/pytorch/torchtitan/blob/6c2dadbb3109998092d1164e990c6377b2b8fb50/LICENSE",
+        "scope": "Repository source default; pretrained model weights have separate terms."
+      },
+      "entries": [
+        {
+          "id": "torchtitan-trainer",
+          "path": "torchtitan/trainer.py",
+          "url": "https://github.com/pytorch/torchtitan/blob/6c2dadbb3109998092d1164e990c6377b2b8fb50/torchtitan/trainer.py",
+          "purpose": "Training-step microbatch grouping, gradient accumulation and engine optimizer-step orchestration.",
+          "inspection": "content"
+        },
+        {
+          "id": "torchtitan-training-engine",
+          "path": "torchtitan/training_engine.py",
+          "url": "https://github.com/pytorch/torchtitan/blob/6c2dadbb3109998092d1164e990c6377b2b8fb50/torchtitan/training_engine.py",
+          "purpose": "Distributed model initialization and forward/backward microbatch execution, including pipeline and non-pipeline paths.",
+          "inspection": "content"
+        },
+        {
+          "id": "torchtitan-parallelize",
+          "path": "torchtitan/models/llama3/parallelize.py",
+          "url": "https://github.com/pytorch/torchtitan/blob/6c2dadbb3109998092d1164e990c6377b2b8fb50/torchtitan/models/llama3/parallelize.py",
+          "purpose": "Llama parallelization entry point taking parallel dimensions and compilation configuration.",
+          "inspection": "content"
+        },
+        {
+          "id": "torchtitan-optimizer",
+          "path": "torchtitan/components/optimizer/optimizer.py",
+          "url": "https://github.com/pytorch/torchtitan/blob/6c2dadbb3109998092d1164e990c6377b2b8fb50/torchtitan/components/optimizer/optimizer.py",
+          "purpose": "Optimizer construction, parameter groups, step/zero_grad and distributed checkpoint state.",
+          "inspection": "content"
+        },
+        {
+          "id": "torchtitan-activation-checkpoint",
+          "path": "torchtitan/distributed/activation_checkpoint.py",
+          "url": "https://github.com/pytorch/torchtitan/blob/6c2dadbb3109998092d1164e990c6377b2b8fb50/torchtitan/distributed/activation_checkpoint.py",
+          "purpose": "Full, selective, region and memory-budget activation-checkpoint policies.",
+          "inspection": "content"
+        }
+      ],
+      "checked_at": "2026-09-19T02:05:43Z",
+      "evidence_status": "source_inspected"
+    },
+    {
+      "id": "megatron-lm",
+      "title": "NVIDIA Megatron-LM / Megatron Core",
+      "repository": "NVIDIA/Megatron-LM",
+      "revision": {
+        "type": "git_commit",
+        "value": "e22d5b955dcb6f43c138625437e4af0865d28983",
+        "commit_date": "2026-09-18T23:26:52Z"
+      },
+      "official_url": "https://github.com/NVIDIA/Megatron-LM",
+      "kind": "repository",
+      "summary": "Distributed transformer training: tensor-parallel autograd layers, pipeline schedules, sharded optimizer and overlapping gradient/parameter communication.",
+      "boundaries": [
+        "Single model execution only; excludes serving request routing, fleet/instance management and service deployment.",
+        "Source/tree inspection only; no local execution, benchmarks, speedup or multi-node validation claimed."
+      ],
+      "tags": [
+        "training",
+        "tensor-parallel",
+        "pipeline-parallel",
+        "backward",
+        "optimizer",
+        "communication-overlap"
+      ],
+      "license": {
+        "spdx": "BSD-3-Clause",
+        "url": "https://github.com/NVIDIA/Megatron-LM/blob/e22d5b955dcb6f43c138625437e4af0865d28983/LICENSE",
+        "scope": "Root LICENSE says all files unless otherwise noted use BSD-3-Clause; bundled third-party sections and file-level exceptions remain applicable. GitHub API reports NOASSERTION for the combined license document."
+      },
+      "entries": [
+        {
+          "id": "megatron-lm-layers",
+          "path": "megatron/core/tensor_parallel/layers.py",
+          "url": "https://github.com/NVIDIA/Megatron-LM/blob/e22d5b955dcb6f43c138625437e4af0865d28983/megatron/core/tensor_parallel/layers.py",
+          "purpose": "Tensor-parallel embedding and row/column linear layers, gradient accumulation and asynchronous gradient communication.",
+          "inspection": "content"
+        },
+        {
+          "id": "megatron-lm-schedules",
+          "path": "megatron/core/pipeline_parallel/schedules.py",
+          "url": "https://github.com/NVIDIA/Megatron-LM/blob/e22d5b955dcb6f43c138625437e4af0865d28983/megatron/core/pipeline_parallel/schedules.py",
+          "purpose": "Forward/backward pipeline schedules, microbatch interleaving and activation-output deallocation.",
+          "inspection": "content"
+        },
+        {
+          "id": "megatron-lm-distrib-optimizer",
+          "path": "megatron/core/optimizer/distrib_optimizer.py",
+          "url": "https://github.com/NVIDIA/Megatron-LM/blob/e22d5b955dcb6f43c138625437e4af0865d28983/megatron/core/optimizer/distrib_optimizer.py",
+          "purpose": "Distributed optimizer shard/buffer layouts, mixed precision parameter states and checkpoint resharding.",
+          "inspection": "content"
+        },
+        {
+          "id": "megatron-lm-distributed-data-parallel",
+          "path": "megatron/core/distributed/distributed_data_parallel.py",
+          "url": "https://github.com/NVIDIA/Megatron-LM/blob/e22d5b955dcb6f43c138625437e4af0865d28983/megatron/core/distributed/distributed_data_parallel.py",
+          "purpose": "Distributed data-parallel gradient buckets, synchronization hooks and parameter/gradient overlap.",
+          "inspection": "content"
+        },
+        {
+          "id": "megatron-lm-training",
+          "path": "megatron/training/training.py",
+          "url": "https://github.com/NVIDIA/Megatron-LM/blob/e22d5b955dcb6f43c138625437e4af0865d28983/megatron/training/training.py",
+          "purpose": "Training-step integration of model, forward/backward schedule, optimizer and learning-rate scheduler.",
+          "inspection": "content"
+        }
+      ],
+      "checked_at": "2026-09-19T02:05:43Z",
+      "evidence_status": "source_inspected"
+    },
+    {
+      "id": "tensorrt",
+      "title": "NVIDIA TensorRT OSS",
+      "repository": "NVIDIA/TensorRT",
+      "revision": {
+        "type": "git_commit",
+        "value": "c93b7d4893184af4882f9f1862e13a5c64b8677d",
+        "commit_date": "2026-08-25T21:23:36Z"
+      },
+      "official_url": "https://github.com/NVIDIA/TensorRT",
+      "kind": "repository",
+      "summary": "Inference network construction and engine execution references, memory/timing controls, graph enqueue, and distributed collective-layer examples.",
+      "boundaries": [
+        "Single model execution only; excludes serving request routing, fleet/instance management and service deployment.",
+        "Source/tree inspection only; no local execution, benchmarks, speedup or multi-node validation claimed.",
+        "Inference-focused: no backward/optimizer training support inferred from these entries.",
+        "Public headers and OSS samples expose usage, not the complete proprietary engine compiler/runtime implementation."
+      ],
+      "tags": [
+        "inference",
+        "engine-build",
+        "memory",
+        "cuda-graphs",
+        "multi-gpu",
+        "profiling"
+      ],
+      "license": {
+        "spdx": "Apache-2.0",
+        "url": "https://github.com/NVIDIA/TensorRT/blob/c93b7d4893184af4882f9f1862e13a5c64b8677d/LICENSE",
+        "scope": "TensorRT OSS source under Apache-2.0 with bundled notices; this does not establish license or source availability for separately distributed TensorRT runtime/builder binaries."
+      },
+      "entries": [
+        {
+          "id": "tensorrt-nvinfer",
+          "path": "include/NvInfer.h",
+          "url": "https://github.com/NVIDIA/TensorRT/blob/c93b7d4893184af4882f9f1862e13a5c64b8677d/include/NvInfer.h",
+          "purpose": "Public network/layer/builder interfaces and engine-build timing/configuration API declarations.",
+          "inspection": "content"
+        },
+        {
+          "id": "tensorrt-sampleinference",
+          "path": "samples/common/sampleInference.cpp",
+          "url": "https://github.com/NVIDIA/TensorRT/blob/c93b7d4893184af4882f9f1862e13a5c64b8677d/samples/common/sampleInference.cpp",
+          "purpose": "Execution context tensor binding, enqueueV3, CUDA Graph enqueue and sample timing loop.",
+          "inspection": "content"
+        },
+        {
+          "id": "tensorrt-sampleonnxmnist",
+          "path": "samples/sampleOnnxMNIST/sampleOnnxMNIST.cpp",
+          "url": "https://github.com/NVIDIA/TensorRT/blob/c93b7d4893184af4882f9f1862e13a5c64b8677d/samples/sampleOnnxMNIST/sampleOnnxMNIST.cpp",
+          "purpose": "Concrete ONNX model build and inference sample with device buffers and output verification.",
+          "inspection": "content"
+        },
+        {
+          "id": "tensorrt-distributed-collective-sample",
+          "path": "samples/sampleDistCollective/README.md",
+          "url": "https://github.com/NVIDIA/TensorRT/blob/c93b7d4893184af4882f9f1862e13a5c64b8677d/samples/sampleDistCollective/README.md",
+          "purpose": "Documented multi-GPU collective-layer sample using NCCL communicators; not runtime-tested here.",
+          "inspection": "content"
+        },
+        {
+          "id": "tensorrt-trtexec-benchmark",
+          "path": "samples/trtexec/README.md",
+          "url": "https://github.com/NVIDIA/TensorRT/blob/c93b7d4893184af4882f9f1862e13a5c64b8677d/samples/trtexec/README.md",
+          "purpose": "Single-network build and benchmark options, dynamic input shapes and profiling controls.",
+          "inspection": "content"
+        }
+      ],
+      "checked_at": "2026-09-19T02:05:43Z",
+      "evidence_status": "source_inspected"
+    },
+    {
+      "id": "tensorrt-llm",
+      "title": "NVIDIA TensorRT-LLM",
+      "repository": "NVIDIA/TensorRT-LLM",
+      "revision": {
+        "type": "git_commit",
+        "value": "5958f7c70046a996461fa001ca83363708a28913",
+        "commit_date": "2026-09-19T01:52:48Z"
+      },
+      "official_url": "https://github.com/NVIDIA/TensorRT-LLM",
+      "kind": "repository",
+      "summary": "Single distributed model inference implementation: Llama forward, attention/cache interfaces, quantized linear layers and model-parallel collectives.",
+      "boundaries": [
+        "Single model execution only; excludes serving request routing, fleet/instance management and service deployment.",
+        "Source/tree inspection only; no local execution, benchmarks, speedup or multi-node validation claimed.",
+        "Inference-focused: no backward/optimizer training support inferred from these entries."
+      ],
+      "tags": [
+        "inference",
+        "llm",
+        "quantization",
+        "attention",
+        "tensor-parallel",
+        "multi-node"
+      ],
+      "license": {
+        "spdx": "Apache-2.0",
+        "url": "https://github.com/NVIDIA/TensorRT-LLM/blob/5958f7c70046a996461fa001ca83363708a28913/LICENSE",
+        "scope": "Root LICENSE explicitly sets Apache-2.0 for project code and additions unless otherwise specified; bundled third-party sections include other licenses. GitHub API reports NOASSERTION for the combined document."
+      },
+      "entries": [
+        {
+          "id": "tensorrt-llm-modeling-llama",
+          "path": "tensorrt_llm/_torch/models/modeling_llama.py",
+          "url": "https://github.com/NVIDIA/TensorRT-LLM/blob/5958f7c70046a996461fa001ca83363708a28913/tensorrt_llm/_torch/models/modeling_llama.py",
+          "purpose": "Llama and Llama4 model/decoder forward implementation and sharded weight loading.",
+          "inspection": "content"
+        },
+        {
+          "id": "tensorrt-llm-attention",
+          "path": "tensorrt_llm/_torch/attention/attention.py",
+          "url": "https://github.com/NVIDIA/TensorRT-LLM/blob/5958f7c70046a996461fa001ca83363708a28913/tensorrt_llm/_torch/attention/attention.py",
+          "purpose": "Attention QKV/output projection flow, backend metadata and context-parallel attention collectives.",
+          "inspection": "content"
+        },
+        {
+          "id": "tensorrt-llm-linear",
+          "path": "tensorrt_llm/_torch/modules/linear.py",
+          "url": "https://github.com/NVIDIA/TensorRT-LLM/blob/5958f7c70046a996461fa001ca83363708a28913/tensorrt_llm/_torch/modules/linear.py",
+          "purpose": "Linear weight sharding, quantization methods and tensor-parallel linear/all-reduce integration.",
+          "inspection": "content"
+        },
+        {
+          "id": "tensorrt-llm-ops",
+          "path": "tensorrt_llm/_torch/distributed/ops.py",
+          "url": "https://github.com/NVIDIA/TensorRT-LLM/blob/5958f7c70046a996461fa001ca83363708a28913/tensorrt_llm/_torch/distributed/ops.py",
+          "purpose": "Tensor/context-parallel all-gather, reduce-scatter and all-to-all implementations and communication workspaces.",
+          "inspection": "content"
+        },
+        {
+          "id": "tensorrt-llm-mapping",
+          "path": "tensorrt_llm/mapping.py",
+          "url": "https://github.com/NVIDIA/TensorRT-LLM/blob/5958f7c70046a996461fa001ca83363708a28913/tensorrt_llm/mapping.py",
+          "purpose": "Model topology mapping across tensor, pipeline, context and expert ranks, GPUs and nodes.",
+          "inspection": "content"
+        }
+      ],
+      "checked_at": "2026-09-19T02:05:43Z",
+      "evidence_status": "source_inspected"
+    },
+    {
+      "id": "deepep",
+      "title": "DeepEP",
+      "kind": "repository",
+      "official_url": "https://github.com/deepseek-ai/DeepEP",
+      "repository": "deepseek-ai/DeepEP",
+      "revision": {
+        "type": "git_commit",
+        "value": "a56d6156febcd9976e55adc85b5155bfac9f28f8",
+        "commit_date": "2026-09-16T05:04:13Z"
+      },
+      "checked_at": "2026-09-19",
+      "evidence_status": "source_inspected",
+      "summary": "MoE dispatch/combine and asynchronous expert communication.",
+      "boundaries": [
+        "Expert parallel dispatch/combine; V2 ElasticBuffer uses NCCL Gin, legacy paths use NVSHMEM.",
+        "Check buffer layout, events, rank topology and installed backend version; not general serving orchestration.",
+        "Selected source sections inspected only; no distributed correctness or performance run."
+      ],
+      "tags": [
+        "moe",
+        "expert-parallel",
+        "communication"
+      ],
+      "license": {
+        "spdx": "MIT",
+        "url": "https://github.com/deepseek-ai/DeepEP/blob/a56d6156febcd9976e55adc85b5155bfac9f28f8/LICENSE",
+        "scope": "Top-level license inspected; retain per-file/component notices (some examples have different licenses)."
+      },
+      "entries": [
+        {
+          "id": "deepep-1",
+          "path": "README.md",
+          "url": "https://github.com/deepseek-ai/DeepEP/blob/a56d6156febcd9976e55adc85b5155bfac9f28f8/README.md",
+          "purpose": "Backend requirements and V2 versus legacy API scope.",
+          "inspection": "content"
+        },
+        {
+          "id": "deepep-2",
+          "path": "deep_ep/buffers/elastic.py",
+          "url": "https://github.com/deepseek-ai/DeepEP/blob/a56d6156febcd9976e55adc85b5155bfac9f28f8/deep_ep/buffers/elastic.py",
+          "purpose": "ElasticBuffer dispatch/combine handles, stream/event ownership and buffer sizing.",
+          "inspection": "content"
+        },
+        {
+          "id": "deepep-3",
+          "path": "tests/elastic/test_ep.py",
+          "url": "https://github.com/deepseek-ai/DeepEP/blob/a56d6156febcd9976e55adc85b5155bfac9f28f8/tests/elastic/test_ep.py",
+          "purpose": "Distributed dispatch/combine correctness references and measurement boundaries.",
+          "inspection": "content"
+        }
+      ]
+    },
+    {
+      "id": "deepspeed",
+      "title": "DeepSpeed",
+      "kind": "repository",
+      "official_url": "https://github.com/deepspeedai/DeepSpeed",
+      "repository": "deepspeedai/DeepSpeed",
+      "revision": {
+        "type": "git_commit",
+        "value": "215f5aa9c4051d2d64fa71753e8d8431c1c9b1e2",
+        "commit_date": "2026-09-18T22:13:44Z"
+      },
+      "checked_at": "2026-09-19",
+      "evidence_status": "source_inspected",
+      "summary": "Single-model distributed training, ZeRO state partitioning and offload.",
+      "boundaries": [
+        "Preserve optimizer/gradient semantics and actual communication/CPU transfer cost.",
+        "Runtime/ZeRO paths only; exclude serving request/instance management.",
+        "Selected source sections inspected only; no distributed correctness or performance run."
+      ],
+      "tags": [
+        "training",
+        "zero",
+        "offload"
+      ],
+      "license": {
+        "spdx": "Apache-2.0",
+        "url": "https://github.com/deepspeedai/DeepSpeed/blob/215f5aa9c4051d2d64fa71753e8d8431c1c9b1e2/LICENSE",
+        "scope": "Top-level license inspected; retain per-file/component notices (some examples have different licenses)."
+      },
+      "entries": [
+        {
+          "id": "deepspeed-1",
+          "path": "README.md",
+          "url": "https://github.com/deepspeedai/DeepSpeed/blob/215f5aa9c4051d2d64fa71753e8d8431c1c9b1e2/README.md",
+          "purpose": "Supported distributed training and memory mechanisms.",
+          "inspection": "content"
+        },
+        {
+          "id": "deepspeed-2",
+          "path": "deepspeed/runtime/engine.py",
+          "url": "https://github.com/deepspeedai/DeepSpeed/blob/215f5aa9c4051d2d64fa71753e8d8431c1c9b1e2/deepspeed/runtime/engine.py",
+          "purpose": "Model forward/backward/step orchestration and optimizer/ZeRO selection.",
+          "inspection": "content"
+        },
+        {
+          "id": "deepspeed-3",
+          "path": "deepspeed/runtime/zero/stage3.py",
+          "url": "https://github.com/deepspeedai/DeepSpeed/blob/215f5aa9c4051d2d64fa71753e8d8431c1c9b1e2/deepspeed/runtime/zero/stage3.py",
+          "purpose": "Partitioned parameters, gradient handling and offload lifecycle.",
+          "inspection": "content"
+        },
+        {
+          "id": "deepspeed-4",
+          "path": "tests/unit/runtime/zero/test_zero_context.py",
+          "url": "https://github.com/deepspeedai/DeepSpeed/blob/215f5aa9c4051d2d64fa71753e8d8431c1c9b1e2/tests/unit/runtime/zero/test_zero_context.py",
+          "purpose": "Partitioned parameter initialization and materialization checks.",
+          "inspection": "content"
+        }
+      ]
+    },
+    {
+      "id": "nccl",
+      "title": "NCCL",
+      "kind": "repository",
+      "official_url": "https://github.com/NVIDIA/nccl",
+      "repository": "NVIDIA/nccl",
+      "revision": {
+        "type": "git_commit",
+        "value": "12df1a11afad322be5a204a2db890161cbf8131d",
+        "commit_date": "2026-09-17T21:07:53Z"
+      },
+      "checked_at": "2026-09-19",
+      "evidence_status": "source_inspected",
+      "summary": "Multi-GPU/node collectives and device-initiated communication.",
+      "boundaries": [
+        "Match installed NCCL, physical topology, stream ordering and rank participation.",
+        "Device LSA examples need supported connectivity/symmetric memory; no universal speedup claim.",
+        "Selected source sections inspected only; no distributed correctness or performance run."
+      ],
+      "tags": [
+        "collectives",
+        "communication",
+        "device-api"
+      ],
+      "license": {
+        "spdx": "Apache-2.0",
+        "url": "https://github.com/NVIDIA/nccl/blob/12df1a11afad322be5a204a2db890161cbf8131d/LICENSE.txt",
+        "scope": "Top-level license inspected; retain per-file/component notices (some examples have different licenses)."
+      },
+      "entries": [
+        {
+          "id": "nccl-1",
+          "path": "README.md",
+          "url": "https://github.com/NVIDIA/nccl/blob/12df1a11afad322be5a204a2db890161cbf8131d/README.md",
+          "purpose": "Collective support and separately maintained nccl-tests.",
+          "inspection": "content"
+        },
+        {
+          "id": "nccl-2",
+          "path": "src/transport.cc",
+          "url": "https://github.com/NVIDIA/nccl/blob/12df1a11afad322be5a204a2db890161cbf8131d/src/transport.cc",
+          "purpose": "Transport eligibility and communicator connection setup.",
+          "inspection": "content"
+        },
+        {
+          "id": "nccl-3",
+          "path": "docs/examples/06_device_api/01_allreduce_lsa/README.md",
+          "url": "https://github.com/NVIDIA/nccl/blob/12df1a11afad322be5a204a2db890161cbf8131d/docs/examples/06_device_api/01_allreduce_lsa/README.md",
+          "purpose": "Device all-reduce, symmetric window registration and LSA barriers.",
+          "inspection": "content"
+        }
+      ]
+    },
+    {
+      "id": "nvshmem",
+      "title": "NVSHMEM",
+      "kind": "repository",
+      "official_url": "https://github.com/NVIDIA/nvshmem",
+      "repository": "NVIDIA/nvshmem",
+      "revision": {
+        "type": "git_commit",
+        "value": "b0d9d3dc08fc3ee0840fdb6f3a2c11932d85a2e2",
+        "commit_date": "2026-08-27T16:11:12Z"
+      },
+      "checked_at": "2026-09-19",
+      "evidence_status": "source_inspected",
+      "summary": "GPU-initiated remote memory, synchronization and compute/communication fusion.",
+      "boundaries": [
+        "Symmetric-memory ownership, collective rank participation and ordering must match deployment.",
+        "Counted signaling and Blackwell GEMM examples require their build/version/hardware gates; no runtime validation performed.",
+        "Selected source sections inspected only; no distributed correctness or performance run."
+      ],
+      "tags": [
+        "communication",
+        "symmetric-memory",
+        "overlap"
+      ],
+      "license": {
+        "spdx": "Apache-2.0",
+        "url": "https://github.com/NVIDIA/nvshmem/blob/b0d9d3dc08fc3ee0840fdb6f3a2c11932d85a2e2/License.txt",
+        "scope": "Top-level license inspected; retain per-file/component notices (some examples have different licenses)."
+      },
+      "entries": [
+        {
+          "id": "nvshmem-1",
+          "path": "README.md",
+          "url": "https://github.com/NVIDIA/nvshmem/blob/b0d9d3dc08fc3ee0840fdb6f3a2c11932d85a2e2/README.md",
+          "purpose": "Programming model, launch/bootstrap requirements and test entry points.",
+          "inspection": "content"
+        },
+        {
+          "id": "nvshmem-2",
+          "path": "examples/putmem_signal_counted.cu",
+          "url": "https://github.com/NVIDIA/nvshmem/blob/b0d9d3dc08fc3ee0840fdb6f3a2c11932d85a2e2/examples/putmem_signal_counted.cu",
+          "purpose": "Counted signal publication/completion; requires NVSHMEM_CFT_HANDLES_SUPPORT.",
+          "inspection": "content"
+        },
+        {
+          "id": "nvshmem-3",
+          "path": "examples/gemm_allreduce/gemmAR_fusion_blackwell_fp16.cu",
+          "url": "https://github.com/NVIDIA/nvshmem/blob/b0d9d3dc08fc3ee0840fdb6f3a2c11932d85a2e2/examples/gemm_allreduce/gemmAR_fusion_blackwell_fp16.cu",
+          "purpose": "Blackwell GEMM plus tile-granular all-reduce; CUTLASS build requirements and reference comparison.",
+          "inspection": "content"
+        }
+      ]
     }
-  ]
+  ],
+  "updated_at": "2026-09-19"
 }

@@ -1,6 +1,6 @@
 # Source audit — 2026-09-18
 
-This audit covers the current [catalog](catalog.json): **26 source records, 156 entry links, 14 repositories at 15 pinned snapshots**. Of the entries, **137 are repository files and 19 are web/document links**. PyTorch has separate deployed-release and current-research records. The audit establishes provenance and navigation integrity, not complete-file review, successful builds or GPU correctness.
+This original audit covers the 2026-09-18 [catalog](catalog.json) snapshot: **26 source records, 156 entry links, 14 repositories at 15 pinned snapshots**. Of the entries, **137 are repository files and 19 are web/document links**. PyTorch has separate deployed-release and current-research records. The audit establishes provenance and navigation integrity, not complete-file review, successful builds or GPU correctness.
 
 ## What was checked
 
@@ -58,3 +58,25 @@ One further automation trap: NVIDIA's [Compute Sanitizer option table](https://d
 3. Fetch `https://raw.githubusercontent.com/OWNER/REPO/FULL_SHA/PATH` for the selected entries and license; inspect the relevant implementation, caller and tests. A successful HTTP response alone cannot refresh the purpose text.
 4. Reopen the relevant vendor/author document sections and record the effective edition/date. Preserve historical performance results and distinguish rolling docs from pinned code.
 5. Update pins, entry purposes and dependent practice/recipe links together; check affected local links and catalog consistency. Review new hardware or compiler claims against the deployed version before using them.
+
+
+## Model execution expansion — 2026-09-19
+
+Added ten catalog sources and eleven submodules (DeepGEMM was already cataloged).
+Pinned trees, selected source sections and root licenses were inspected. Full
+paths and license exceptions are in the catalog; routes are in the
+[execution index](execution-index.md). Existing records were not re-audited.
+No builds, GPU correctness, distributed runs or speedups were measured.
+
+| Source | SHA prefix | Inspected entries |
+| --- | --- | --- |
+| `fastvideo` | `430e52154e76` | 5 |
+| `diffusers` | `a3e0b8ec235c` | 5 |
+| `torchtitan` | `6c2dadbb3109` | 5 |
+| `megatron-lm` | `e22d5b955dcb` | 5 |
+| `tensorrt` | `c93b7d489318` | 5 |
+| `tensorrt-llm` | `5958f7c70046` | 5 |
+| `deepep` | `a56d6156febc` | 3 |
+| `deepspeed` | `215f5aa9c405` | 4 |
+| `nccl` | `12df1a11afad` | 3 |
+| `nvshmem` | `b0d9d3dc08fc` | 3 |

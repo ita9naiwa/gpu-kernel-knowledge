@@ -1,7 +1,7 @@
 # GPU Kernel Knowledge
 
 A reference skill for **Codex and Claude Code**: 55 kernel engineering rules
-across 13 topics, grounded in 26 primary sources and 156 file/document references.
+across 13 topics, grounded in 36 primary sources and 199 file/document references.
 Sources include FlashAttention, FlashInfer, vLLM, SGLang, CUTLASS, Triton,
 PyTorch, DeepGEMM, and NVIDIA documentation.
 
@@ -47,8 +47,8 @@ replacing an archive installation.
 
 ## Upstream submodules
 
-Eight repositories are linked at commits cited by the source catalog. The default
-installation/update prepares all eight so agents can search local implementations
+Nineteen repositories are linked at commits cited by the source catalog. The default
+installation/update prepares all nineteen so agents can search local implementations
 without waiting for a checkout. A plain Git clone alone does not fetch them.
 From this repository root, run:
 
@@ -62,10 +62,21 @@ git submodule update --init --depth 1 --jobs 4
 | `upstream/flashinfer` | [FlashInfer](https://github.com/flashinfer-ai/flashinfer) | Inference kernels, paged KV, split/merge and sampling |
 | `upstream/cutlass` | [CUTLASS / CuTe](https://github.com/NVIDIA/cutlass) | Layouts, tensor-core instructions and asynchronous pipelines |
 | `upstream/triton` | [Triton](https://github.com/triton-lang/triton) | Kernel patterns, compiler, autotuning and tests |
-| `upstream/vllm` | [vLLM](https://github.com/vllm-project/vllm) | Serving callers, backend eligibility, graphs and MoE |
-| `upstream/sglang` | [SGLang](https://github.com/sgl-project/sglang) | Serving integration and conditional diffusion fusions |
+| `upstream/vllm` | [vLLM](https://github.com/vllm-project/vllm) | Model callers, backend eligibility, graphs and MoE |
+| `upstream/sglang` | [SGLang](https://github.com/sgl-project/sglang) | Model integration and conditional diffusion fusions |
 | `upstream/quack` | [Quack](https://github.com/Dao-AILab/quack) | CuTe DSL reductions, normalization, GEMM and matching tests |
 | `upstream/pytorch` | [PyTorch](https://github.com/pytorch/pytorch) | ATen/CUDA operators, autograd, Inductor, dispatch and matching tests |
+| `upstream/deepgemm` | [DeepGEMM](https://github.com/deepseek-ai/DeepGEMM) | Scale-aware FP8/FP4 GEMM, grouped MoE and runtime specialization. |
+| `upstream/fastvideo` | [FastVideo](https://github.com/hao-ai-lab/FastVideo) | Video diffusion model execution, modular forward/backward training, sequence-parallel groups, FSDP loading and compilation. |
+| `upstream/diffusers` | [Hugging Face Diffusers](https://github.com/huggingface/diffusers) | Diffusion transformer forward paths, attention backend dispatch, FSDP training helpers and model-memory offloading. |
+| `upstream/torchtitan` | [PyTorch TorchTitan](https://github.com/pytorch/torchtitan) | PyTorch-native model training engine with forward/backward microbatches, optimizer state, composable model parallelism and activation-memory policies. |
+| `upstream/megatron-lm` | [NVIDIA Megatron-LM / Megatron Core](https://github.com/NVIDIA/Megatron-LM) | Distributed transformer training: tensor-parallel autograd layers, pipeline schedules, sharded optimizer and overlapping gradient/parameter communication. |
+| `upstream/tensorrt` | [NVIDIA TensorRT OSS](https://github.com/NVIDIA/TensorRT) | Inference network construction and engine execution references, memory/timing controls, graph enqueue, and distributed collective-layer examples. |
+| `upstream/tensorrt-llm` | [NVIDIA TensorRT-LLM](https://github.com/NVIDIA/TensorRT-LLM) | Single distributed model inference implementation: Llama forward, attention/cache interfaces, quantized linear layers and model-parallel collectives. |
+| `upstream/deepep` | [DeepEP](https://github.com/deepseek-ai/DeepEP) | MoE dispatch/combine and asynchronous expert communication. |
+| `upstream/deepspeed` | [DeepSpeed](https://github.com/deepspeedai/DeepSpeed) | Single-model distributed training, ZeRO state partitioning and offload. |
+| `upstream/nccl` | [NCCL](https://github.com/NVIDIA/nccl) | Multi-GPU/node collectives and device-initiated communication. |
+| `upstream/nvshmem` | [NVSHMEM](https://github.com/NVIDIA/nvshmem) | GPU-initiated remote memory, synchronization and compute/communication fusion. |
 
 PyTorch is pinned to catalog `pytorch-inductor` (`8d6ffa599ea1`). The separate
 2.10 RMSNorm references retain their own historical pin; do not treat this checkout
@@ -92,15 +103,20 @@ alone does not register a client skill.
 
 | Need | Start here |
 | --- | --- |
+| Model compute, memory and multi-GPU/node communication | [Shared execution index](sources/execution-index.md) |
 | Agent entrypoint | [SKILL.md](SKILL.md) |
 | Choose a technique and understand its limits | [Practice map](practices/README.md) |
 | Find an authoritative implementation | [Source map](sources/README.md), [machine-readable catalog](sources/catalog.json) |
 | Find matching tests and benchmark boundaries | [Validation map](sources/validation-map.md) |
 | Learn from failed approaches | [Distilled decision rules](recipes/lessons-from-failed-attempts.md), [public upstream postmortems](recipes/failure-driven-debugging.md) |
 
+Scope includes single-model training/inference across GPUs and nodes; excludes
+service routing, request scheduling and instance management. Reuse the execution
+index before searching entire source trees.
+
 ## Evidence and scope
 
-Research snapshot: **2026-09-18**. Repository references pin commits; vendor
+Research snapshot: **2026-09-18**, with model/distributed sources added **2026-09-19**. Repository references pin commits; vendor
 documentation can change. Recheck the deployed package, architecture, and actual
 caller before transferring a mechanism. Source inspection does not establish
 GPU correctness, speed, or an improvement in coding-agent output quality.

@@ -3,7 +3,7 @@
 Keep SKILL.md short and use the existing practice/source maps for progressive
 reading. Preserve source revisions, applicability, counterconditions and evidence
 levels when changing a rule. Update dependent links together when changing pins.
-Keep the eight upstream gitlinks aligned with their source-catalog revisions.
+Keep upstream gitlinks aligned with their source-catalog revisions.
 
 This is a public-source reference. Keep private code, experiment logs, agent
 transcripts, credentials and local machine paths outside this repository.
@@ -16,3 +16,6 @@ evidence limits; do not imply that public citations reproduce those experiments.
 Research and curation do not require new kernels, example programs or GPU runs.
 For documentation changes, check the affected links and source claims; do not
 report source inspection as executed correctness or performance validation.
+
+Maintain the compact model-execution routes in sources/execution-index.md against
+catalog pins; update affected entries on source changes, not a full per-task index.

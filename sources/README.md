@@ -1,5 +1,8 @@
 # Primary source map
 
+For whole-model compute, memory or distributed communication, first consult the
+[shared execution index](execution-index.md). Kernel-specific routes follow below.
+
 Start from the workload, select one implementation family, then read its wrapper, kernel, test and benchmark together. The machine-readable index is [catalog.json](catalog.json). Checked on **2026-09-18**. Repository links are immutable commit snapshots; vendor documentation links roll forward. Nothing here claims locally measured GPU speedups.
 
 | Need | Read first | Why this source |

@@ -29,3 +29,47 @@
 [submodule "pytorch"]
 	path = upstream/pytorch
 	url = https://github.com/pytorch/pytorch.git
+
+[submodule "deepep"]
+	path = upstream/deepep
+	url = https://github.com/deepseek-ai/DeepEP.git
+
+[submodule "deepspeed"]
+	path = upstream/deepspeed
+	url = https://github.com/deepspeedai/DeepSpeed.git
+
+[submodule "nccl"]
+	path = upstream/nccl
+	url = https://github.com/NVIDIA/nccl.git
+
+[submodule "nvshmem"]
+	path = upstream/nvshmem
+	url = https://github.com/NVIDIA/nvshmem.git
+
+[submodule "deepgemm"]
+	path = upstream/deepgemm
+	url = https://github.com/deepseek-ai/DeepGEMM.git
+
+[submodule "fastvideo"]
+	path = upstream/fastvideo
+	url = https://github.com/hao-ai-lab/FastVideo.git
+
+[submodule "diffusers"]
+	path = upstream/diffusers
+	url = https://github.com/huggingface/diffusers.git
+
+[submodule "torchtitan"]
+	path = upstream/torchtitan
+	url = https://github.com/pytorch/torchtitan.git
+
+[submodule "megatron-lm"]
+	path = upstream/megatron-lm
+	url = https://github.com/NVIDIA/Megatron-LM.git
+
+[submodule "tensorrt"]
+	path = upstream/tensorrt
+	url = https://github.com/NVIDIA/TensorRT.git
+
+[submodule "tensorrt-llm"]
+	path = upstream/tensorrt-llm
+	url = https://github.com/NVIDIA/TensorRT-LLM.git

@@ -1,6 +1,6 @@
 ---
 name: gpu-kernel-knowledge
-description: Apply source-backed GPU kernel techniques and failure lessons when implementing, optimizing, or reviewing CUDA, Triton, or CuTe kernels, including attention, reductions, quantization, and serving integration. Also use for researching these kernel design decisions.
+description: Optimize and review GPU kernels and single-model training/inference execution, including multi-GPU/node computation, memory and communication. Use source-backed CUDA, Triton, CuTe and framework implementations; excludes service routing, request scheduling and instance management.
 ---
 
 # GPU kernel knowledge
@@ -9,6 +9,14 @@ Use this knowledge base to make implementation decisions, not to add citations
 afterward. Links are relative to this file. Keep source facts, hypotheses and
 runtime measurements distinct; this skill has not demonstrated a causal benefit
 to generated kernel quality.
+
+Scope: kernels through whole-model forward/backward/optimizer execution, including
+multi-GPU/node parallelism, communication overlap and model-state memory. Exclude
+request routing/queueing, dynamic request batching, replicas and autoscaling.
+Pipeline-parallel microbatch schedules are model execution, not serving scheduling.
+
+For model/distributed questions, start with the shared [execution index](sources/execution-index.md);
+for kernel mechanisms, use the practice map below.
 
 ## Working route
 
@@ -61,7 +69,7 @@ contradictory timing or changed workload/bottleneck, not every tuning value.
 If the KB has a gap, inspect the relevant primary source and label remaining
 unknowns. Report guidance used, verified outcomes and unrun checks.
 
-By default, prepare all eight [upstream submodules](README.md#upstream-submodules)
+By default, prepare all indexed [upstream submodules](README.md#upstream-submodules)
 with `git submodule update --init --depth 1 --jobs 4` from this KB root after
 installation/update. Keep pinned revisions and local edits intact; do not use
 `--remote` or recurse into upstream dependencies for source reading. Once prepared,
