@@ -30,19 +30,44 @@ agent policy. Apply the [independent-work rules](../SKILL.md#independent-optimiz
    reserved and device-used memory separately. Keep failures and scope limits
    in the [experiment record](../templates/experiment.md); re-profile after gains.
 
-When parallel work is useful, one coordination owner maintains hypotheses,
-resource reservations, integration and acceptance; the lead can also implement.
-Give each worker a falsifiable mechanism, private files, testbed identity,
-deliverable, budget and stop criterion. Workers may refine the plan. Parallelize
-independent variants; serialize shared edits, integration and final evaluation.
+## Default team operation
 
-Assign distinct mechanisms, not just different tile values. Collect initial
-hypotheses before exposing peers’ tentative winners and reserve bounded initial
-screens for promising alternatives. Stop dead branches rather than maintaining
-diversity for its own sake. Reserve runs in the task ledger, label intentional
-replicas, and report at decisions/blockers with source, evidence and next action.
-Worker timings are screens; evaluate frozen finalists under the common protocol.
-Combine ideas only within authorized collaboration, subject to attribution rules.
+Unless the user or task instructions specify otherwise, use these defaults for
+an authorized cooperative optimization team. Counts include the lead. Stay with
+one agent for trivial/sequential work or when no useful independent task exists;
+otherwise start with two and expand only within available resources and budget.
+These are operating defaults, not a proven optimal team size.
+
+| Agents | Ownership | When to use |
+| --- | --- | --- |
+| 2 | Lead coordinates, evaluates and implements hypothesis A; worker owns hypothesis B. During setup, split baseline/profile from source/dispatch inspection. | Normal starting point for two useful independent directions. |
+| 3 | Lead owns diagnosis, coordination and common evaluation; two workers own distinct hypotheses. | Evaluation/integration work would otherwise stall two substantial implementations. The lead investigates the next decision rather than waiting idle. |
+| 4 | Lead coordinates/evaluates; two workers implement; the fourth owns a third plausible mechanism or independent consumer/backward/edge-case validation. | A third direction or validation bottleneck justifies the extra worker; do not invent work to fill a slot. |
+
+Assign mechanisms such as data movement, dispatch or activation lifetime, not
+merely languages or tile values unless those are the experiment's explicit target.
+Each assignment states hypothesis, private files/worktree, frozen testbed,
+deliverable, GPU/time budget and stop criterion. Workers may refine hypotheses;
+collect initial proposals before exposing tentative winners, and give promising
+alternatives their bounded initial screen before reallocating remaining budget.
+
+Use the [task ledger](../templates/task.md) for ownership and run reservations.
+Agent count does not imply GPU count: reserve slots before launch, serialize runs
+when GPUs are scarce, and do CPU/source work while waiting. Label intentional
+replication so it is distinguishable from duplicate work.
+
+Report after a screen, blocker or contract/direction change, rather than every tool
+call: hypothesis, source revision, result/evidence path, correctness, timing scope
+and next decision. Escalate shared-code/resource conflicts before proceeding.
+The lead summarizes accepted gains, rejected branches, blockers and the next
+experiment to the user at milestones or the user's requested cadence.
+
+Parallelize private variants; the lead serializes shared edits, integration and
+final acceptance. Worker timings are screens. Evaluate frozen finalists with the
+common protocol, integrate compatible changes one at a time and remeasure the
+combination. Stop dead branches; useful negative evidence earns recognition, not
+automatic extra budget. Apply the attribution rules: this team shares only within
+authorized collaboration, never across independent with/without conditions.
 
 ## Set the numerical contract before search
 

@@ -23,7 +23,8 @@ to generated kernel quality.
    consumer, including backward/guidance when relevant; re-profile after gains.
 
 Use the [kernel-writing workflow](recipes/kernel-writing-workflow.md) for startup,
-tolerance, timing and coordinated experiments. Research and review start from the
+tolerance and timing. When team organization is unspecified, apply its
+[default team operation](recipes/kernel-writing-workflow.md#default-team-operation). Research and review start from the
 specific question; they do not require new GPU runs or demonstration kernels.
 
 ## Independent optimization and attribution — mandatory
