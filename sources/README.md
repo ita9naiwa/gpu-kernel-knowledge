@@ -78,6 +78,11 @@ For the installed PyTorch 2.10 comparison case, use the [version-specific native
 
 **SGLang:** `python/sglang/kernels/README.md` → public operator → selected implementation and parity test. At this pin the legacy `sglang.jit_kernel` namespace has been removed in favor of `sglang.kernels`. The simple registry selection and `BaseFusedOp` capability-driven selection are distinct mechanisms; read which one the caller uses.
 
+**PyTorch:** `upstream/pytorch` is the `pytorch-inductor` catalog snapshot. Follow
+`torch/` APIs and dispatch into `aten/src/ATen/native/` (including `cuda/`),
+`torch/csrc/autograd/`, or `torch/_inductor/`, then matching `test/` cases.
+Resolve the installed version before transferring implementation or API details.
+
 **CUTLASS / Triton:** first read one minimal example that matches the target architecture. Then compare a pipelined or persistent version against it. Copying only the mainloop discards alignment, descriptor, launch and synchronization assumptions that make it correct.
 
 ## Refreshing this map

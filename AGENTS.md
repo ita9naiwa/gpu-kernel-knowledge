@@ -3,7 +3,7 @@
 Keep SKILL.md short and use the existing practice/source maps for progressive
 reading. Preserve source revisions, applicability, counterconditions and evidence
 levels when changing a rule. Update dependent links together when changing pins.
-Keep the seven upstream gitlinks aligned with their source-catalog revisions.
+Keep the eight upstream gitlinks aligned with their source-catalog revisions.
 
 This is a public-source reference. Keep private code, experiment logs, agent
 transcripts, credentials and local machine paths outside this repository.

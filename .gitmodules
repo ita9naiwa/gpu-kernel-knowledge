@@ -25,3 +25,7 @@
 [submodule "quack"]
 	path = upstream/quack
 	url = https://github.com/Dao-AILab/quack.git
+
+[submodule "pytorch"]
+	path = upstream/pytorch
+	url = https://github.com/pytorch/pytorch.git

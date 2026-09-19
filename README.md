@@ -3,7 +3,7 @@
 A reference skill for **Codex and Claude Code**: 55 kernel engineering rules
 across 13 topics, grounded in 26 primary sources and 156 file/document references.
 Sources include FlashAttention, FlashInfer, vLLM, SGLang, CUTLASS, Triton,
-DeepGEMM, and NVIDIA documentation.
+PyTorch, DeepGEMM, and NVIDIA documentation.
 
 The useful unit is a technique **with its applicability, counterconditions,
 exact source, and validation boundary**. Public upstream postmortems preserve
@@ -19,6 +19,7 @@ The repository root is a complete skill folder. Choose the client you use.
 ```sh
 mkdir -p "$HOME/.agents/skills"
 git clone https://github.com/ita9naiwa/gpu-kernel-knowledge.git "$HOME/.agents/skills/gpu-kernel-knowledge"
+git -C "$HOME/.agents/skills/gpu-kernel-knowledge" submodule update --init --depth 1 --jobs 4
 ```
 
 Then invoke `$gpu-kernel-knowledge` with your kernel task.
@@ -28,6 +29,7 @@ Then invoke `$gpu-kernel-knowledge` with your kernel task.
 ```sh
 mkdir -p "$HOME/.claude/skills"
 git clone https://github.com/ita9naiwa/gpu-kernel-knowledge.git "$HOME/.claude/skills/gpu-kernel-knowledge"
+git -C "$HOME/.claude/skills/gpu-kernel-knowledge" submodule update --init --depth 1 --jobs 4
 ```
 
 Then invoke `/gpu-kernel-knowledge` with your kernel task.
@@ -36,16 +38,18 @@ These use the documented [Codex skill locations](https://learn.chatgpt.com/docs/
 and [Claude Code personal skills](https://code.claude.com/docs/en/skills).
 They install locally, not into hosted/cloud sessions. If an existing installation
 occupies the destination, update that checkout with `git pull --ff-only` instead
-of cloning over it. Restart the client if it has not discovered the skill.
+of cloning over it, then run the submodule update command below. Preserve local
+changes before updating. Restart the client if it has not discovered the skill.
 
 ## Upstream submodules
 
-Seven repositories are linked at the same commits cited by the source catalog.
-A normal clone downloads the reference skill only. From this repository's root,
-fetch one source when you need it:
+Eight repositories are linked at commits cited by the source catalog. The default
+installation/update prepares all eight so agents can search local implementations
+without waiting for a checkout. A plain Git clone alone does not fetch them.
+From this repository root, run:
 
 ```sh
-git submodule update --init --depth 1 -- upstream/quack
+git submodule update --init --depth 1 --jobs 4
 ```
 
 | Submodule path | Repository | Read for |
@@ -57,8 +61,11 @@ git submodule update --init --depth 1 -- upstream/quack
 | `upstream/vllm` | [vLLM](https://github.com/vllm-project/vllm) | Serving callers, backend eligibility, graphs and MoE |
 | `upstream/sglang` | [SGLang](https://github.com/sgl-project/sglang) | Serving integration and conditional diffusion fusions |
 | `upstream/quack` | [Quack](https://github.com/Dao-AILab/quack) | CuTe DSL reductions, normalization, GEMM and matching tests |
+| `upstream/pytorch` | [PyTorch](https://github.com/pytorch/pytorch) | ATen/CUDA operators, autograd, Inductor, dispatch and matching tests |
 
-To fetch all seven, run `git submodule update --init --depth 1`.
+PyTorch is pinned to catalog `pytorch-inductor` (`8d6ffa599ea1`). The separate
+2.10 RMSNorm references retain their own historical pin; do not treat this checkout
+as every installed PyTorch version. Prepared sources still require targeted reads.
 Their own nested submodules are not needed for source reading. Building/running
 an upstream project may require its additional dependencies and instructions.
 This uses ordinary [Git submodules](https://git-scm.com/docs/git-submodule):
