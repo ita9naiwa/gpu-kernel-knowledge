@@ -129,6 +129,40 @@ uncertainty and cost. Workers propose findings; the evaluator verifies them.
 
 ## Assess knowledge-assisted exploration
 
+### Knowledge-use debug log
+
+When enabled through the [skill](../SKILL.md#optional-knowledge-use-debug-log),
+append a compact Markdown table to `knowledge-use.md` in the current task's
+artifact directory, outside the installed/public KB. State its resolved path
+once. Record the KB revision and when tracing began; do not reconstruct earlier
+reads as contemporaneous events. Reuse an existing task log if it has these fields.
+
+| Event / time / agent | Stage or attempt | Question or trigger | Knowledge actually read | Use and observable decision |
+| --- | --- | --- | --- | --- |
+
+Append an event immediately after a targeted read or related decision, before
+the next implementation/experiment. Use a sequential event ID and an observed
+timestamp with timezone when available; otherwise use the event order without
+inventing a time. Identify the document path and section/rule ID, plus source
+revision or pinned URL for upstream material. Distinguish a search hit or failed
+retrieval from a section actually read; a linked source is not automatically read.
+
+Record whether the material was applied, ruled out, confirmed the existing plan,
+or left unresolved, with a short reason tied to workload conditions and the next
+check. For a later decision or result, append a follow-up referencing the event
+and experiment/evidence path rather than rewriting the original entry. Record
+decisions and evidence, not private chain-of-thought or copied source passages.
+
+Keep entries brief; do not add searches merely to populate the log. In a team,
+workers keep separate logs identified by agent and the lead links them, avoiding
+concurrent writes. Logs remain within the authorized task; never share them
+between independent comparison conditions or publish private task details to
+this KB. At completion, link the log and note any recording gaps. This is
+agent-reported provenance, not exhaustive access telemetry or proof that a
+reference caused a performance gain.
+
+### Comparison criteria
+
 Distinguish proposed mechanisms, executed experiments, passing variants and
 adopted whole-boundary gains. Compare time to diagnosis, accepted gains per
 GPU/time budget, useful coverage, duplicated work and unnecessary questions,
